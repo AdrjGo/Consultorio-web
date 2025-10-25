@@ -1,17 +1,29 @@
-import { createBrowserRouter } from "react-router";
-import { Calendar, Login } from "../pages";
+import { createBrowserRouter, Outlet } from "react-router";
+import { Calendar, Login, NotFound, Patients } from "../pages";
 import PrivateRoute from "./PrivateRoute";
+import Layout from "../components/layout";
 
 const router = createBrowserRouter([
   { path: "/", element: <Login /> },
   {
-    path: "/app",
-    element: <PrivateRoute />,
+    path: "/odis",
+    element: (
+      <PrivateRoute>
+        <Layout>
+          <Outlet />
+        </Layout>
+      </PrivateRoute>
+    ),
     children: [
       {
         path: "calendar",
         element: <Calendar />,
       },
+      {
+        path: "patients",
+        element: <Patients />,
+      },
+      { path: "*", element: <NotFound /> },
     ],
   },
 ]);

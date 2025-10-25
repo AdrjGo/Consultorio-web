@@ -1,8 +1,12 @@
-import { Navigate, Outlet } from "react-router";
+import { Navigate } from "react-router";
 
-function PrivateRoute() {
+type Props = {
+  children: React.ReactNode;
+};
+
+function PrivateRoute({ children }: Props) {
   const isAuth = document.cookie.includes("token");
-  return isAuth ? <Outlet /> : <Navigate to="/" />;
+  return isAuth ? children : <Navigate to="/" />;
 }
 
 export default PrivateRoute;
