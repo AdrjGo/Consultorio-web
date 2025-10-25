@@ -4,7 +4,8 @@ import { Icons } from "../Icons/Icons";
 import SideButton from "./SideButton";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { decodeToken } from "@services";
+import { useGetUser } from "@hooks";
+import { useTitleStore } from "@store";
 
 function Sidebar() {
   const [open, setOpen] = useState(false);
@@ -15,7 +16,10 @@ function Sidebar() {
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
     navigate("/");
   };
-  console.log(decodeToken());
+
+  const { data } = useGetUser();
+
+  const pageTitle = useTitleStore((state) => state.pageTitle);
 
   return (
     <nav className="flex flex-col bg-white min-w-14 max-w-64 h-screen w-full p-3">
@@ -23,7 +27,7 @@ function Sidebar() {
         <Icons.Logo className="size-14" />
         <div className="text-sm/6">
           <h2 className="text-body font-bold">OdontoDIS</h2>
-          <p className="text-sm text-gray-500">Calendario</p>
+          <p className="text-sm text-gray-500">{pageTitle}</p>
         </div>
       </section>
 
@@ -63,8 +67,10 @@ function Sidebar() {
 
       <section className="flex justify-between items-center">
         <div>
-          <h3 className="text-small font-bold text-gray-500">Dr. De prueba</h3>
-          <p className="text-small text-gray-500">Especialidad</p>
+          <h3 className="text-small font-bold text-gray-500">
+            {data?.person.name} {data?.person.lastName}
+          </h3>
+          <p className="text-small text-gray-500">{data?.person.profession}</p>
         </div>
 
         <div className="relative">

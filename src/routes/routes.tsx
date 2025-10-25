@@ -1,4 +1,4 @@
-import { createBrowserRouter, Outlet } from "react-router";
+import { createBrowserRouter } from "react-router";
 import { Calendar, Login, NotFound, Patients } from "../pages";
 import PrivateRoute from "./PrivateRoute";
 import Layout from "../components/layout";
@@ -7,23 +7,22 @@ const router = createBrowserRouter([
   { path: "/", element: <Login /> },
   {
     path: "/odis",
-    element: (
-      <PrivateRoute>
-        <Layout>
-          <Outlet />
-        </Layout>
-      </PrivateRoute>
-    ),
+    element: <PrivateRoute />,
     children: [
       {
-        path: "calendar",
-        element: <Calendar />,
+        element: <Layout />,
+        children: [
+          {
+            path: "calendar",
+            element: <Calendar title="Calendario" />,
+          },
+          {
+            path: "patients",
+            element: <Patients title="Pacientes" />,
+          },
+          { path: "*", element: <NotFound /> },
+        ],
       },
-      {
-        path: "patients",
-        element: <Patients />,
-      },
-      { path: "*", element: <NotFound /> },
     ],
   },
 ]);

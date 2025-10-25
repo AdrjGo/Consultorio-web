@@ -1,15 +1,17 @@
+import { PageWrapper } from "@components/layout/PageWrapper";
 import { Sidebar } from "@components/ui";
+import { Outlet } from "react-router";
 
-type Props = {
-  children: React.ReactNode;
-};
-
-function Layout({ children }: Props) {
+function Layout() {
   return (
     <div className="flex h-screen">
       <Sidebar />
       <div className="flex flex-col w-full h-screen">
-        <div className="flex-1 flex flex-col">{children}</div>
+        <div className="flex-1 flex flex-col">
+          <PageWrapper title="OdontoDIS">
+            <Outlet />
+          </PageWrapper>
+        </div>
       </div>
     </div>
   );

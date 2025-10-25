@@ -1,3 +1,4 @@
+import { getToken } from "@utils";
 import { jwtDecode } from "jwt-decode";
 
 type Token = {
@@ -14,7 +15,7 @@ type Token = {
 };
 
 export const decodeToken = () => {
-  const token = document.cookie.split(";")[0].split("=")[1];
+  const token = getToken();
 
   if (token) {
     const decoded: Token = jwtDecode(token);

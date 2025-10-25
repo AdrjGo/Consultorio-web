@@ -1,7 +1,11 @@
-function Patients() {
+import { PageWrapper } from "@components/layout/PageWrapper";
+
+function Patients({ title }: { title: string }) {
   return (
-    <div>Patients</div>
-  )
+    <PageWrapper title={title}>
+      <div>Patients</div>
+    </PageWrapper>
+  );
 }
 
-export default Patients
+export default Patients;
