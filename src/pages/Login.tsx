@@ -6,6 +6,7 @@ import { Button, Input } from "../components/ui";
 import { useMutation } from "@tanstack/react-query";
 import { Toast } from "../utils";
 import { useNavigate } from "react-router";
+import { useState } from "react";
 
 const loginSchema = z.object({
   email: z.email({ error: "El email no es válido" }),
@@ -18,6 +19,8 @@ const loginSchema = z.object({
 type LoginForm = z.infer<typeof loginSchema>;
 
 function Login() {
+  const [onLoad, setOnLoad] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -46,16 +49,21 @@ function Login() {
       return result;
     },
     onSuccess: () => {
+      setOnLoad(false);
       Toast.success("Sesión iniciada con éxito");
-      navigate("/app/calendar");
+      navigate("/odis/calendar");
     },
     onError: (error: any) => {
       Toast.error(error.message);
+      setOnLoad(false);
     },
   });
 
-  const onSubmit = (data: LoginForm) => mutation.mutate(data);
-
+  const onSubmit = (data: LoginForm) => {
+    setOnLoad(true);
+    mutation.mutate(data);
+  };
+  
   return (
     <main className="w-full flex justify-center items-center h-screen">
       <section className="bg-white grid place-items-center rounded-lg p-4">
@@ -81,7 +89,11 @@ function Login() {
             {...register("password")}
             errors={errors.password?.message}
           />
-          <Button text="Iniciar sesión" />
+          <Button
+            text={onLoad ? "Iniciando sesión..." : "Iniciar sesión"}
+            type="submit"
+            disabled={onLoad}
+          />
           <div className="text-sm text-gray-400 mt-6">
             <p>Si olvidó su Contraseña, no se preocupe, puede recuperarla</p>
             <p>Contacte a soporte@odontodis.com para más información</p>

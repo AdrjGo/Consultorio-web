@@ -1,5 +1,11 @@
+import Layout from "../components/layout";
+
 function Calendar() {
-  return <div>Calendar</div>;
+  return <>
+    <div>
+      CALENDARIO
+    </div>
+  </>;
 }
 
 export default Calendar;

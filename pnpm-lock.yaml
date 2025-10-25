@@ -38,9 +38,9 @@ importers:
       '@tanstack/react-query':
         specifier: 5.90.5
         version: 5.90.5(react@19.1.1)
-      lucide:
-        specifier: 0.546.0
-        version: 0.546.0
+      lucide-react:
+        specifier: ^0.548.0
+        version: 0.548.0(react@19.1.1)
       react:
         specifier: 19.1.1
         version: 19.1.1
@@ -1325,8 +1325,10 @@ packages:
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
 
-  lucide@0.546.0:
-    resolution: {integrity: sha512-YJES3MM/naQS4wJ0JLzTY3anooqWw5iTsPCffHbSMncdxJT2C5tmkCDAwIHMHG8TMtaQcu40KREMPss2qH/+yA==}
+  lucide-react@0.548.0:
+    resolution: {integrity: sha512-63b16z63jM9yc1MwxajHeuu0FRZFsDtljtDjYm26Kd86UQ5HQzu9ksEtoUUw4RBuewodw/tGFmvipePvRsKeDA==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
   magic-string@0.30.19:
     resolution: {integrity: sha512-2N21sPY9Ws53PZvsEpVtNuSW+ScYbQdp4b9qUaL+9QkHUrGFKo56Lg9Emg5s9V/qrtNBmiR01sYhUOwu3H+VOw==}
@@ -2943,7 +2945,9 @@ snapshots:
     dependencies:
       yallist: 3.1.1
 
-  lucide@0.546.0: {}
+  lucide-react@0.548.0(react@19.1.1):
+    dependencies:
+      react: 19.1.1
 
   magic-string@0.30.19:
     dependencies:
