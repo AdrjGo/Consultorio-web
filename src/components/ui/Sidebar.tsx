@@ -4,6 +4,7 @@ import { Icons } from "../Icons/Icons";
 import SideButton from "./SideButton";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { decodeToken } from "@services";
 
 function Sidebar() {
   const [open, setOpen] = useState(false);
@@ -14,6 +15,7 @@ function Sidebar() {
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
     navigate("/");
   };
+  console.log(decodeToken());
 
   return (
     <nav className="flex flex-col bg-white min-w-14 max-w-64 h-screen w-full p-3">
@@ -72,7 +74,10 @@ function Sidebar() {
 
           {open && (
             <div className="absolute left-3 bottom-8 mt-2 w-36 bg-white border border-gray-200 rounded shadow-lg z-50">
-              <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onClick={() => navigate("/odis/settings")}>
+              <button
+                className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                onClick={() => navigate("/odis/settings")}
+              >
                 Configuración
               </button>
               <button

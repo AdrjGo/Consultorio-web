@@ -1,12 +1,12 @@
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Icons } from "../components/Icons/Icons";
-import { Button, Input } from "../components/ui";
-import { useMutation } from "@tanstack/react-query";
-import { Toast } from "../utils";
 import { useNavigate } from "react-router";
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
+import { Icons } from "@components/Icons/Icons";
+import { Button, Input } from "@components/ui";
+import { Toast } from "@utils";
 
 const loginSchema = z.object({
   email: z.email({ error: "El email no es válido" }),
@@ -63,7 +63,7 @@ function Login() {
     setOnLoad(true);
     mutation.mutate(data);
   };
-  
+
   return (
     <main className="w-full flex justify-center items-center h-screen">
       <section className="bg-white grid place-items-center rounded-lg p-4">

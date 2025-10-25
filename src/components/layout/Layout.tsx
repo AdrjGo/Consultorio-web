@@ -1,4 +1,4 @@
-import { Sidebar } from "../ui";
+import { Sidebar } from "@components/ui";
 
 type Props = {
   children: React.ReactNode;
