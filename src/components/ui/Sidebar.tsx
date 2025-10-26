@@ -6,8 +6,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useGetUser } from "@hooks";
 import { useTitleStore } from "@store";
+import { twMerge } from "tailwind-merge";
 
-function Sidebar() {
+function Sidebar({ panelOpen }: { panelOpen: boolean }) {
   const [open, setOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -22,7 +23,12 @@ function Sidebar() {
   const pageTitle = useTitleStore((state) => state.pageTitle);
 
   return (
-    <nav className="flex flex-col bg-white min-w-14 max-w-64 h-screen w-full p-3">
+    <nav
+      className={`flex flex-col bg-white max-w-64 h-screen border-r border-gray-200 transition-all duration-400 ease-in-out
+    ${
+      panelOpen ? "w-full p-3 opacity-100" : "w-0 p-0 opacity-0 overflow-hidden"
+    }`}
+    >
       <section className="flex items-center w-full top-0 h-14 gap-1.5 ">
         <Icons.Logo className="size-14" />
         <div className="text-sm/6">
