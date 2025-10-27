@@ -1,17 +1,37 @@
-import { useTitleStore } from "@store";
+import { useTabStore } from "@store";
 import { useEffect } from "react";
 
 type PageWrapperProps = {
+  tab: string;
   title: string;
+  desc: string;
+  extraComponent?: React.ReactNode;
   children: React.ReactNode;
 };
 
-export function PageWrapper({ title, children }: PageWrapperProps) {
-  const setPageTitle = useTitleStore((s) => s.setPageTitle);
+export function PageWrapper({
+  tab,
+  children,
+  title,
+  desc,
+  extraComponent,
+}: PageWrapperProps) {
+  const setPageTab = useTabStore((s) => s.setPageTab);
 
   useEffect(() => {
-    setPageTitle(title);
-  }, [title, setPageTitle]);
+    setPageTab(tab);
+  }, [tab, setPageTab]);
 
-  return <>{children}</>;
+  return (
+    <div className="p-3">
+      <section className="flex justify-between items-center">
+        <div>
+          <h2 className="text-title font-bold">{title}</h2>
+          <span className="text-normal text-gray-500">{desc}</span>
+        </div>
+        <div>{extraComponent}</div>
+      </section>
+      {children}
+    </div>
+  );
 }

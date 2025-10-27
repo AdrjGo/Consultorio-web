@@ -14,11 +14,11 @@ const router = createBrowserRouter([
         children: [
           {
             path: "calendar",
-            element: <Calendar title="Calendario" />,
+            element: <Calendar tab="Calendario" />,
           },
           {
             path: "patients",
-            element: <Patients title="Pacientes" />,
+            element: <Patients tab="Pacientes" />,
           },
           { path: "*", element: <NotFound /> },
         ],

@@ -1,3 +1,3 @@
-import { useTitleStore } from "./useTitleStore";
+import { useTabStore } from "./useTabStore";
 
-export { useTitleStore };
+export { useTabStore };
