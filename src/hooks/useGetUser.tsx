@@ -1,4 +1,4 @@
-import { decodeToken, getData as get } from "@services";
+import { decodeToken, getData } from "@services";
 import { useQuery } from "@tanstack/react-query";
 
 function useGetUser() {
@@ -7,7 +7,7 @@ function useGetUser() {
   const { isPending, isError, data, error } = useQuery({
     queryKey: [userId],
     queryFn: async () =>
-      get({
+      getData({
         url: `User/${userId}/data`,
         message: "Error al obtener usuario",
       }),

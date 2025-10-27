@@ -16,7 +16,7 @@ const loginSchema = z.object({
     .max(16, { error: "La contraseña debe tener menos de 16 caracteres" }),
 });
 
-type LoginForm = z.infer<typeof loginSchema>;
+type LoginFormValues = z.infer<typeof loginSchema>;
 
 function Login() {
   const [onLoad, setOnLoad] = useState(false);
@@ -25,13 +25,13 @@ function Login() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginForm>({
+  } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
   });
   const navigate = useNavigate();
 
   const mutation = useMutation({
-    mutationFn: async (data: LoginForm) => {
+    mutationFn: async (data: LoginFormValues) => {
       const res = await fetch("http://localhost:5252/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -59,14 +59,14 @@ function Login() {
     },
   });
 
-  const onSubmit = (data: LoginForm) => {
+  const onSubmit = (data: LoginFormValues) => {
     setOnLoad(true);
     mutation.mutate(data);
   };
 
   return (
     <main className="w-full flex justify-center items-center h-screen">
-      <section className="bg-white grid place-items-center rounded-lg p-4">
+      <section className="bg-white grid place-items-center rounded-lg p-4 border border-gray-200">
         <div className="mb-6 grid place-items-center">
           <Icons.Logo className="size-36" />
           <h1 className="text-title font-extrabold text-primary">OdontoDIS</h1>
@@ -90,7 +90,7 @@ function Login() {
             errors={errors.password?.message}
           />
           <Button
-            text={onLoad ? "Iniciando sesión..." : "Iniciar sesión"}
+            children={onLoad ? "Iniciando sesión..." : "Iniciar sesión"}
             type="submit"
             disabled={onLoad}
           />
