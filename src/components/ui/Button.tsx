@@ -1,19 +1,20 @@
+import type React from "react";
 import { twMerge } from "tailwind-merge";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  text: string;
+  children: React.ReactNode;
 }
 
 export default function Button({
   className,
-  text,
+  children,
   type,
   ...props
 }: ButtonProps) {
   return (
     <button
       className={twMerge(
-        "bg-primary text-white rounded-lg p-2 shadow-md w-full focus:bg-secondary",
+        "bg-blue text-small! text-white rounded-md p-2 shadow-md w-full focus:bg-secondary text-nowrap flex items-center justify-center",
         className,
         props.disabled ? "bg-secondary" : ""
       )}
@@ -22,7 +23,7 @@ export default function Button({
       disabled={props.disabled}
       {...props}
     >
-      {text}
+      {children}
     </button>
   );
 }

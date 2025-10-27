@@ -5,8 +5,7 @@ import SideButton from "./SideButton";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useGetUser } from "@hooks";
-import { useTitleStore } from "@store";
-import { twMerge } from "tailwind-merge";
+import { useTabStore } from "@store";
 
 function Sidebar({ panelOpen }: { panelOpen: boolean }) {
   const [open, setOpen] = useState(false);
@@ -20,7 +19,7 @@ function Sidebar({ panelOpen }: { panelOpen: boolean }) {
 
   const { data } = useGetUser();
 
-  const pageTitle = useTitleStore((state) => state.pageTitle);
+  const pagetab = useTabStore((state) => state.pageTab);
 
   return (
     <nav
@@ -33,7 +32,7 @@ function Sidebar({ panelOpen }: { panelOpen: boolean }) {
         <Icons.Logo className="size-14" />
         <div className="text-sm/6">
           <h2 className="text-body font-bold">OdontoDIS</h2>
-          <p className="text-sm text-gray-500">{pageTitle}</p>
+          <p className="text-sm text-gray-500">{pagetab}</p>
         </div>
       </section>
 

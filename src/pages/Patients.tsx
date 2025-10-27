@@ -1,8 +1,8 @@
 import { PageWrapper } from "@components/layout/PageWrapper";
 
-function Patients({ title }: { title: string }) {
+function Patients({ tab }: { tab: string }) {
   return (
-    <PageWrapper title={title}>
+    <PageWrapper tab={tab}>
       <div>Patients</div>
     </PageWrapper>
   );
