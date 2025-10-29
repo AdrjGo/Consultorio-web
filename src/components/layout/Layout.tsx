@@ -6,8 +6,14 @@ import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router";
 
 function Layout() {
-  const [open, setOpen] = useState<boolean>(true);
+  const [open, setOpen] = useState<boolean>(
+    localStorage.getItem("sidebar") === "true"
+  );
   const navigate = useNavigate();
+
+  useEffect(() => {
+    localStorage.setItem("sidebar", open.toString());
+  }, [open]);
 
   const tokenExp = decodeToken()?.exp;
   const tokenCookie = getToken();
@@ -15,7 +21,7 @@ function Layout() {
   const expIn = tokenExp ? tokenExp * 1000 - Date.now() : 0;
 
   useEffect(() => {
-    console.log(expIn);
+    // console.log(expIn);
     if (expIn <= 0) {
       document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
       location.reload();
@@ -30,7 +36,7 @@ function Layout() {
         <div className="bg-white flex items-center p-3 gap-2 border-b border-gray-200">
           <button
             className="group hover:bg-gray-200 size-fit p-1 rounded-lg"
-            onClick={() => setOpen(!open)}
+            onClick={() => setOpen((prev) => !prev)}
           >
             <PanelLeft
               size={15}
