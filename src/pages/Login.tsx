@@ -52,6 +52,7 @@ function Login() {
       setOnLoad(false);
       Toast.success("Sesión iniciada con éxito");
       navigate("/odis/calendar");
+      localStorage.setItem("sidebar", "true");
     },
     onError: (error: any) => {
       Toast.error(error.message);
