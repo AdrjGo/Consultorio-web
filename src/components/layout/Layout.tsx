@@ -21,7 +21,7 @@ function Layout() {
   const expIn = tokenExp ? tokenExp * 1000 - Date.now() : 0;
 
   useEffect(() => {
-    // console.log(expIn);
+    console.log(expIn);
     if (expIn <= 0) {
       document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
       location.reload();
@@ -30,7 +30,7 @@ function Layout() {
   }, [tokenCookie]);
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen w-fit">
       <Sidebar panelOpen={open} />
       <div className="flex flex-col w-full h-screen">
         <div className="bg-white flex items-center p-3 gap-2 border-b border-gray-200">
