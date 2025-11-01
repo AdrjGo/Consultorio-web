@@ -30,7 +30,7 @@ function Layout() {
   }, [tokenCookie]);
 
   return (
-    <div className="flex h-screen w-fit">
+    <div className="flex h-screen max-md:w-fit">
       <Sidebar panelOpen={open} />
       <div className="flex flex-col w-full h-screen">
         <div className="bg-white flex items-center p-3 gap-2 border-b border-gray-200">

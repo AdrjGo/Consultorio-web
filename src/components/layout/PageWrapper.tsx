@@ -23,7 +23,7 @@ export function PageWrapper({
   }, [tab, setPageTab]);
 
   return (
-    <div className="p-3">
+    <div className="p-3 max-h-screen">
       <section className="flex justify-between items-center">
         <div>
           <h2 className="text-title font-bold">{title}</h2>

@@ -26,7 +26,7 @@ function Modal({ openModal, setOpenModal, children, title, desc }: Props) {
   return (
     <dialog
       ref={dialogRef}
-      className="relative bg-white rounded-md text-black p-6 top-1/2 left-1/2 backdrop:bg-black/40 backdrop:backdrop-blur-sm  transform -translate-x-1/2 -translate-y-1/2 w-2/6"
+      className="relative bg-white rounded-md text-black p-6 top-1/2 left-1/2 backdrop:bg-black/40 backdrop:backdrop-blur-sm  transform -translate-x-1/2 -translate-y-1/2 md:w-2/6"
       onClose={() => setOpenModal(false)}
     >
       <div className="grid justify-between items-center mb-4">
