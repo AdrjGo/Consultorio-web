@@ -2,13 +2,13 @@ import type { PersonType } from "types/PersonType";
 
 export type PatientType =  {
   id: string;
+  responsible: string;
   address: string;
+  zone: string;
   city: string;
   homePhone: string;
   occupation: string;
-  patientPerson: PersonType;
   placeOcupation: string;
-  responsible: string;
   sender: string;
-  zone: string;
+  patientPerson: PersonType;
 };

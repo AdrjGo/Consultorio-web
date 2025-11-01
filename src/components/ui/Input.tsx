@@ -24,8 +24,8 @@ function Input({
         type={forInput}
         placeholder={placeholder}
         className={twMerge(
-          className,
-          "bg-white text-black h-10 border border-gray-300 rounded-md py-2 px-2 placeholder-gray-400 focus:border-primary focus:outline-none w-full text-small"
+          "bg-white text-black h-10 border border-gray-300 rounded-md py-2 px-2 placeholder-gray-400 focus:border-primary focus:outline-none w-full text-small",
+          className
         )}
         {...props}
       />

@@ -1,17 +1,18 @@
 export const AppointmentTypes = [
-  { label: "Consulta Inicial", value: 0 },
-  { label: "Seguimiento", value: 1 },
-  { label: "Higiene", value: 2 },
-  { label: "Tratamiento", value: 3 },
-  { label: "Emergencia", value: 4 },
-  { label: "Eliminación de Dispositivo", value: 5 },
-  { label: "Revisión de Progreso", value: 6 },
+  { label: "Consulta", value: 0 },
+  { label: "Reconsulta", value: 1 },
+  { label: "Seguimiento", value: 2 },
+  { label: "Limpieza", value: 3 },
+  { label: "Tratamiento", value: 4 },
+  { label: "Emergencia", value: 5 },
+  { label: "Eliminación de aparatos", value: 6 },
+  { label: "Revisión de progreso", value: 7 },
 ];
 
 export const AppointmentStatus = [
-  { label: "Programada", value: 0 },
-  { label: "Reprogramada", value: 1 },
-  { label: "Pendiente", value: 2 },
-  { label: "Rechazada", value: 3 },
-  { label: "Cancelada", value: 4 },
+  { label: "Confirmado", value: 0 },
+  { label: "Programado", value: 1 },
+  { label: "Reprogramado", value: 2 },
+  { label: "Pendiente", value: 3 },
+  { label: "Cancelado", value: 4 },
 ];

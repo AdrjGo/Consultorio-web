@@ -15,8 +15,8 @@ export default function Button({
     <button
       className={twMerge(
         "bg-blue text-small! text-white rounded-md p-2 shadow-md w-full focus:bg-secondary text-nowrap flex items-center justify-center",
-        className,
-        props.disabled ? "bg-secondary" : ""
+        props.disabled ? "bg-secondary" : "",
+        className
       )}
       type={type}
       onClick={props.onClick}

@@ -1,28 +1,17 @@
-type Status =
-  | "Scheduled"
-  | "Rescheduled"
-  | "Pending"
-  | "Rejected"
-  | "Cancelled";
+import type { PatientType } from "types/PatientType";
 
-type Type =
-  | "ConsultaInicial"
-  | "Seguimiento"
-  | "Higiene"
-  | "Tratamiento"
-  | "Emergencia"
-  | "EliminacionDeDispositivo"
-  | "RevisiónDeProgreso";
-
-export type AppointmentType = {
+export type AppointmentTypes = {
+  id: string;
   patientId: string;
   professionalId: string;
   startDate: string;
   endDate: string;
-  type: Type;
-  status: Status;
+  type: string;
+  status: string;
   reason: string;
   observations: string;
+  professional: null | unknown;
+  patient: PatientType;
 };
 
 export interface AppointmentPayload {
@@ -30,9 +19,8 @@ export interface AppointmentPayload {
   professionalId: string;
   startDate: string;
   endDate: string;
-  type: number;  
+  type: number;
   status: number;
   reason: string;
   observations: string;
 }
-
