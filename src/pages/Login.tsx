@@ -9,10 +9,10 @@ import { Button, Input } from "@components/ui";
 import { Toast } from "@utils";
 
 const loginSchema = z.object({
-  email: z.email({ error: "El email no es válido" }),
+  email: z.email({ pattern: z.regexes.email, error: "El email no es válido" }),
   password: z
     .string()
-    .min(5, { message: "La contraseña debe tener al menos 5 caracteres" })
+    .min(5, { error: "La contraseña debe tener al menos 5 caracteres" })
     .max(16, { error: "La contraseña debe tener menos de 16 caracteres" }),
 });
 
@@ -75,9 +75,10 @@ function Login() {
             Tu consultorio, más inteligente
           </p>
         </div>
-        <form action="submit" onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <Input
             forInput="email"
+            type="email"
             label="Email"
             placeholder="correo@email.com"
             {...register("email")}
@@ -85,14 +86,15 @@ function Login() {
           />
           <Input
             forInput="password"
+            type="password"
             label="Contraseña"
             placeholder="••••••••"
             {...register("password")}
             errors={errors.password?.message}
           />
           <Button
-            children={onLoad ? "Iniciando sesión..." : "Iniciar sesión"}
             type="submit"
+            children={onLoad ? "Iniciando sesión..." : "Iniciar sesión"}
             disabled={onLoad}
           />
           <div className="text-sm text-gray-400 mt-6">
