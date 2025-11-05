@@ -337,7 +337,7 @@ function Calendar({ tab }: { tab: string }) {
             {...register("observations")}
           />
 
-          <Button>Crear cita</Button>
+          <Button>{isEditing ? "Actualizar cita" : "Crear cita"}</Button>
         </form>
       </Modal>
     </PageWrapper>

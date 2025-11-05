@@ -31,7 +31,7 @@ function TodayAppoinmentCard({ onClick }: Props) {
     message: "Error al obtener las citas de hoy",
   });
 
-  const { deleteItem, isDeleting } = useDelete({
+  const { deleteItem } = useDelete({
     url: `Appointment/${appointmentId}`,
     successMessage: "Cita eliminada con éxito",
     setOpenModal: setOpenModal,
@@ -147,7 +147,12 @@ function TodayAppoinmentCard({ onClick }: Props) {
                   setOpenModal={setOpenModal}
                 >
                   <div className="flex justify-between gap-3 [&>button]:bg-white [&>button]:text-black [&>button]:border-gray-200 [&>button]:rounded-md [&>button]:p-2 [&>button]:text-small [&>button]:font-semibold [&>button]:hover:bg-gray-200 [&>button]:border [&>button]:focus:bg-gray-100 mt-4">
-                    <Button className="text-small bg-white">Salir</Button>
+                    <Button
+                      className="text-small bg-white"
+                      onClick={() => setOpenModal(false)}
+                    >
+                      Salir
+                    </Button>
                     <Button
                       className="text-white! bg-red-500!"
                       onClick={() => onClickHandler(appointment.id)}
