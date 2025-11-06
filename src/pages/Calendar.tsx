@@ -1,4 +1,4 @@
-import { set, z } from "zod";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Plus } from "lucide-react";
@@ -21,7 +21,8 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 import type { AppointmentTypes as AppTypes } from "types/AppointmentType";
 import type { EventClickArg } from "@fullcalendar/core/index.js";
-import { removeAccents } from "@utils";
+import { isMobile, removeAccents } from "@utils";
+import { getStatusColor } from "@features";
 
 // Definición de la estructura del formulario
 const appointmentSchema = z.object({
@@ -81,21 +82,11 @@ function Calendar({ tab }: { tab: string }) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
     setValue,
   } = useForm<AppointmentFormValues>({
     resolver: zodResolver(appointmentSchema),
-    defaultValues: {
-      patientId: "",
-      professionalId: "",
-      date: dayjs().format("YYYY-MM-DD"),
-      startTime: "",
-      endTime: "",
-      type: 0,
-      status: 0,
-      reason: "",
-      observations: "",
-    },
   });
 
   // Envio de datos a la API POST
@@ -148,26 +139,7 @@ function Calendar({ tab }: { tab: string }) {
       color: getStatusColor(appointment.status),
     })) ?? [];
 
-  // Función para obtener el color de un estado de cita
-  function getStatusColor(status: string) {
-    switch (status.toLowerCase()) {
-      case "confirmado":
-        return "#16a34a";
-      case "programado":
-        return "#2563eb";
-      case "reprogramado":
-        return "#9333ea";
-      case "pendiente":
-        return "#ca8a04";
-      case "cancelado":
-        return "#dc2626";
-      default:
-        return "#9ca3af";
-    }
-  }
-
   // Verificación de si el dispositivo es móvil
-  const isMobile = window.innerWidth <= 768;
   const calendarHeader = isMobile
     ? {
         left: "prev,next today",
@@ -222,7 +194,11 @@ function Calendar({ tab }: { tab: string }) {
       extraComponent={
         <Button
           className="text-small text-white! px-5"
-          onClick={() => setOpenModal(true)}
+          onClick={() => {
+            reset();
+            setOpenModal(true);
+            setIsEditing(false);
+          }}
         >
           <Plus className="size-4 mr-2" />
           Nueva Cita
@@ -269,8 +245,10 @@ function Calendar({ tab }: { tab: string }) {
           <Select
             forSelect="patient"
             label="Paciente"
+            disabled={!!isEditing}
             values={data?.map((patient) => patient.id)}
             options={data?.map((patient) => patient.patientPerson.name)}
+            className="disabled:bg-gray-200"
             {...register("patientId")}
             errors={errors.patientId?.message}
           />
@@ -279,6 +257,7 @@ function Calendar({ tab }: { tab: string }) {
             <Input
               forInput="date"
               label="Fecha"
+              type="date"
               min={dayjs().format("YYYY-MM-DD")}
               {...register("date")}
               errors={errors.date?.message}
@@ -286,6 +265,7 @@ function Calendar({ tab }: { tab: string }) {
             <Input
               forInput="time"
               label="Hora inicio"
+              type="time"
               {...register("startTime")}
               errors={errors.startTime?.message}
             />
@@ -293,6 +273,7 @@ function Calendar({ tab }: { tab: string }) {
             <Input
               forInput="time"
               label="Hora fin"
+              type="time"
               {...register("endTime")}
               errors={errors.endTime?.message}
             />
