@@ -2,10 +2,12 @@ import { twMerge } from "tailwind-merge";
 
 interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   forSelect: string;
-  label: string;
-  errors: string | undefined;
+  label?: string;
+  errors?: string | undefined;
   values?: string[] | number[];
   options?: string[];
+  optionDefault?: boolean;
+  optionDefaultText?: string;
 }
 function Select({
   forSelect,
@@ -15,10 +17,12 @@ function Select({
   errors,
   values,
   options,
+  optionDefault = true,
+  optionDefaultText,
   ...props
 }: SelectProps) {
   return (
-    <div className="mb-4 grid">
+    <div className="mb-4 grid min-w-fit">
       <label htmlFor={forSelect} className="text-small font-medium">
         {label}
       </label>
@@ -31,7 +35,11 @@ function Select({
         onChange={onChange}
         {...props}
       >
-        <option value="">Seleccione una opción</option>
+        {optionDefault === true && (
+          <option value="">
+            {optionDefaultText ?? "Seleccione una opción"}
+          </option>
+        )}
         {options?.map((opt, index) => (
           <option key={index} value={values?.[index]}>
             {opt}

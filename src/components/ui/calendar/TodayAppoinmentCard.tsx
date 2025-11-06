@@ -12,7 +12,6 @@ import dayjs from "dayjs";
 import type { AppointmentTypes } from "types/AppointmentType";
 import Button from "@components/ui/Button";
 import Modal from "@components/ui/Modal";
-import { de } from "zod/v4/locales";
 
 type Props = {
   onClick: (appointmentId: string) => void;
@@ -43,9 +42,9 @@ function TodayAppoinmentCard({ onClick }: Props) {
     deleteItem(id);
   };
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data]);
 
   const statusColors = [
     {

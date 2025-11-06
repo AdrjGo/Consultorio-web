@@ -1,8 +1,8 @@
-import { z } from "zod";
+import { set, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Plus } from "lucide-react";
-import { useCallback, useState } from "react";
+import { use, useCallback, useEffect, useState } from "react";
 import { useGet, usePost, useUpdate } from "@hooks";
 import type { AppointmentPayload, PatientType, UserType } from "@types";
 import {
@@ -21,7 +21,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 import type { AppointmentTypes as AppTypes } from "types/AppointmentType";
 import type { EventClickArg } from "@fullcalendar/core/index.js";
-import { isMobile, removeAccents } from "@utils";
+import { isMobile, removeAccents, Toast } from "@utils";
 import { getStatusColor } from "@features";
 
 // Definición de la estructura del formulario
@@ -78,15 +78,29 @@ function Calendar({ tab }: { tab: string }) {
     message: "Error al obtener las citas del mes",
   });
 
+  const defaultValues = {
+    patientId: "",
+    professionalId: "",
+    date: dayjs().format("YYYY-MM-DD"),
+    startTime: "",
+    endTime: "",
+    type: 0,
+    status: 0,
+    reason: "",
+    observations: "",
+  };
+
   // Manejo de formulario con react-hook-form
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    watch,
     setValue,
+    formState: { errors },
   } = useForm<AppointmentFormValues>({
     resolver: zodResolver(appointmentSchema),
+    defaultValues: defaultValues,
   });
 
   // Envio de datos a la API POST
@@ -159,32 +173,33 @@ function Calendar({ tab }: { tab: string }) {
     const event = appointments?.find((a) => a.id === eventId);
     // console.log(event);
     if (event) {
-      setValue("patientId", event.patient.id);
-      setValue("professionalId", event.professionalId);
-      setValue("date", dayjs(event.startDate).format("YYYY-MM-DD"));
-      setValue("startTime", dayjs(event.startDate).format("HH:mm"));
-      setValue("endTime", dayjs(event.endDate).format("HH:mm"));
-      setValue(
-        "type",
-        AppointmentTypes.findIndex(
+      reset({
+        patientId: event.patientId,
+        professionalId: event.professionalId,
+        date: dayjs(event.startDate).format("YYYY-MM-DD"),
+        startTime: dayjs(event.startDate).format("HH:mm"),
+        endTime: dayjs(event.endDate).format("HH:mm"),
+        type: AppointmentTypes.findIndex(
           (t) =>
             removeAccents(t.label) ===
             removeAccents(event.type.replaceAll("_", " "))
-        )
-      );
-      setValue(
-        "status",
-        AppointmentStatus.findIndex(
+        ),
+        status: AppointmentStatus.findIndex(
           (s) => s.label.toLowerCase() === event.status.toLowerCase()
-        )
-      );
-      setValue("reason", event.reason || "");
-      setValue("observations", event.observations || "");
-      setIsEditing(true);
+        ),
+        reason: event.reason || "",
+        observations: event.observations || "",
+      });
+
       setAppointmentId(event.id);
+      setIsEditing(true);
       setOpenModal(true);
     }
   };
+
+  // useEffect(() => {
+  //   console.log("Valores actuales del formulario:", watch());
+  // }, [openModal]);
 
   return (
     <PageWrapper
@@ -195,9 +210,10 @@ function Calendar({ tab }: { tab: string }) {
         <Button
           className="text-small text-white! px-5"
           onClick={() => {
-            reset();
-            setOpenModal(true);
+            reset(defaultValues);
             setIsEditing(false);
+            setAppointmentId(null);
+            setOpenModal(true);
           }}
         >
           <Plus className="size-4 mr-2" />
@@ -241,14 +257,19 @@ function Calendar({ tab }: { tab: string }) {
             : "Programa una nueva cita para un paciente"
         }
       >
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} key={appointmentId ?? "new"}>
           <Select
             forSelect="patient"
             label="Paciente"
-            disabled={!!isEditing}
             values={data?.map((patient) => patient.id)}
-            options={data?.map((patient) => patient.patientPerson.name)}
+            disabled={isEditing}
             className="disabled:bg-gray-200"
+            options={data?.map(
+              (patient) =>
+                patient.patientPerson.name +
+                " " +
+                patient.patientPerson.lastName
+            )}
             {...register("patientId")}
             errors={errors.patientId?.message}
           />
