@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import { NavLink } from "react-router";
 
 type Props = {
   icon: React.ElementType;
@@ -7,18 +7,21 @@ type Props = {
 } & React.HTMLAttributes<HTMLButtonElement>;
 
 function SideButton({ icon: Icon, text, to }: Props) {
-  const navigate = useNavigate();
   return (
-    <button
-      className="group flex items-center p-2 rounded gap-2 hover:bg-blue-50"
-      type="button"
-      onClick={() => navigate(to)}
+    <NavLink
+      to={to}
+      className={({ isActive }) =>
+        [
+          "group flex items-center p-2 rounded gap-2 transition-colors",
+          isActive
+            ? "bg-blue-50 text-blue-500"
+            : "hover:bg-blue-50 text-gray-500 hover:text-blue-500",
+        ].join(" ")
+      }
     >
-      <Icon className="size-4 text-gray-500 group-hover:text-blue-500 transition-colors" />
-      <span className="text-tiny font-medium text-gray-500 group-hover:text-blue-500 transition-colors">
-        {text}
-      </span>
-    </button>
+      <Icon className="size-4 transition-colors" />
+      <span className="text-tiny font-medium transition-colors">{text}</span>
+    </NavLink>
   );
 }
 
