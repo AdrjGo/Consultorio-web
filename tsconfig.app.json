@@ -38,7 +38,8 @@
       "@store": ["./store"],
       "@styles": ["./styles"],
       "@types": ["./types"],
-      "@utils": ["./utils"]
+      "@utils": ["./utils"],
+      "@schemas": ["./features/schemas"]
     }
   },
   "include": ["src"]

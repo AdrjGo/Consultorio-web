@@ -36,12 +36,13 @@ button {
   --color-primary: rgb(14, 117, 200);
   --color-blue: #2563eb;
   --color-secondary: rgb(157, 206, 248);
+  --color-green: #059669;
 
   --text-title: clamp(1.75rem, 2vw + 1rem, 2.5rem);
   --text-subtitle: clamp(1.25rem, 1.5vw + 0.5rem, 1.75rem);
   --text-body: clamp(16px, 1vw + 14px, 18px);
   --text-normal: clamp(0.875rem, 1rem, 1.125rem);
-  --text-small: clamp(11px, 13px, 14px);
+  --text-small: clamp(11px, 12px, 14px);
   --text-tiny: clamp(10px, 12px, 13px);
 }
 
