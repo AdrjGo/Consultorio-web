@@ -21,12 +21,9 @@ function TodayAppoinmentCard({ onClick }: Props) {
   const [openModal, setOpenModal] = useState(false);
   const [appointmentId, setAppointmentId] = useState<string | null>(null);
 
-  const startDate = dayjs().format("YYYY-MM-DD");
-  const endDate = dayjs().format("YYYY-MM-DD");
-
   const { data } = useGet<AppointmentTypes[]>({
     key: "today-appointments",
-    urlEndpoint: `Appointment/date?initialDate=${startDate}T00:00:01.013Z&finalDate=${endDate}T23:59:59.013Z`,
+    urlEndpoint: `Appointment/date`,
     message: "Error al obtener las citas de hoy",
   });
 
@@ -42,9 +39,9 @@ function TodayAppoinmentCard({ onClick }: Props) {
     deleteItem(id);
   };
 
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   const statusColors = [
     {
