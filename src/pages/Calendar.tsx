@@ -132,9 +132,8 @@ function Calendar({ tab }: { tab: string }) {
   const events =
     appointments?.map((appointment) => ({
       id: appointment.id,
-      title: `${appointment.patient.patientPerson.name} ${
-        appointment.patient.patientPerson.lastName
-      } - ${appointment.type.replaceAll("_", " ")}`,
+      title: `${appointment.patient.patientPerson.name} ${appointment.patient.patientPerson.lastName
+        } - ${appointment.type.replaceAll("_", " ")}`,
       start: appointment.startDate,
       end: appointment.endDate,
       color: getStatusColor(appointment.status),
@@ -143,15 +142,15 @@ function Calendar({ tab }: { tab: string }) {
   // Verificación de si el dispositivo es móvil
   const calendarHeader = isMobile
     ? {
-        left: "prev,next today",
-        center: "title",
-        right: "",
-      }
+      left: "prev,next today",
+      center: "title",
+      right: "",
+    }
     : {
-        left: "prev,next today",
-        center: "title",
-        right: "dayGridMonth,timeGridWeek,listWeek",
-      };
+      left: "prev,next today",
+      center: "title",
+      right: "dayGridMonth,timeGridWeek,listWeek",
+    };
   const initialView = isMobile ? "listWeek" : "dayGridMonth";
 
   // Función para manejar el evento de clic en el calendario
@@ -191,7 +190,7 @@ function Calendar({ tab }: { tab: string }) {
   const handleNewAppointment = useCallback(() => {
     setIsEditing(false);
     setAppointmentId(null);
-    reset(defaultValues); // limpia el formulario
+    reset(defaultValues);
     setOpenModal(true);
   }, [reset]);
 
@@ -247,6 +246,7 @@ function Calendar({ tab }: { tab: string }) {
         }
       >
         <AppointmentForm
+          key={appointmentId ?? "new"}
           handleSubmit={handleSubmit}
           onSubmit={onSubmit}
           register={register}
@@ -256,7 +256,6 @@ function Calendar({ tab }: { tab: string }) {
           professional={professional}
           appointmentTypes={AppointmentTypes}
           appointmentStatus={AppointmentStatus}
-          formKey={appointmentId ?? "new"}
         />
       </Modal>
     </PageWrapper>
