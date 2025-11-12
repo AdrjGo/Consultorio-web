@@ -1,3 +1,5 @@
+import React from "react";
+
 interface Tab {
   label: string;
   content: React.ReactNode;
@@ -10,7 +12,7 @@ interface TabsProps {
   setActiveTab: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function CustomTabs({
+function CustomTab({
   tabs,
   activeTab,
   setActiveTab,
@@ -22,9 +24,9 @@ export default function CustomTabs({
         {tabs.map((tab) => (
           <button
             key={tab.value}
-            className={`text-small font-bold flex-1 py-2 m-1 text-gray-600 ${
-              activeTab === tab.value ? "bg-white rounded-md text-black!" : ""
-            }`}
+            type="button"
+            className={`text-small font-bold flex-1 py-2 m-1 text-gray-600 ${activeTab === tab.value ? "bg-white rounded-md text-black!" : ""
+              }`}
             onClick={() => setActiveTab(tab.value ?? "1")}
           >
             {tab.label}
@@ -39,3 +41,5 @@ export default function CustomTabs({
     </section>
   );
 }
+
+export const CustomTabs = React.memo(CustomTab);

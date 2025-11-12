@@ -1,4 +1,6 @@
 import Pagination from "@components/ui/table/Pagination";
+import type { PatientType } from "@types";
+import React from "react";
 import { twMerge } from "tailwind-merge";
 
 type Column<T> = {
@@ -16,7 +18,7 @@ type TableProps<T> = {
   pagination?: any;
 };
 
-export function Table<T>({
+function Table<T>({
   columns,
   data,
   className,
@@ -63,3 +65,5 @@ export function Table<T>({
     </div>
   );
 }
+
+export const TableMemo = React.memo(Table<PatientType>);

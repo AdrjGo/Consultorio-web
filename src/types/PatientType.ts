@@ -1,14 +1,16 @@
 import type { PersonType } from "types/PersonType";
 
-export type PatientType =  {
+export type PatientType = {
   id: string;
-  responsible: string;
+  responsible: PersonType;
   address: string;
   zone: string;
   city: string;
   homePhone: string;
   occupation: string;
-  placeOcupation: string;
+  placeOccupation: string;
+  nit: string;
+  state: string;
   sender: string;
   patientPerson: PersonType;
 };
