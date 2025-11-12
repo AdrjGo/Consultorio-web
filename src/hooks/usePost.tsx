@@ -3,7 +3,7 @@ import { getToken, Toast } from "@utils";
 
 type Props<T> = {
   setOpenModal?: (open: boolean) => void;
-  successMessage: string;
+  successMessage?: string;
   url: string;
 };
 
@@ -20,15 +20,16 @@ function usePost<T, R>({ setOpenModal, successMessage, url }: Props<T>) {
         body: JSON.stringify(data),
       });
       const result = await res.json();
+      console.log(result.message);
       if (!res.ok) throw new Error(result.message || "Error al procesar");
       return result;
     },
-    onSuccess: () => {
+    onSuccess: (data: any) => {
       setOpenModal?.(false);
-      Toast.success(successMessage);
+      Toast.success(data?.message ?? successMessage);
     },
-    onError: (error: any) => {
-      Toast.error(error.message);
+    onError: (errors: any) => {
+      Toast.error(errors.message);
     },
   });
 
