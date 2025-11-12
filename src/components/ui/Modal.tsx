@@ -1,5 +1,6 @@
 import { X } from "lucide-react";
 import { useEffect, useRef } from "react";
+import { twMerge } from "tailwind-merge";
 
 type Props = {
   openModal: boolean;
@@ -7,9 +8,17 @@ type Props = {
   children: React.ReactNode;
   title: string;
   desc: string;
+  classNames?: string;
 };
 
-function Modal({ openModal, setOpenModal, children, title, desc }: Props) {
+function Modal({
+  openModal,
+  setOpenModal,
+  children,
+  title,
+  desc,
+  classNames,
+}: Props) {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -26,7 +35,10 @@ function Modal({ openModal, setOpenModal, children, title, desc }: Props) {
   return (
     <dialog
       ref={dialogRef}
-      className="relative bg-white rounded-md text-black p-6 top-1/2 left-1/2 backdrop:bg-black/40 backdrop:backdrop-blur-sm  transform -translate-x-1/2 -translate-y-1/2 md:w-2/6"
+      className={twMerge(
+        classNames,
+        "relative bg-white rounded-md text-black p-6 top-1/2 left-1/2 backdrop:bg-black/40  transform -translate-x-1/2 -translate-y-1/2 md:w-2/6"
+      )}
       onClose={() => setOpenModal(false)}
     >
       <div className="grid justify-between items-center mb-4">

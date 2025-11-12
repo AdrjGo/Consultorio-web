@@ -1,4 +1,4 @@
-import Logo from "../../assets/logo.svg";
+import Logo from "/logo.svg";
 
 type IconProps = React.ImgHTMLAttributes<HTMLImageElement>;
 
