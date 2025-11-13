@@ -1,5 +1,7 @@
+import Button from "@components/ui/Button";
 import Pagination from "@components/ui/table/Pagination";
 import type { PatientType } from "@types";
+import { Eye, PencilLine, Trash } from "lucide-react";
 import React from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -16,6 +18,7 @@ type TableProps<T> = {
   className?: string;
   setPage?: React.Dispatch<React.SetStateAction<number>>;
   pagination?: any;
+  handleEdit: (id: string) => void;
 };
 
 function Table<T>({
@@ -24,6 +27,7 @@ function Table<T>({
   className,
   setPage,
   pagination,
+  handleEdit,
 }: TableProps<T>) {
   return (
     <div>
@@ -43,6 +47,9 @@ function Table<T>({
                 {col.label}
               </th>
             ))}
+            <th className="text-small py-2">
+              Acciones
+            </th>
           </tr>
         </thead>
         <tbody className="[&>tr]:border-b [&>tr]:border-gray-200">
@@ -54,15 +61,32 @@ function Table<T>({
               {columns.map((col, colIndex) => (
                 <td key={colIndex}>
                   {col.render ? col.render(row) : (row as any)[col.key]}
+
                 </td>
               ))}
+
+              {/* Acciones */}
+              <td className="[&>button]:w-fit [&>button]:bg-transparent [&>button]:hover:bg-gray-200 flex gap-2 justify-center" >
+                <Button children={<Eye className="size-4 text-blue-600" />} />
+                <Button
+                  className="max-md:hidden"
+                  children={<PencilLine className="size-4 text-gray-600" />}
+                  onClick={() => handleEdit((row as any).id)}
+                />
+
+                <Button
+                  className="max-md:hidden"
+                  children={<Trash className="size-4 text-red-600" />}
+                />
+              </td>
             </tr>
+
           )) ?? "No hay resultados"}
         </tbody>
       </table>
 
       {pagination && <Pagination data={pagination} setPage={setPage} />}
-    </div>
+    </div >
   );
 }
 

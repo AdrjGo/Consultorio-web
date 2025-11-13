@@ -12,12 +12,13 @@ import {
 } from "@components/ui";
 import { columns, PatientState } from "@constants";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useGet, usePost } from "@hooks";
+import { useGet, usePost, useUpdate } from "@hooks";
 import { patientSchema, type PatientFormValues } from "@schemas";
 import type { Pagination, PatientType } from "@types";
 import { getUrlParams, isMobile, setUrlParams } from "@utils";
+import dayjs from "dayjs";
 import { BrushCleaning, Search, UserRoundPlus } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDebounce } from "use-debounce";
 
@@ -31,11 +32,7 @@ function Patients({ tab }: { tab: string }) {
   const [openModal, setOpenModal] = useState(false);
   const [activeTab, setActiveTab] = useState(1);
   const [responsible, setResponsible] = useState(false);
-
-  const columnsInMobile = [0, 3, 4, 7];
-  const filteredColumns = useMemo(() => {
-    return isMobile ? columnsInMobile.map((i) => columns[i]) : columns;
-  }, [isMobile]);
+  const [isEditing, setIsEditing] = useState(false);
 
   const { data } = useGet<Pagination<PatientType>>({
     key: ["patient", page, state, debouncedName],
@@ -47,14 +44,17 @@ function Patients({ tab }: { tab: string }) {
   //   console.log("Patients renderizado o actualizado");
   // });
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<PatientFormValues>({
-    mode: "onBlur",
-    resolver: zodResolver(patientSchema),
-    defaultValues: {
+  const patientId = getUrlParams({ name: "patientId" });
+
+  const { data: patient } = useGet<PatientType>({
+    key: ["patient", patientId ?? ""],
+    urlEndpoint: `Patient/${patientId}/data`,
+    message: "Error al obtener datos de paciente",
+    enabled: patientId ? true : false,
+  });
+
+  const defaultValues = useMemo(() => (
+    {
       address: "",
       zone: "",
       city: "",
@@ -87,6 +87,17 @@ function Patients({ tab }: { tab: string }) {
         },
       } : null,
     }
+  ), [])
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<PatientFormValues>({
+    mode: "onBlur",
+    resolver: zodResolver(patientSchema),
+    defaultValues: defaultValues,
   });
 
   const { post } = usePost<PatientFormValues, unknown>({
@@ -94,8 +105,15 @@ function Patients({ tab }: { tab: string }) {
     setOpenModal: setOpenModal,
   });
 
+  const { update } = useUpdate<PatientFormValues, unknown>({
+    method: "PATCH",
+    url: `Patient/${patientId}`,
+    successMessage: "Cita actualizada con éxito",
+    setOpenModal: setOpenModal,
+  });
+
   const onSubmit = (data: PatientFormValues) => {
-    post(data);
+    isEditing ? update(data) : post(data);
     console.log(data);
   };
 
@@ -117,6 +135,64 @@ function Patients({ tab }: { tab: string }) {
     }
   ], [register, errors]);
 
+  const handleEdit = (id: string) => {
+    // console.log(id)
+    setUrlParams({ name: "patientId", value: id });
+    setIsEditing(true);
+    setOpenModal(true);
+  };
+
+  useEffect(() => {
+    if (patient) {
+      console.log(patient)
+      setResponsible(patient.responsible != null);
+      reset({
+        address: patient.address,
+        zone: patient.zone,
+        city: patient.city,
+        homePhone: patient.homePhone,
+        occupation: patient.occupation,
+        placeOccupation: patient.placeOccupation,
+        sender: patient.sender,
+        nit: patient.nit,
+        person: {
+          name: patient.patientPerson.name,
+          lastName: patient.patientPerson.lastName,
+          birthDate: dayjs(patient.patientPerson.birthDate).format("YYYY-MM-DD"),
+          sex: patient.patientPerson.sex,
+          profession: patient.patientPerson.profession,
+          phone: patient.patientPerson.phone,
+          ci: patient.patientPerson.ci,
+          email: patient.patientPerson.email,
+        },
+        responsible: patient.responsible != null ? {
+          parentage: patient.responsible.parentage,
+          person: {
+            name: patient.responsible.person.name,
+            lastName: patient.responsible.person.lastName,
+            birthDate: dayjs(patient.responsible.person.birthDate).format("YYYY-MM-DD"),
+            sex: patient.responsible.person.sex,
+            profession: patient.responsible.person.profession,
+            phone: patient.responsible.person.phone,
+            ci: patient.responsible.person.ci,
+            email: patient.responsible.person.email,
+          },
+        } : null,
+      });
+    }
+  }, [patient]);
+
+  const columnsInMobile = [0, 3, 4, 7];
+  const filteredColumns = useMemo(() => {
+    return isMobile ? columnsInMobile.map((i) => columns[i]) : columns;
+  }, [isMobile]);
+
+  const handleNewPatient = useCallback(() => {
+    setIsEditing(false);
+    reset(defaultValues);
+    setOpenModal(true);
+  }, [reset]);
+
   return (
     <PageWrapper
       tab={tab}
@@ -125,7 +201,7 @@ function Patients({ tab }: { tab: string }) {
       extraComponent={
         <Button
           className="text-small text-white! px-5 bg-green "
-          onClick={() => setOpenModal(!openModal)}
+          onClick={() => handleNewPatient()}
         >
           <UserRoundPlus className="size-4 mr-2" />
           Agregar Paciente
@@ -186,6 +262,7 @@ function Patients({ tab }: { tab: string }) {
           className={`[&>thead>tr>th]:nth-last-[1]:text-center`}
           setPage={setPage}
           pagination={data}
+          handleEdit={handleEdit}
         />
       </section>
 
@@ -193,16 +270,17 @@ function Patients({ tab }: { tab: string }) {
         classNames="md:w-[50svw]! w-full"
         openModal={openModal}
         setOpenModal={setOpenModal}
-        title="Agregar Paciente Nuevo"
+        title={isEditing ? "Editar Paciente" : "Agregar Paciente Nuevo"}
         desc="Completa los datos del paciente. Los campos marcados con * son obligatorios."
       >
         <PatientFormMemo
+          key={patientId ?? "new"}
           activeTab={activeTab}
           setActiveTab={setActiveTab}
           handleSubmit={handleSubmit}
           onSubmit={onSubmit}
           tabs={responsible ? tabs : tabs.slice(0, 2)}
-          responsible={responsible}
+          responsible={/* patient?.responsible != null ? true : */ responsible}
           setResponsible={setResponsible}
         />
       </Modal>

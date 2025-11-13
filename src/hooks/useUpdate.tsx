@@ -26,12 +26,13 @@ function useUpdate<T, R>({
         body: JSON.stringify(data),
       });
       const result = await res.json();
+      console.log(result.message);
       if (!res.ok) throw new Error(result.message || "Error al procesar");
       return result;
     },
-    onSuccess: () => {
+    onSuccess: (data: any) => {
       setOpenModal?.(false);
-      Toast.success(successMessage);
+      Toast.success(data?.message ?? successMessage);
     },
     onError: (error: any) => {
       Toast.error(error.message);

@@ -18,7 +18,7 @@ type PatientFormProps = {
   tabs: Tab[];
   activeTab: number;
   setActiveTab: React.Dispatch<React.SetStateAction<number>>;
-  responsible: boolean;
+  responsible: boolean | undefined;
   setResponsible: React.Dispatch<React.SetStateAction<boolean>>;
 };
 

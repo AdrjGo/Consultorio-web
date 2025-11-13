@@ -2,7 +2,10 @@ import type { PersonType } from "types/PersonType";
 
 export type PatientType = {
   id: string;
-  responsible: PersonType;
+  responsible: {
+    parentage: string;
+    person: PersonType;
+  };
   address: string;
   zone: string;
   city: string;
