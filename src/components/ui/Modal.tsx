@@ -9,6 +9,7 @@ type Props = {
   title: string;
   desc: string;
   classNames?: string;
+  onClickOutside?: () => void;
 };
 
 function Modal({
@@ -18,9 +19,11 @@ function Modal({
   title,
   desc,
   classNames,
+  onClickOutside,
 }: Props) {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
+  /* Abrir modal */
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
@@ -31,6 +34,29 @@ function Modal({
       if (dialog.open) dialog.close();
     }
   }, [openModal]);
+
+  /* Cerrar modal click outside*/
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    const handleClickOutside = (event: MouseEvent) => {
+      const rect = dialog.getBoundingClientRect();
+      const isInDialog =
+        rect.top <= event.clientY &&
+        event.clientY <= rect.bottom &&
+        rect.left <= event.clientX &&
+        event.clientX <= rect.right;
+
+      if (!isInDialog) {
+        onClickOutside?.();
+        setOpenModal(false);
+      }
+    };
+
+    dialog.addEventListener("click", handleClickOutside);
+    return () => dialog.removeEventListener("click", handleClickOutside);
+  }, [setOpenModal, onClickOutside]);
 
   return (
     <dialog
