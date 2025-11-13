@@ -13,6 +13,7 @@ import { CustomTabs } from "./form/CustomTabs";
 import FormContact from "@components/ui/patient/FormContact";
 import FormResponsable from "@components/ui/patient/FormResponsable";
 import { PatientFormMemo } from "@components/ui/patient/PatientForm";
+import Filters from "@components/ui/patient/Filters";
 
 export {
   Input,
@@ -30,4 +31,5 @@ export {
   FormContact,
   FormResponsable,
   PatientFormMemo,
+  Filters,
 };

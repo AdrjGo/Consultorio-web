@@ -1,23 +1,22 @@
 import { PageWrapper } from "@components/layout/PageWrapper";
 import {
   Button,
+  Filters,
   FormContact,
   FormPerson,
   FormResponsable,
-  Input,
   Modal,
   PatientFormMemo,
-  Select,
   TableMemo,
 } from "@components/ui";
-import { columns, PatientState } from "@constants";
+import { columns } from "@constants";
+import { defaultValuesPatient } from "@features";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useGet, usePost, useUpdate } from "@hooks";
 import { patientSchema, type PatientFormValues } from "@schemas";
 import type { Pagination, PatientType } from "@types";
-import { getUrlParams, isMobile, setUrlParams } from "@utils";
-import dayjs from "dayjs";
-import { BrushCleaning, Search, UserRoundPlus } from "lucide-react";
+import { getUrlParams, isMobile, parseDate, setUrlParams } from "@utils";
+import { UserRoundPlus } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDebounce } from "use-debounce";
@@ -40,10 +39,6 @@ function Patients({ tab }: { tab: string }) {
     message: "Error al obtener datos de paciente",
   });
 
-  // useEffect(() => {
-  //   console.log("Patients renderizado o actualizado");
-  // });
-
   const patientId = getUrlParams({ name: "patientId" });
 
   const { data: patient } = useGet<PatientType>({
@@ -53,42 +48,6 @@ function Patients({ tab }: { tab: string }) {
     enabled: patientId ? true : false,
   });
 
-  const defaultValues = useMemo(() => (
-    {
-      address: "",
-      zone: "",
-      city: "",
-      homePhone: "",
-      occupation: "",
-      placeOccupation: "",
-      sender: "",
-      nit: "",
-      person: {
-        name: "",
-        lastName: "",
-        birthDate: "",
-        sex: "",
-        profession: "",
-        phone: "",
-        ci: "",
-        email: "",
-      },
-      responsible: responsible ? {
-        parentage: "",
-        person: {
-          name: "",
-          lastName: "",
-          birthDate: "",
-          sex: "",
-          profession: "",
-          phone: "",
-          ci: "",
-          email: "",
-        },
-      } : null,
-    }
-  ), [])
-
   const {
     register,
     handleSubmit,
@@ -97,7 +56,7 @@ function Patients({ tab }: { tab: string }) {
   } = useForm<PatientFormValues>({
     mode: "onBlur",
     resolver: zodResolver(patientSchema),
-    defaultValues: defaultValues,
+    defaultValues: defaultValuesPatient(responsible),
   });
 
   const { post } = usePost<PatientFormValues, unknown>({
@@ -138,13 +97,14 @@ function Patients({ tab }: { tab: string }) {
   const handleEdit = (id: string) => {
     // console.log(id)
     setUrlParams({ name: "patientId", value: id });
+    setActiveTab(1);
     setIsEditing(true);
     setOpenModal(true);
   };
 
   useEffect(() => {
     if (patient) {
-      console.log(patient)
+      // console.log(patient)
       setResponsible(patient.responsible != null);
       reset({
         address: patient.address,
@@ -158,7 +118,7 @@ function Patients({ tab }: { tab: string }) {
         person: {
           name: patient.patientPerson.name,
           lastName: patient.patientPerson.lastName,
-          birthDate: dayjs(patient.patientPerson.birthDate).format("YYYY-MM-DD"),
+          birthDate: parseDate(patient.patientPerson.birthDate),
           sex: patient.patientPerson.sex,
           profession: patient.patientPerson.profession,
           phone: patient.patientPerson.phone,
@@ -170,7 +130,7 @@ function Patients({ tab }: { tab: string }) {
           person: {
             name: patient.responsible.person.name,
             lastName: patient.responsible.person.lastName,
-            birthDate: dayjs(patient.responsible.person.birthDate).format("YYYY-MM-DD"),
+            birthDate: parseDate(patient.responsible.person.birthDate),
             sex: patient.responsible.person.sex,
             profession: patient.responsible.person.profession,
             phone: patient.responsible.person.phone,
@@ -189,7 +149,7 @@ function Patients({ tab }: { tab: string }) {
 
   const handleNewPatient = useCallback(() => {
     setIsEditing(false);
-    reset(defaultValues);
+    reset(defaultValuesPatient(responsible));
     setOpenModal(true);
   }, [reset]);
 
@@ -209,53 +169,11 @@ function Patients({ tab }: { tab: string }) {
       }
     >
       <section className="bg-white border border-gray-200 rounded-lg p-3 md:p-5 md:w-full w-[93svw] mt-6 max-md:mb-4">
-        <div className="flex flex-col flex-1">
-          <h2 className="text-normal font-bold">Lista de Pacientes</h2>
-          <span className="text-small text-gray-500">
-            Lista de todos los pacientes registrados
-          </span>
-          <div className="my-5 flex gap-5">
-            <Input
-              forInput="nameSearch"
-              type="text"
-              icon={<Search className="text-gray-400 size-5" />}
-              placeholder="Buscar por nombre o apellido..."
-              className="w-full flex-1"
-              value={name}
-              maxLength={22}
-              onChange={(e) => {
-                setUrlParams({ name: "search", value: e.target.value });
-                setName(e.target.value);
-              }}
-              autoComplete="off"
-            />
-
-            <Select
-              forSelect="stateFilter"
-              optionDefaultText="Todos"
-              options={PatientState?.map((s) => s.label)}
-              values={PatientState?.map((s) => s.value)}
-              onChange={(e) => {
-                setUrlParams({ name: "state", value: e.target.value });
-                setState(e.target.value);
-              }}
-            />
-
-            <Button
-              className="flex gap-2 size-fit py-2.5"
-              onClick={() => {
-                setUrlParams({ name: "search", value: "" });
-                setUrlParams({ name: "state", value: "" });
-                setName("");
-                setState("");
-              }}
-            >
-              <BrushCleaning className="size-4" />
-              {isMobile ? "" : "Limpiar Filtros"}
-            </Button>
-          </div>
-        </div>
-
+        <Filters
+          setName={setName}
+          setState={setState}
+          name={name}
+        />
         <TableMemo
           columns={filteredColumns}
           data={data?.items || []}
@@ -280,7 +198,7 @@ function Patients({ tab }: { tab: string }) {
           handleSubmit={handleSubmit}
           onSubmit={onSubmit}
           tabs={responsible ? tabs : tabs.slice(0, 2)}
-          responsible={/* patient?.responsible != null ? true : */ responsible}
+          responsible={responsible}
           setResponsible={setResponsible}
         />
       </Modal>
