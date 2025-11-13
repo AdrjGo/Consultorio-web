@@ -56,7 +56,7 @@ function FormPerson({ register, errors, field }: Props) {
     },
     {
       name: "profession",
-      label: "Profesión*",
+      label: "Profesión",
       type: "text",
       placeholder: "Médico, Abogado, etc...",
       component: "input",
@@ -72,7 +72,7 @@ function FormPerson({ register, errors, field }: Props) {
     },
     {
       name: "nit",
-      label: "NIT/Documento fiscal*",
+      label: "NIT/Documento fiscal",
       type: "number",
       placeholder: "NIT",
       component: "input",

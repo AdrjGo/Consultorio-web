@@ -2,7 +2,10 @@ import z from "zod";
 import { personSchema } from "./personSchema";
 
 export const patientSchema = z.object({
-  address: z.string().max(50, { message: "La dirección es muy larga" }),
+  address: z
+    .string()
+    .min(1, { message: "La dirección es requerida" })
+    .max(50, { message: "La dirección es muy larga" }),
   zone: z
     .string()
     .min(1, { message: "La zona es requerida" })
