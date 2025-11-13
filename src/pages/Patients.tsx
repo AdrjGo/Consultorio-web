@@ -16,10 +16,9 @@ import { useGet, usePost } from "@hooks";
 import { patientSchema, type PatientFormValues } from "@schemas";
 import type { Pagination, PatientType } from "@types";
 import { getUrlParams, isMobile, setUrlParams } from "@utils";
-import dayjs from "dayjs";
 import { BrushCleaning, Search, UserRoundPlus } from "lucide-react";
-import { use, useEffect, useMemo, useState } from "react";
-import { get, useForm } from "react-hook-form";
+import { useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useDebounce } from "use-debounce";
 
 function Patients({ tab }: { tab: string }) {
@@ -51,7 +50,6 @@ function Patients({ tab }: { tab: string }) {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<PatientFormValues>({
     mode: "onBlur",
@@ -118,9 +116,6 @@ function Patients({ tab }: { tab: string }) {
       content: <FormResponsable register={register} errors={errors} field="responsible.person" responsible={responsible} setResponsible={setResponsible} />,
     }
   ], [register, errors]);
-
-  console.log(errors)
-  console.log(watch())
 
   return (
     <PageWrapper
@@ -195,7 +190,7 @@ function Patients({ tab }: { tab: string }) {
       </section>
 
       <Modal
-        classNames="w-[50svw]!"
+        classNames="md:w-[50svw]! w-full"
         openModal={openModal}
         setOpenModal={setOpenModal}
         title="Agregar Paciente Nuevo"
@@ -207,20 +202,9 @@ function Patients({ tab }: { tab: string }) {
           handleSubmit={handleSubmit}
           onSubmit={onSubmit}
           tabs={responsible ? tabs : tabs.slice(0, 2)}
+          responsible={responsible}
+          setResponsible={setResponsible}
         />
-        {activeTab === 1 && (
-          <div className="flex gap-2 my-2">
-            <input
-              type="checkbox"
-              id="responsible"
-              checked={responsible}
-              onChange={() => setResponsible(!responsible)}
-            />
-            <label htmlFor="responsible" className="text-small">
-              El paciente es menor de edad
-            </label>
-          </div>
-        )}
       </Modal>
     </PageWrapper>
   );
