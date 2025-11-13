@@ -1,13 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
 import { getToken, Toast } from "@utils";
 
-type Props<T> = {
+type Props = {
   setOpenModal?: (open: boolean) => void;
   successMessage: string;
   url: string;
 };
 
-function useDelete<T, R>({ setOpenModal, successMessage, url }: Props<T>) {
+function useDelete<T, R>({ setOpenModal, successMessage, url }: Props) {
   const mutation = useMutation<R, Error, T>({
     mutationFn: async (data: T) => {
       const token = getToken();

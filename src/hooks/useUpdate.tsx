@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { getToken, Toast } from "@utils";
 
-type Props<T> = {
+type Props = {
   setOpenModal?: (open: boolean) => void;
   successMessage: string;
   url: string;
@@ -13,7 +13,7 @@ function useUpdate<T, R>({
   setOpenModal,
   successMessage,
   url,
-}: Props<T>) {
+}: Props) {
   const mutation = useMutation<R, Error, T>({
     mutationFn: async (data: T) => {
       const token = getToken();

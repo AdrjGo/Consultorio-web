@@ -1,15 +1,15 @@
 import { getData } from "@services";
 import { useQuery } from "@tanstack/react-query";
 
-type getProps<T> = {
+type getProps = {
   key: string | (string | number)[];
   urlEndpoint: string | any;
   message: string;
   enabled?: boolean;
 };
 
-function useGet<T>({ key, urlEndpoint, message, enabled }: getProps<T>) {
-  const { isPending, isError, data, error, refetch } = useQuery<T>({
+function useGet<T>({ key, urlEndpoint, message, enabled }: getProps) {
+  const { isPending, isError, data, error } = useQuery<T>({
     queryKey: [key],
     queryFn: async () =>
       getData({

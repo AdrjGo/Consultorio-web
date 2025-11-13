@@ -14,7 +14,7 @@ export default function NotFound() {
       </p>
 
       <Button
-        text="Volver"
+        children="Volver"
         onClick={() => navigate("/odis/calendar")}
         className="w-fit mt-8 px-8 py-3 bg-blue-500 text-white rounded-full text-lg hover:bg-blue-600 transition-colors"
       />
