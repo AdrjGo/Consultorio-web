@@ -32,7 +32,7 @@ function Layout() {
   return (
     <div className="flex h-screen max-md:w-fit">
       <Sidebar panelOpen={open} />
-      <div className="flex flex-col w-full h-screen">
+      <div className="flex flex-col w-full min-h-screen flex-1">
         <div className="bg-white flex items-center p-3 gap-2 border-b border-gray-200">
           <button
             className="group hover:bg-gray-200 size-fit p-1 rounded-lg"

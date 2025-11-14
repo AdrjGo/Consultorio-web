@@ -3,7 +3,7 @@ import { useEffect } from "react";
 
 type PageWrapperProps = {
   tab: string;
-  title: string;
+  title: string | React.ReactNode;
   desc: string;
   extraComponent?: React.ReactNode;
   children: React.ReactNode;
@@ -23,11 +23,11 @@ export function PageWrapper({
   }, [tab, setPageTab]);
 
   return (
-    <div className="p-3 max-h-screen">
-      <section className="flex justify-between items-center">
+    <div className="p-3 max-h-full max-w-screen">
+      <section className="flex justify-between items-center mb-6">
         <div>
-          <h2 className="text-title font-bold">{title}</h2>
-          <span className="text-normal text-gray-500">{desc}</span>
+          <h2 className="text-title font-bold flex gap-2 items-center">{title}</h2>
+          <span className="text-small md:text-normal text-gray-500">{desc}</span>
         </div>
         <div>{extraComponent}</div>
       </section>
