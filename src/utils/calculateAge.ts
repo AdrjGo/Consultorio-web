@@ -3,7 +3,7 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 
 dayjs.extend(customParseFormat);
 
-export const calculateAge = (birthDate: string) => {
+export const calculateAge = (birthDate: string | undefined) => {
   if (!birthDate) return null;
 
   const birth = dayjs(birthDate, "DD/MM/YYYY");

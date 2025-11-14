@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router";
-import { Calendar, Login, NotFound, Patients } from "../pages";
+import { Calendar, Login, NotFound, PatientProfile, Patients } from "../pages";
 import PrivateRoute from "./PrivateRoute";
-import Layout from "../components/layout";
+// import Layout from "../components/layout";
 
 const router = createBrowserRouter([
   { path: "/", element: <Login /> },
@@ -10,7 +10,7 @@ const router = createBrowserRouter([
     element: <PrivateRoute />,
     children: [
       {
-        element: <Layout />,
+        // element: <Layout />,
         children: [
           {
             path: "calendar",
@@ -19,7 +19,14 @@ const router = createBrowserRouter([
           {
             path: "patients",
             element: <Patients tab="Pacientes" />,
+            children: [
+              {
+                path: "patient-profile/:id",
+                element: <PatientProfile />,
+              },
+            ],
           },
+          // { path: "patient-profile/:id", element: <PatientProfile /> },
           { path: "*", element: <NotFound /> },
         ],
       },
