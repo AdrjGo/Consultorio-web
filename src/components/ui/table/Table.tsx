@@ -1,8 +1,9 @@
 import Button from "@components/ui/Button";
 import Pagination from "@components/ui/table/Pagination";
 import type { PatientType } from "@types";
-import { Eye, PencilLine, Trash } from "lucide-react";
+import { Eye, PencilLine } from "lucide-react";
 import React from "react";
+import { useNavigate } from "react-router";
 import { twMerge } from "tailwind-merge";
 
 type Column<T> = {
@@ -29,6 +30,12 @@ function Table<T>({
   pagination,
   handleEdit,
 }: TableProps<T>) {
+
+  const navigate = useNavigate();
+  const handleProfile = (id: string) => {
+    navigate(`/odis/patients/patient-profile/${id}`);
+  };
+
   return (
     <div>
       <table
@@ -67,17 +74,17 @@ function Table<T>({
 
               {/* Acciones */}
               <td className="[&>button]:w-fit [&>button]:bg-transparent [&>button]:hover:bg-gray-200 flex gap-2 justify-center" >
-                <Button children={<Eye className="size-4 text-blue-600" />} />
+                <Button children={<Eye className="size-4 text-blue-600" />} onClick={() => handleProfile((row as any).id)} />
                 <Button
                   className="max-md:hidden"
                   children={<PencilLine className="size-4 text-gray-600" />}
                   onClick={() => handleEdit((row as any).id)}
                 />
 
-                <Button
+                {/* <Button
                   className="max-md:hidden"
                   children={<Trash className="size-4 text-red-600" />}
-                />
+                /> */}
               </td>
             </tr>
 

@@ -19,6 +19,7 @@ import { getUrlParams, isMobile, parseDate, setUrlParams } from "@utils";
 import { UserRoundPlus } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { Outlet, useParams } from "react-router";
 import { useDebounce } from "use-debounce";
 
 function Patients({ tab }: { tab: string }) {
@@ -153,56 +154,68 @@ function Patients({ tab }: { tab: string }) {
     setOpenModal(true);
   }, [reset]);
 
-  return (
-    <PageWrapper
-      tab={tab}
-      title="Pacientes"
-      desc="Gestiona la información de todos los pacientes"
-      extraComponent={
-        <Button
-          className="text-small text-white! px-5 bg-green "
-          onClick={() => handleNewPatient()}
-        >
-          <UserRoundPlus className="size-4 mr-2" />
-          Agregar Paciente
-        </Button>
-      }
-    >
-      <section className="bg-white border border-gray-200 rounded-lg p-3 md:p-5 md:w-full w-[93svw] mt-6 max-md:mb-4">
-        <Filters
-          setName={setName}
-          setState={setState}
-          name={name}
-        />
-        <TableMemo
-          columns={filteredColumns}
-          data={data?.items || []}
-          className={`[&>thead>tr>th]:nth-last-[1]:text-center`}
-          setPage={setPage}
-          pagination={data}
-          handleEdit={handleEdit}
-        />
-      </section>
+  const { id } = useParams<{ id: string }>();
 
-      <Modal
-        classNames="md:w-[50svw]! w-full"
-        openModal={openModal}
-        setOpenModal={setOpenModal}
-        title={isEditing ? "Editar Paciente" : "Agregar Paciente Nuevo"}
-        desc="Completa los datos del paciente. Los campos marcados con * son obligatorios."
-      >
-        <PatientFormMemo
-          key={patientId ?? "new"}
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          handleSubmit={handleSubmit}
-          onSubmit={onSubmit}
-          tabs={responsible ? tabs : tabs.slice(0, 2)}
-          responsible={responsible}
-          setResponsible={setResponsible}
-        />
-      </Modal>
-    </PageWrapper>
+  return (
+    <>
+      {
+        !id ? (
+          <PageWrapper
+            tab={tab}
+            title="Pacientes"
+            desc="Gestiona la información de todos los pacientes"
+            extraComponent={
+              <Button
+                className="text-small text-white! px-5 bg-green "
+                onClick={() => handleNewPatient()}
+              >
+                <UserRoundPlus className="size-4 mr-2" />
+                Agregar Paciente
+              </Button>
+            }
+          >
+            <section className="bg-white border border-gray-200 rounded-lg p-3 md:p-5 md:w-full w-[93svw] max-md:mb-4">
+              <Filters
+                setName={setName}
+                setState={setState}
+                name={name}
+              />
+              <TableMemo
+                columns={filteredColumns}
+                data={data?.items || []}
+                className={`[&>thead>tr>th]:nth-last-[1]:text-center`}
+                setPage={setPage}
+                pagination={data}
+                handleEdit={handleEdit}
+              />
+            </section>
+
+            <Modal
+              classNames="md:w-[50svw]! w-full"
+              openModal={openModal}
+              setOpenModal={setOpenModal}
+              title={isEditing ? "Editar Paciente" : "Agregar Paciente Nuevo"}
+              desc="Completa los datos del paciente. Los campos marcados con * son obligatorios."
+              onClickOutside={() => setUrlParams({ name: "patientId", value: "" })}
+            >
+              <PatientFormMemo
+                key={patientId ?? "new"}
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                handleSubmit={handleSubmit}
+                onSubmit={onSubmit}
+                tabs={responsible ? tabs : tabs.slice(0, 2)}
+                responsible={responsible}
+                setResponsible={setResponsible}
+              />
+            </Modal>
+          </PageWrapper>
+
+
+        ) : (<Outlet />)
+      }
+
+    </>
   );
 }
 

@@ -16,4 +16,8 @@ export type PatientType = {
   state: string;
   sender: string;
   patientPerson: PersonType;
+  createdAt: string;
+  createdBy: string;
+  updatedAt: string;
+  updatedBy: string;
 };

@@ -20,12 +20,12 @@ function CustomTab({
   return (
     <section>
       {/* Tabs headers */}
-      <div className="bg-[#F1F5F9] rounded-md flex justify-around mb-1">
+      <div className="bg-[#e7e8e9] rounded-md flex justify-around mb-4 max-md:overflow-x-auto ">
         {tabs.map((tab) => (
           <button
             key={tab.value}
             type="button"
-            className={`text-small font-bold flex-1 py-2 m-1 text-gray-600 ${activeTab === tab.value ? "bg-white rounded-md text-black!" : ""
+            className={`text-small font-bold flex-1 py-2 max-md:px-2 m-1 text-nowrap text-gray-500 ${activeTab === tab.value ? "bg-white rounded-md text-black!" : ""
               }`}
             onClick={() => setActiveTab(tab.value ?? "1")}
           >

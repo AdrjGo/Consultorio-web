@@ -14,6 +14,7 @@ import FormContact from "@components/ui/patient/FormContact";
 import FormResponsable from "@components/ui/patient/FormResponsable";
 import { PatientFormMemo } from "@components/ui/patient/PatientForm";
 import Filters from "@components/ui/patient/Filters";
+import Personalata from "@components/ui/patient/profile/PersonaData";
 
 export {
   Input,
@@ -32,4 +33,5 @@ export {
   FormResponsable,
   PatientFormMemo,
   Filters,
+  Personalata,
 };
