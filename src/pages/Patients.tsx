@@ -24,11 +24,9 @@ import { useDebounce } from "use-debounce";
 
 function Patients({ tab }: { tab: string }) {
   const [page, setPage] = useState(1);
-  const [name, setName] = useState(getUrlParams({ name: "search" }) || "");
+  const [name, setName] = useState("");
   const [debouncedName] = useDebounce(name, 750);
-  const [state, setState] = useState<string>(
-    getUrlParams({ name: "state" }) || ""
-  );
+  const [state, setState] = useState<string>("");
   const [openModal, setOpenModal] = useState(false);
   const [activeTab, setActiveTab] = useState(1);
   const [responsible, setResponsible] = useState(false);
@@ -176,8 +174,11 @@ function Patients({ tab }: { tab: string }) {
           >
             <section className="bg-white border border-gray-200 rounded-lg p-3 md:p-5 md:w-full w-[93svw] max-md:mb-4">
               <Filters
+                title="Lista de Pacientes"
+                description="Todos los pacientes registrados en el sistema"
                 setName={setName}
                 setState={setState}
+                state={state}
                 name={name}
               />
               <TableMemo

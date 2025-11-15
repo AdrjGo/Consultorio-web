@@ -1,6 +1,5 @@
 import Button from "@components/ui/Button";
 import Pagination from "@components/ui/table/Pagination";
-import type { PatientType } from "@types";
 import { Eye, PencilLine } from "lucide-react";
 import React from "react";
 import { useNavigate } from "react-router";
@@ -97,4 +96,4 @@ function Table<T>({
   );
 }
 
-export const TableMemo = React.memo(Table<PatientType>);
+export const TableMemo = React.memo(Table<any>);

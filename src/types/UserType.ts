@@ -5,4 +5,5 @@ export type UserType = {
   id: string;
   person: PersonType;
   roles: RoleType[];
+  state: string;
 };

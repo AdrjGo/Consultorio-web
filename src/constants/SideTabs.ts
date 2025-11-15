@@ -6,6 +6,10 @@ export const SideTabsManagement = [
 ];
 
 export const SideTabsAdmin = [
-  { icon: UserRoundCog, text: "Gestión de usuarios", to: "/odis/users" },
+  {
+    icon: UserRoundCog,
+    text: "Gestión de usuarios",
+    to: "/odis/user-management",
+  },
   { icon: Bolt, text: "Configuración", to: "/odis/settings" },
 ];

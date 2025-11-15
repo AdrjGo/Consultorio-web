@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router";
-import { Calendar, Login, NotFound, PatientProfile, Patients } from "../pages";
+import { Calendar, Login, NotFound, PatientProfile, Patients, UserManagement } from "../pages";
 import PrivateRoute from "./PrivateRoute";
 // import Layout from "../components/layout";
 
@@ -25,6 +25,10 @@ const router = createBrowserRouter([
                 element: <PatientProfile />,
               },
             ],
+          },
+          {
+            path: "user-management",
+            element: <UserManagement tab="Gestión de Usuarios" />,
           },
           // { path: "patient-profile/:id", element: <PatientProfile /> },
           { path: "*", element: <NotFound /> },
