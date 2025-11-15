@@ -18,7 +18,7 @@ function Input({
   ...props
 }: InputProps) {
   return (
-    <div className="mb-4 grid w-full">
+    <div className="grid w-full">
       <label htmlFor={forInput} className="text-small font-medium">
         {label}
       </label>

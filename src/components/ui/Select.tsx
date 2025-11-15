@@ -22,7 +22,7 @@ function Select({
   ...props
 }: SelectProps) {
   return (
-    <div className="mb-4 grid min-w-fit">
+    <div className="grid min-w-fit">
       <label htmlFor={forSelect} className="text-small font-medium">
         {label}
       </label>

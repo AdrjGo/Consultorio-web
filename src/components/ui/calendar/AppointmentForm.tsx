@@ -35,7 +35,7 @@ function AppointmentForm({
   formKey,
 }: AppointmentFormProps) {
   return (
-    <form onSubmit={handleSubmit(onSubmit)} key={formKey ?? "form"}>
+    <form onSubmit={handleSubmit(onSubmit)} key={formKey ?? "form"} className="grid gap-3">
       <Select
         forSelect="patient"
         label="Paciente"
@@ -109,7 +109,7 @@ function AppointmentForm({
       />
       <Input
         forInput="obs"
-        label="observaciones"
+        label="Observaciones"
         placeholder="Obserbaciones adicionales..."
         {...register("observations")}
       />

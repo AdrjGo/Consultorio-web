@@ -85,7 +85,7 @@ function FormPerson({ register, errors, field }: Props) {
   }
 
   return (
-    <section className="grid grid-cols-4 gap-x-5">
+    <section className="grid grid-cols-4 gap-x-5 gap-y-3">
       {personFields.map((field) => {
         return (
           <div key={field.name} className="col-span-2">

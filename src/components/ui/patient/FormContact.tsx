@@ -72,11 +72,11 @@ function FormContact({ register, errors }: Props) {
         label="Dirección*"
         type="text"
         placeholder="Calle, número, etc..."
-        className="w-full"
+        className="w-full mb-3"
         {...register("address")}
         errors={errors.address?.message}
       />
-      <div className="grid grid-cols-4 gap-x-5">
+      <div className="grid grid-cols-4 gap-x-5 gap-y-3 mb-3">
         {contactFields.map((field, index) => {
           const error = getError(errors, field.register);
           return (

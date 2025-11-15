@@ -121,7 +121,7 @@ function FormResponsable({
       {/* <span className="text-small text-gray-500 font-medium">
           Datos del responsable
         </span> */}
-      <section className="grid grid-cols-4 gap-x-5">
+      <section className="grid grid-cols-4 gap-x-5 gap-y-3 mb-3">
         {responsibleFields.map((field) => {
           const error = getError(errors, field.register);
           return (
