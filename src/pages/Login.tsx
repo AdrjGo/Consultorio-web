@@ -75,7 +75,7 @@ function Login() {
             Tu consultorio, más inteligente
           </p>
         </div>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4">
           <Input
             forInput="email"
             type="email"

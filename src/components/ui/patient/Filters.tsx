@@ -80,7 +80,7 @@ function Filters({ setName, setState, state, name, title, description, activeRol
                     onClick={() => {
                         history.replaceState({}, document.title, window.location.pathname);
                         setName("");
-                        setState("");
+                        setState("active");
                         setRole("");
                     }}
                 >
