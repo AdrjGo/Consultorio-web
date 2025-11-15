@@ -35,7 +35,7 @@ function AppointmentForm({
   formKey,
 }: AppointmentFormProps) {
   return (
-    <form onSubmit={handleSubmit(onSubmit)} key={formKey ?? "form"} className="grid gap-3">
+    <form onSubmit={handleSubmit(onSubmit)} key={formKey} className="grid gap-3">
       <Select
         forSelect="patient"
         label="Paciente"

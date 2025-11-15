@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { CalendarPlus } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
-import { useGet, usePost, useUpdate } from "@hooks";
+import { useGet, useModal, usePost, useUpdate } from "@hooks";
 import type { AppointmentPayload, PatientType, UserType } from "@types";
 import {
   Button,
@@ -24,9 +24,10 @@ import { getStatusColor } from "@features";
 import { appointmentSchema, type AppointmentFormValues } from "@schemas";
 
 function Calendar({ tab }: { tab: string }) {
-  const [openModal, setOpenModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [appointmentId, setAppointmentId] = useState<string | null>(null);
+
+  const modal = useModal();
 
   // Estado de la fecha actual
   const [range, setRange] = useState({
@@ -93,14 +94,14 @@ function Calendar({ tab }: { tab: string }) {
   const { post } = usePost<AppointmentPayload, unknown>({
     url: "Appointment/create",
     successMessage: "Cita programada con éxito",
-    setOpenModal: setOpenModal,
+    setOpenModal: modal.close,
   });
 
   const { update } = useUpdate<AppointmentPayload, unknown>({
     method: "PATCH",
     url: `Appointment/${appointmentId}`,
     successMessage: "Cita actualizada con éxito",
-    setOpenModal: setOpenModal,
+    setOpenModal: modal.close,
   });
 
   // Función para enviar los datos al backend
@@ -179,7 +180,7 @@ function Calendar({ tab }: { tab: string }) {
 
       setAppointmentId(event.id);
       setIsEditing(true);
-      setOpenModal(true);
+      modal.open()
     }
   };
 
@@ -190,8 +191,8 @@ function Calendar({ tab }: { tab: string }) {
   const handleNewAppointment = useCallback(() => {
     setIsEditing(false);
     setAppointmentId(null);
-    reset(defaultValues);
-    setOpenModal(true);
+    // reset(defaultValues);
+    modal.open()
   }, [reset]);
 
   return (
@@ -236,8 +237,8 @@ function Calendar({ tab }: { tab: string }) {
       </section>
 
       <Modal
-        openModal={openModal}
-        setOpenModal={setOpenModal}
+        openModal={modal.isOpen}
+        setOpenModal={modal.close}
         title={isEditing ? "Editar Cita" : "Crear Nueva Cita"}
         desc={
           isEditing
