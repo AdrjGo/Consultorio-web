@@ -24,9 +24,9 @@ import { useDebounce } from "use-debounce";
 
 function Patients({ tab }: { tab: string }) {
   const [page, setPage] = useState(1);
-  const [name, setName] = useState("");
+  const [name, setName] = useState(getUrlParams({ name: "search" }) || "");
   const [debouncedName] = useDebounce(name, 750);
-  const [state, setState] = useState<string>("");
+  const [state, setState] = useState<string>(getUrlParams({ name: "state" }) || "");
   const [openModal, setOpenModal] = useState(false);
   const [activeTab, setActiveTab] = useState(1);
   const [responsible, setResponsible] = useState(false);
@@ -182,12 +182,15 @@ function Patients({ tab }: { tab: string }) {
                 name={name}
               />
               <TableMemo
+                viewButton
+                editButton
                 columns={filteredColumns}
                 data={data?.items || []}
                 className={`[&>thead>tr>th]:nth-last-[1]:text-center`}
                 setPage={setPage}
                 pagination={data}
                 handleEdit={handleEdit}
+                urlPageEdit={`/odis/patients/patient-profile`}
               />
             </section>
 

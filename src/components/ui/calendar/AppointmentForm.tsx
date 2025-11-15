@@ -115,7 +115,7 @@ function AppointmentForm({
       />
 
       <Button>
-        <Save className="size-4 mr-2" />
+        <Save className="size-4" />
         {isEditing ? "Actualizar cita" : "Crear cita"}
       </Button>
     </form>
