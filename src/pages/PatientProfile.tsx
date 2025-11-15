@@ -1,12 +1,11 @@
 import { PageWrapper } from "@components/layout/PageWrapper";
-import { CustomTabs, Personalata } from "@components/ui";
+import { Button, CustomTabs, Personalata } from "@components/ui";
 import { useGet } from "@hooks";
 import type { PatientType } from "@types";
 import { calculateAge } from "@utils";
-import { Mars, Venus } from "lucide-react";
+import { Mars, Undo2, Venus } from "lucide-react";
 import { useState } from "react";
 import { useParams } from "react-router";
-import { ca } from "zod/v4/locales";
 
 function PatientProfile() {
     const { id } = useParams<{ id: string }>();
@@ -31,7 +30,13 @@ function PatientProfile() {
                     {patient?.patientPerson.sex === "FEMALE" ? <Venus className="text-rose-500 size-8" /> : <Mars className="text-blue-500 size-8" />}
                 </>
             }
-            desc={`CI: ${patient?.patientPerson.ci} • Teléfono: ${patient?.patientPerson.phone} • ${calculateAge(patient?.patientPerson.birthDate)} años`}
+            desc={`CI: ${patient?.patientPerson.ci} • Teléfono: ${patient?.patientPerson.phone} • ${calculateAge(patient?.patientPerson.birthDate)} años - ${patient?.state === "ACTIVE" ? "Activo" : "Inactivo"}`}
+            extraComponent={
+                <Button className="" onClick={() => window.history.back()} >
+                    <Undo2 />
+                    Volver a la lista
+                </Button>
+            }
         >
             <CustomTabs
                 activeTab={activeTab}

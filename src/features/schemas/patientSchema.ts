@@ -32,6 +32,7 @@ export const patientSchema = z.object({
       person: personSchema,
     })
     .nullable(),
+  state: z.string().optional(),
 });
 
 export type PatientFormValues = z.infer<typeof patientSchema>;

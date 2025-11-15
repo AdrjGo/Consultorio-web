@@ -4,7 +4,7 @@ import { BriefcaseBusiness, Building, FileText, MapPin, PhoneCall, User } from "
 
 const Fieldset = ({ children }: { children: React.ReactNode }) => {
     return (
-        <fieldset className="border border-gray-400 rounded p-3 grid md:grid-cols-3 gap-x-3 place-items-start">
+        <fieldset className="border border-gray-400 rounded p-3 grid md:grid-cols-3 gap-3 place-items-start">
             {children}
         </fieldset>
     )

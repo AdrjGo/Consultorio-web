@@ -47,7 +47,7 @@ function PatientForm({
             className={`text-small text-white! px-5 ${activeTab == 3 ? "w-full!" : ""
               }`}
           >
-            <Save className="size-4 mr-2" />
+            <Save className="size-4" />
             Guardar
           </Button>
         )}

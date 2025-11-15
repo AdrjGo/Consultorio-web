@@ -12,7 +12,7 @@ import {
 import { columns } from "@constants";
 import { defaultValuesPatient } from "@features";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useGet, usePost, useUpdate } from "@hooks";
+import { useDelete, useGet, useModal, usePost, useUpdate } from "@hooks";
 import { patientSchema, type PatientFormValues } from "@schemas";
 import type { Pagination, PatientType } from "@types";
 import { getUrlParams, isMobile, parseDate, setUrlParams } from "@utils";
@@ -26,11 +26,11 @@ function Patients({ tab }: { tab: string }) {
   const [page, setPage] = useState(1);
   const [name, setName] = useState(getUrlParams({ name: "search" }) || "");
   const [debouncedName] = useDebounce(name, 750);
-  const [state, setState] = useState<string>(getUrlParams({ name: "state" }) || "");
-  const [openModal, setOpenModal] = useState(false);
+  const [state, setState] = useState<string>(getUrlParams({ name: "state" }) || "active");
   const [activeTab, setActiveTab] = useState(1);
   const [responsible, setResponsible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const modal = useModal();
 
   const { data } = useGet<Pagination<PatientType>>({
     key: ["patient", page, state, debouncedName],
@@ -60,14 +60,14 @@ function Patients({ tab }: { tab: string }) {
 
   const { post } = usePost<PatientFormValues, unknown>({
     url: `Patient`,
-    setOpenModal: setOpenModal,
+    setOpenModal: modal.close,
   });
 
   const { update } = useUpdate<PatientFormValues, unknown>({
     method: "PATCH",
     url: `Patient/${patientId}`,
     successMessage: "Cita actualizada con éxito",
-    setOpenModal: setOpenModal,
+    setOpenModal: modal.close,
   });
 
   const onSubmit = (data: PatientFormValues) => {
@@ -90,15 +90,15 @@ function Patients({ tab }: { tab: string }) {
       value: 3,
       label: "Responsable",
       content: <FormResponsable register={register} errors={errors} field="responsible.person" responsible={responsible} setResponsible={setResponsible} />,
-    }
+    },
   ], [register, errors]);
 
   const handleEdit = (id: string) => {
-    // console.log(id)
+    // console.log(patient)
     setUrlParams({ name: "patientId", value: id });
     setActiveTab(1);
     setIsEditing(true);
-    setOpenModal(true);
+    modal.open()
   };
 
   useEffect(() => {
@@ -147,12 +147,25 @@ function Patients({ tab }: { tab: string }) {
   }, [isMobile]);
 
   const handleNewPatient = useCallback(() => {
+    setActiveTab(1);
     setIsEditing(false);
     reset(defaultValuesPatient(responsible));
-    setOpenModal(true);
+    modal.open()
   }, [reset]);
 
   const { id } = useParams<{ id: string }>();
+
+
+  // const { deleteItem } = useDelete({
+  //   url: `Patient/${id}`,
+  //   successMessage: "Cita eliminada con éxito",
+  //   setOpenModal: modal.close,
+  // });
+
+  // const handleDelete = (id: string) => {
+  //   setUrlParams({ name: "patientId", value: id });
+  //   deleteItem({ state: "INACTIVE" });
+  // }
 
   return (
     <>
@@ -184,6 +197,10 @@ function Patients({ tab }: { tab: string }) {
               <TableMemo
                 viewButton
                 editButton
+                deleteButton
+                // handleDelete={handleDelete}
+                deleteTitle="Eliminar Paciente"
+                deleteDesc="El paciente cambiará de estado a Inactivo"
                 columns={filteredColumns}
                 data={data?.items || []}
                 className={`[&>thead>tr>th]:nth-last-[1]:text-center`}
@@ -196,8 +213,8 @@ function Patients({ tab }: { tab: string }) {
 
             <Modal
               classNames="md:w-[50svw]! w-full"
-              openModal={openModal}
-              setOpenModal={setOpenModal}
+              openModal={modal.isOpen}
+              setOpenModal={modal.close}
               title={isEditing ? "Editar Paciente" : "Agregar Paciente Nuevo"}
               desc="Completa los datos del paciente. Los campos marcados con * son obligatorios."
               onClickOutside={() => setUrlParams({ name: "patientId", value: "" })}
@@ -214,8 +231,6 @@ function Patients({ tab }: { tab: string }) {
               />
             </Modal>
           </PageWrapper>
-
-
         ) : (<Outlet />)
       }
 
