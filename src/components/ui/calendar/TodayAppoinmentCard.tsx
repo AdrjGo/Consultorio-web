@@ -128,14 +128,14 @@ function TodayAppoinmentCard({ onClick }: Props) {
 
                   <div className="flex justify-between gap-3 [&>button]:bg-white [&>button]:text-black [&>button]:border-gray-200 [&>button]:rounded-md [&>button]:p-2 [&>button]:text-small [&>button]:font-semibold [&>button]:hover:bg-gray-200 [&>button]:border [&>button]:focus:bg-gray-100 mt-4">
                     <Button onClick={() => onClick(appointment.id)}>
-                      <PencilLine className="size-3 mr-2" />
+                      <PencilLine className="size-3" />
                       Editar
                     </Button>
                     <Button
                       className="text-white! bg-red-500!"
                       onClick={() => setOpenModal(true)}
                     >
-                      <Trash className="size-3 mr-2" />
+                      <Trash className="size-3" />
                       Eliminar
                     </Button>
                   </div>
