@@ -205,7 +205,7 @@ function Calendar({ tab }: { tab: string }) {
           className="text-small text-white! px-5 bg-green"
           onClick={() => handleNewAppointment()}
         >
-          <CalendarPlus className="size-4 mr-2" />
+          <CalendarPlus className="size-4" />
           Agregar Cita
         </Button>
       }

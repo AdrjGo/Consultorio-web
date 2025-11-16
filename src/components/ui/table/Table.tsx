@@ -28,6 +28,7 @@ type TableProps<T> = {
   handleDelete?: () => void;
   deleteTitle?: string;
   deleteDesc?: string;
+  customButtons?: React.ReactNode;
 };
 
 function Table<T>({
@@ -44,6 +45,7 @@ function Table<T>({
   handleDelete,
   deleteDesc,
   deleteTitle,
+  customButtons,
 }: TableProps<T>) {
 
   const navigate = useNavigate();
@@ -108,6 +110,7 @@ function Table<T>({
                     onClick={() => modal.open()}
                   />
                 }
+                {customButtons}
               </td>
             </tr>
 
