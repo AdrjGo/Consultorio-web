@@ -24,7 +24,9 @@ export const personSchema = z.object({
 
   phone: z
     .string()
-    .min(1, { message: "El teléfono es requerido" })
+    .min(8, {
+      message: "El número de teléfono debe tener entre 8 y 10 dígitos",
+    })
     .max(10, { message: "El número es muy largo" }),
 
   ci: z
@@ -32,5 +34,5 @@ export const personSchema = z.object({
     .min(1, { message: "El CI es requerido" })
     .max(9, { message: "El CI es muy largo" }),
 
-  email: z.email().optional(),
+  email: z.email({ message: "El email es inválido" }),
 });

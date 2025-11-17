@@ -28,7 +28,7 @@ type TableProps<T> = {
   handleDelete?: () => void;
   deleteTitle?: string;
   deleteDesc?: string;
-  customButtons?: React.ReactNode;
+  customButtons?: (row: T) => React.ReactNode;
 };
 
 function Table<T>({
@@ -110,7 +110,7 @@ function Table<T>({
                     onClick={() => modal.open()}
                   />
                 }
-                {customButtons}
+                {customButtons && customButtons(row)}
               </td>
             </tr>
 

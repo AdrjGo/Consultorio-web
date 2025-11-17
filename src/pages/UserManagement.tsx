@@ -1,23 +1,41 @@
 import { PageWrapper } from "@components/layout/PageWrapper"
-import { Filters, TableMemo } from "@components/ui"
-import { useGet } from "@hooks";
+import { Button, Filters, Modal, TableMemo, UserModal } from "@components/ui"
+import RolModal from "@components/ui/user/RolModal";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useGet, useModal, usePost, useUpdate } from "@hooks";
+import { userSchema, type UserFormValues } from "@schemas";
 import type { UserType } from "@types";
-import { useState } from "react";
+import { getUrlParams, parseDate } from "@utils";
+import { ShieldUser, UserStar } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useDebounce } from "use-debounce";
 
 function UserManagement({ tab }: { tab: string }) {
-    const [name, setName] = useState("");
-    const [state, setState] = useState<string>("");
-    const [role, setRole] = useState<string>("");
+    const [name, setName] = useState(getUrlParams({ name: "search" }) || "");
+    const [state, setState] = useState<string>(getUrlParams({ name: "state" }) || "");
+    const [role, setRole] = useState<string>(getUrlParams({ name: "role" }) || "");
     const [debouncedName] = useDebounce(name, 750);
+    const [viewPassword, setViewPassword] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [userId, setUserId] = useState<string | null>(null);
+
 
     const { data: users } = useGet<UserType[]>({
-        key: ["patient", state, debouncedName, role],
+        key: ["users", state, debouncedName, role],
         urlEndpoint: `User?search=${debouncedName}&state=${state}&role=${role}`,
         message: "Error al obtener datos de paciente",
     });
 
-    console.log(users)
+
+    const { data: user } = useGet<UserFormValues>({
+        key: ["user", userId ?? ""],
+        urlEndpoint: `User/${userId}/data`,
+        message: "Error al obtener datos de paciente",
+        enabled: userId ? true : false,
+    });
+
+    // console.log(users)
 
     const userColumns = [
         {
@@ -46,8 +64,103 @@ function UserManagement({ tab }: { tab: string }) {
         }
     ]
 
+    const modalUser = useModal();
+    const modalRoles = useModal();
+
+    const defaultValuesUser = (isEditing: boolean) => isEditing ? {
+        person: {
+            name: "",
+            lastName: "",
+            birthDate: "",
+            sex: "",
+            profession: "",
+            phone: "",
+            ci: "",
+            email: ""
+        }
+    } :
+        {
+            password: "",
+            person: {
+                name: "",
+                lastName: "",
+                birthDate: "",
+                sex: "",
+                profession: "",
+                phone: "",
+                ci: "",
+                email: ""
+            }
+        }
+
+    const handleNewUser = () => {
+        setIsEditing(false);
+        reset(defaultValuesUser(isEditing));
+        modalUser.open()
+    }
+
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<UserFormValues>({
+        resolver: zodResolver(userSchema),
+        defaultValues: defaultValuesUser(isEditing),
+    });
+
+    const { post } = usePost<UserFormValues, unknown>({
+        url: "User/create",
+        setOpenModal: modalUser.close,
+    });
+
+    const { update } = useUpdate<UserFormValues, unknown>({
+        method: "PATCH",
+        url: `User/${userId}`,
+        successMessage: "Cita actualizada con éxito",
+        setOpenModal: modalUser.close,
+    });
+
+    const onSubmit = (data: UserFormValues) => {
+        isEditing ? update(data) : post(data);
+    }
+
+    const handleEdit = (id: string) => {
+        setUserId(id);
+        setIsEditing(true);
+        modalUser.open()
+    }
+
+    useEffect(() => {
+        if (user) {
+            reset({
+                person: {
+                    name: user.person.name,
+                    lastName: user.person.lastName,
+                    birthDate: parseDate(user.person.birthDate),
+                    sex: user.person.sex,
+                    profession: user.person.profession,
+                    phone: user.person.phone,
+                    ci: user.person.ci,
+                    email: user.person.email,
+                }
+            })
+        }
+    }, [user]);
+
+    const handleModify = (id: string) => {
+        setUserId(id);
+        setIsEditing(true);
+        modalRoles.open()
+    }
+
     return (
-        <PageWrapper tab={tab} title="Gestiona los usuarios" desc="Administra las cuentas del personal clínico">
+        <PageWrapper tab={tab} title="Gestiona los usuarios" desc="Administra las cuentas del personal clínico"
+            extraComponent={
+                <Button
+                    className="text-small text-white! px-5 bg-green"
+                    onClick={() => handleNewUser()}
+                >
+                    <UserStar className="size-4" />
+                    Agregar Usuario
+                </Button>
+            }
+        >
             <section className="bg-white border border-gray-200 rounded-lg p-3 md:p-5 md:w-full w-[93svw] max-md:mb-4">
                 <Filters
                     title="Usuarios del Sistema"
@@ -61,12 +174,38 @@ function UserManagement({ tab }: { tab: string }) {
                     activeRoles
                 />
                 <TableMemo
+                    editButton
+                    deleteButton
                     columns={userColumns}
                     data={users || []}
                     className={`[&>thead>tr>th]:nth-last-[1]:text-center`}
-                    handleEdit={() => { }}
+                    handleEdit={handleEdit}
+                    customButtons={(row) => (
+                        <Button
+                            className="max-md:hidden"
+                            onClick={() => handleModify(row.id)}
+                        >
+                            <ShieldUser className="size-5 text-blue-500" />
+                        </Button>
+                    )}
                 />
             </section>
+
+            <UserModal
+                isEditing={isEditing}
+                setIsEditing={setIsEditing}
+                userId={userId}
+                setUserId={setUserId}
+                modal={modalUser}
+                handleSubmit={handleSubmit}
+                onSubmit={onSubmit}
+                register={register}
+                errors={errors}
+                viewPassword={viewPassword}
+                setViewPassword={setViewPassword}
+            />
+
+            <RolModal modalRoles={modalRoles} userId={userId} />
         </PageWrapper>
     )
 }

@@ -4,5 +4,14 @@ import NotFound from "./NotFound.tsx";
 import Patients from "./Patients.tsx";
 import PatientProfile from "./PatientProfile.tsx";
 import UserManagement from "./UserManagement.tsx";
+import RolModal from "@components/ui/user/RolModal.tsx";
 
-export { Login, Calendar, NotFound, Patients, PatientProfile, UserManagement };
+export {
+  Login,
+  Calendar,
+  NotFound,
+  Patients,
+  PatientProfile,
+  UserManagement,
+  RolModal,
+};

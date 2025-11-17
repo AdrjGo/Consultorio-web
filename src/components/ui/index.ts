@@ -8,13 +8,15 @@ import { TableMemo } from "./table/Table";
 import Pagination from "./table/Pagination";
 import DataList from "./DataList";
 import AppointmentForm from "./calendar/AppointmentForm";
-import FormPerson from "@components/ui/person/FormPerson";
+import FormPerson from "@components/ui/patient/person/FormPerson";
 import { CustomTabs } from "./form/CustomTabs";
 import FormContact from "@components/ui/patient/FormContact";
 import FormResponsable from "@components/ui/patient/FormResponsable";
 import { PatientFormMemo } from "@components/ui/patient/PatientForm";
 import Filters from "@components/ui/patient/Filters";
 import Personalata from "@components/ui/patient/profile/PersonaData";
+import FormUserPerson from "@components/ui/user/FormUserPerson";
+import UserModal from "@components/ui/user/UserModal";
 
 export {
   Input,
@@ -34,4 +36,6 @@ export {
   PatientFormMemo,
   Filters,
   Personalata,
+  FormUserPerson,
+  UserModal,
 };

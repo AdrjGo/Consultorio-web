@@ -6,4 +6,8 @@ export type UserType = {
   person: PersonType;
   roles: RoleType[];
   state: string;
+  cretedAt: string;
+  createdBy: string;
+  updatedAt: string;
+  updatedBy: string;
 };
