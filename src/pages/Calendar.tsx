@@ -45,7 +45,7 @@ function Calendar({ tab }: { tab: string }) {
   // Obtención de datos de usuarios
   const { data: users } = useGet<UserType[]>({
     key: "users",
-    urlEndpoint: "User/all",
+    urlEndpoint: "User",
     message: "Error al obtener datos de usuario",
   });
 
