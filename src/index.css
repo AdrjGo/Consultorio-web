@@ -43,7 +43,7 @@ button {
   --text-body: clamp(16px, 1vw + 14px, 18px);
   --text-normal: clamp(14px, 1rem, 1.125rem);
   --text-small: clamp(11px, 12px, 14px);
-  --text-tiny: clamp(10px, 12px, 13px);
+  --text-tiny: clamp(9px, 11px, 13px);
 }
 
 input[type="date"],
