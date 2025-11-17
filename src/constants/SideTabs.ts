@@ -1,4 +1,4 @@
-import { Calendar, User, UserRoundCog, Bolt } from "lucide-react";
+import { Calendar, User, UserRoundCog, Settings } from "lucide-react";
 
 export const SideTabsManagement = [
   { icon: Calendar, text: "Calendario", to: "/odis/calendar" },
@@ -11,5 +11,5 @@ export const SideTabsAdmin = [
     text: "Gestión de usuarios",
     to: "/odis/user-management",
   },
-  { icon: Bolt, text: "Configuración", to: "/odis/settings" },
+  { icon: Settings, text: "Configuración", to: "/odis/settings" },
 ];
