@@ -17,6 +17,8 @@ import Filters from "@components/ui/patient/Filters";
 import Personalata from "@components/ui/patient/profile/PersonaData";
 import FormUserPerson from "@components/ui/user/FormUserPerson";
 import UserModal from "@components/ui/user/UserModal";
+import DentalOffice from "@components/ui/config/DentalOffice";
+import InputFile from "@components/ui/InputFile";
 
 export {
   Input,
@@ -38,4 +40,6 @@ export {
   Personalata,
   FormUserPerson,
   UserModal,
+  DentalOffice,
+  InputFile,
 };

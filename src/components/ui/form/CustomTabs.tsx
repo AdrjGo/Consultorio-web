@@ -1,4 +1,5 @@
 import React from "react";
+import { twMerge } from "tailwind-merge";
 
 interface Tab {
   label: string | React.ReactNode;
@@ -10,12 +11,14 @@ interface TabsProps {
   tabs: Tab[];
   activeTab: number;
   setActiveTab: React.Dispatch<React.SetStateAction<number>>;
+  classNameContent?: string;
 }
 
 function CustomTab({
   tabs,
   activeTab,
   setActiveTab,
+  classNameContent
 }: TabsProps) {
   return (
     <section>
@@ -35,7 +38,7 @@ function CustomTab({
       </div>
 
       {/* Tabs content */}
-      <div className="bg-white rounded-md">
+      <div className={twMerge(classNameContent, "bg-white rounded-md")}>
         {tabs.find((tab) => tab.value === activeTab)?.content}
       </div>
     </section>

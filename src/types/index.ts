@@ -4,6 +4,7 @@ import type { UserType } from "./UserType";
 import type { AppointmentTypes, AppointmentPayload } from "./AppointmentType";
 import type { RoleType } from "./RoleType";
 import type { Pagination } from "./Pagination";
+import type { clinicType } from "./clinicType";
 
 export type {
   PatientType,
@@ -13,4 +14,5 @@ export type {
   RoleType,
   AppointmentPayload,
   Pagination,
+  clinicType,
 };
