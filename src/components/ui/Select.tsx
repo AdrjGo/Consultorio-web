@@ -8,6 +8,7 @@ interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   options?: string[];
   optionDefault?: boolean;
   optionDefaultText?: string;
+  containerClassName?: string;
 }
 function Select({
   forSelect,
@@ -19,10 +20,11 @@ function Select({
   options,
   optionDefault = true,
   optionDefaultText,
+  containerClassName,
   ...props
 }: SelectProps) {
   return (
-    <div className="grid min-w-fit">
+    <div className={twMerge(containerClassName, "grid min-w-fit")}>
       <label htmlFor={forSelect} className="text-small font-medium">
         {label}
       </label>
