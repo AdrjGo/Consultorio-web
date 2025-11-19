@@ -19,12 +19,12 @@ function Config({ tab }: { tab: string }) {
                 tabs={[
                     {
                         value: 1,
-                        label: <><Settings size={17} /> Configuración</>,
+                        label: <><Settings size={17} /> Consultorio</>,
                         content: <DentalOffice />
                     },
                     {
                         value: 2,
-                        label: <><FileText size={17} /> Clínico</>,
+                        label: <><FileText size={17} /> Formularios</>,
                         content: <div>Configuración de Usuarios</div>
                     },
                     {
