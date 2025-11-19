@@ -10,9 +10,11 @@ import {
   dentalOfficeSchema,
   type DentalOfficeFormValues,
 } from "./dentalOfficeSchema";
+import { stateSchema, type StateFormValues } from "./stateSchema";
 
 export { roleSchema, type RoleFormValues };
 export { appointmentSchema, patientSchema, personSchema };
 export type { AppointmentFormValues, PatientFormValues };
 export { userSchema, type UserFormValues };
 export { dentalOfficeSchema, type DentalOfficeFormValues };
+export { stateSchema, type StateFormValues };

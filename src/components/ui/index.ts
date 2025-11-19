@@ -19,6 +19,8 @@ import FormUserPerson from "@components/ui/user/FormUserPerson";
 import UserModal from "@components/ui/user/UserModal";
 import DentalOffice from "@components/ui/config/DentalOffice";
 import InputFile from "@components/ui/InputFile";
+import FormRoles from "@components/ui/user/RolModal/FormRoles";
+import FormState from "@components/ui/user/RolModal/FormState";
 
 export {
   Input,
@@ -42,4 +44,6 @@ export {
   UserModal,
   DentalOffice,
   InputFile,
+  FormRoles,
+  FormState,
 };

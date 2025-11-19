@@ -65,7 +65,7 @@ function UserManagement({ tab }: { tab: string }) {
     ]
 
     const modalUser = useModal();
-    const modalRoles = useModal();
+    const modalSecurity = useModal();
 
     const defaultValuesUser = (isEditing: boolean) => isEditing ? {
         person: {
@@ -143,10 +143,10 @@ function UserManagement({ tab }: { tab: string }) {
         }
     }, [user]);
 
-    const handleModify = (id: string) => {
+    const handleSecurity = (id: string) => {
         setUserId(id);
-        setIsEditing(true);
-        modalRoles.open()
+        setIsEditing(false);
+        modalSecurity.open()
     }
 
     return (
@@ -175,7 +175,7 @@ function UserManagement({ tab }: { tab: string }) {
                 />
                 <TableMemo
                     editButton
-                    deleteButton
+                    // deleteButton
                     columns={userColumns}
                     data={users || []}
                     className={`[&>thead>tr>th]:nth-last-[1]:text-center`}
@@ -183,29 +183,36 @@ function UserManagement({ tab }: { tab: string }) {
                     customButtons={(row) => (
                         <Button
                             className="max-md:hidden"
-                            onClick={() => handleModify(row.id)}
+                            onClick={() => handleSecurity(row.id)}
                         >
                             <ShieldUser className="size-5 text-blue-500" />
                         </Button>
                     )}
                 />
             </section>
+            {
+                modalUser.isOpen && (
+                    <UserModal
+                        isEditing={isEditing}
+                        setIsEditing={setIsEditing}
+                        userId={userId}
+                        setUserId={setUserId}
+                        modal={modalUser}
+                        handleSubmit={handleSubmit}
+                        onSubmit={onSubmit}
+                        register={register}
+                        errors={errors}
+                        viewPassword={viewPassword}
+                        setViewPassword={setViewPassword}
+                    />
+                )
+            }
 
-            <UserModal
-                isEditing={isEditing}
-                setIsEditing={setIsEditing}
-                userId={userId}
-                setUserId={setUserId}
-                modal={modalUser}
-                handleSubmit={handleSubmit}
-                onSubmit={onSubmit}
-                register={register}
-                errors={errors}
-                viewPassword={viewPassword}
-                setViewPassword={setViewPassword}
-            />
-
-            <RolModal modalRoles={modalRoles} userId={userId} />
+            {
+                modalSecurity.isOpen && (
+                    <RolModal modalSecurity={modalSecurity} userId={userId} />
+                )
+            }
         </PageWrapper>
     )
 }
