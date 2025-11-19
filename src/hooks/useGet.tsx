@@ -17,6 +17,7 @@ function useGet<T>({ key, urlEndpoint, message, enabled }: getProps) {
         message: message,
       }),
     enabled: enabled,
+    retry: false,
   });
 
   return { isPending, isError, data, error };
