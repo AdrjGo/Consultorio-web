@@ -3,7 +3,7 @@ import { getToken, Toast } from "@utils";
 
 type Props = {
   setOpenModal?: (open: boolean) => void;
-  successMessage: string;
+  successMessage?: string;
   url: string;
   method: "PUT" | "PATCH";
 };

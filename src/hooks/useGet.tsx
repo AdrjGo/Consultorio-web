@@ -6,9 +6,10 @@ type getProps = {
   urlEndpoint: string | any;
   message: string;
   enabled?: boolean;
+  retry?: boolean;
 };
 
-function useGet<T>({ key, urlEndpoint, message, enabled }: getProps) {
+function useGet<T>({ key, urlEndpoint, message, enabled, retry }: getProps) {
   const { isPending, isError, data, error } = useQuery<T>({
     queryKey: [key],
     queryFn: async () =>
@@ -17,7 +18,7 @@ function useGet<T>({ key, urlEndpoint, message, enabled }: getProps) {
         message: message,
       }),
     enabled: enabled,
-    retry: false,
+    retry: retry ?? false,
   });
 
   return { isPending, isError, data, error };
