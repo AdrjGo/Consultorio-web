@@ -4,9 +4,10 @@ import { Icons } from "../../Icons/Icons";
 import SideButton from "./SideButton";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { useGetUser } from "@hooks";
+import { useGet, useGetUser } from "@hooks";
 import { useTabStore } from "@store";
 import { SideTabsAdmin, SideTabsManagement } from "@constants";
+import type { clinicType } from "@types";
 
 function Sidebar({ panelOpen }: { panelOpen: boolean }) {
   const [open, setOpen] = useState(false);
@@ -22,17 +23,28 @@ function Sidebar({ panelOpen }: { panelOpen: boolean }) {
 
   const pagetab = useTabStore((state) => state.pageTab);
 
+  const { data: clinic } = useGet<clinicType>({
+    key: "clinic",
+    urlEndpoint: "Clinic",
+    message: "Error al obtener datos de usuario",
+  });
+
   return (
     <nav
       className={`flex flex-col bg-white md:max-w-64 h-screen border-r border-gray-200 transition-all duration-400 ease-in-out
-    ${
-      panelOpen ? "md:w-full w-72 p-3 opacity-100" : "w-0 p-0 opacity-0 overflow-hidden"
-    }`}
+    ${panelOpen ? "md:w-full w-72 p-3 opacity-100" : "w-0 p-0 opacity-0 overflow-hidden"
+        }`}
     >
       <section className="flex items-center w-full top-0 h-14 gap-1.5 ">
-        <Icons.Logo className="size-14" />
+        {
+          !import.meta.env.VITE_LOGO_SYS_URL ? (
+            <Icons.Logo className="size-14" />
+          ) : (
+            <Icons.LogoUser className="size-14" />
+          )
+        }
         <div className="text-sm/6">
-          <h2 className="text-body font-bold">OdontoDIS</h2>
+          <h2 className="text-body font-bold">{clinic?.name ?? "OdontoDIS"}</h2>
           <p className="text-sm text-gray-500">{pagetab}</p>
         </div>
       </section>

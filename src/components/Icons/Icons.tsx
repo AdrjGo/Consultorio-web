@@ -12,4 +12,6 @@ function IconWrapper({
 
 export const Icons = {
   Logo: (props: IconProps) => <IconWrapper src={Logo} {...props} />,
+  LogoUser: (props: IconProps) => <img src={import.meta.env.VITE_LOGO_SYS_URL} {...props} />,
 };
+
