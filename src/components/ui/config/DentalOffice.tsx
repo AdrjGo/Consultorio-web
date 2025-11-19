@@ -154,7 +154,7 @@ function DentalOffice() {
 
     const clinicData: boolean = clinic?.name ? !edit : false;
 
-    console.log(watch())
+    // console.log(watch())
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="grid gap-5">
