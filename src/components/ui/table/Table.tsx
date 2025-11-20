@@ -47,7 +47,6 @@ function Table<T>({
   deleteTitle,
   customButtons,
 }: TableProps<T>) {
-
   const navigate = useNavigate();
   const handleProfile = (id: string) => {
     navigate(urlPageEdit ? `${urlPageEdit}/${id}` : "/odis/404");
@@ -73,9 +72,7 @@ function Table<T>({
                 {col.label}
               </th>
             ))}
-            <th className="text-small py-2">
-              Acciones
-            </th>
+            <th className="text-small py-2 text-center">Acciones</th>
           </tr>
         </thead>
         <tbody className="[&>tr]:border-b [&>tr]:border-gray-200">
@@ -87,33 +84,34 @@ function Table<T>({
               {columns.map((col, colIndex) => (
                 <td key={colIndex}>
                   {col.render ? col.render(row) : (row as any)[col.key]}
-
                 </td>
               ))}
 
               {/* Acciones */}
-              <td className="[&>button]:w-fit [&>button]:bg-transparent [&>button]:hover:bg-gray-200 flex gap-2 justify-center" >
-                {
-                  viewButton && <Button children={<Eye className="size-4 text-blue-600" />} onClick={() => handleProfile((row as any).id)} />
-                }
-                {
-                  editButton && <Button
+              <td className="[&>button]:w-fit [&>button]:bg-transparent [&>button]:hover:bg-gray-200 flex gap-2 justify-center">
+                {viewButton && (
+                  <Button
+                    children={<Eye className="size-4 text-blue-600" />}
+                    onClick={() => handleProfile((row as any).id)}
+                  />
+                )}
+                {editButton && (
+                  <Button
                     className="max-md:hidden"
                     children={<PencilLine className="size-4 text-gray-600" />}
                     onClick={() => handleEdit((row as any).id)}
                   />
-                }
-                {
-                  deleteButton && <Button
+                )}
+                {deleteButton && (
+                  <Button
                     className="max-md:hidden"
                     children={<Trash className="size-4 text-red-600" />}
                     onClick={() => modal.open()}
                   />
-                }
+                )}
                 {customButtons && customButtons(row)}
               </td>
             </tr>
-
           )) ?? "No hay resultados"}
         </tbody>
       </table>
@@ -124,12 +122,8 @@ function Table<T>({
         openModal={modal.isOpen}
         setOpenModal={modal.close}
       >
-
         <div className="flex justify-between gap-3 [&>button]:bg-white [&>button]:text-black [&>button]:border-gray-200 [&>button]:rounded-md [&>button]:p-2 [&>button]:text-small [&>button]:font-semibold [&>button]:hover:bg-gray-200 [&>button]:border [&>button]:focus:bg-gray-100 mt-4">
-          <Button
-            className="text-small bg-white"
-            onClick={() => modal.close()}
-          >
+          <Button className="text-small bg-white" onClick={() => modal.close()}>
             Salir
           </Button>
           <Button
@@ -142,7 +136,7 @@ function Table<T>({
       </Modal>
 
       {pagination && <Pagination data={pagination} setPage={setPage} />}
-    </div >
+    </div>
   );
 }
 
