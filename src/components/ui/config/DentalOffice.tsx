@@ -11,25 +11,7 @@ import { supabase } from "@store";
 import Select from "@components/ui/Select";
 import type { clinicType, UserType } from "@types";
 import { Toast } from "@utils";
-import { set } from "zod";
-
-type Props = {
-    children: React.ReactNode;
-    title: string;
-    description: string;
-};
-
-const SectionLayout = ({ children, title, description }: Props) => {
-    return (
-        <section className="bg-white border border-gray-300 rounded-md p-5 grid gap-4">
-            <div>
-                <h2 className="text-subtitle font-bold">{title}</h2>
-                <p className="text-small text-gray-500">{description}</p>
-            </div>
-            {children}
-        </section>
-    );
-};
+import { SectionLayout } from "@components/layout";
 
 function DentalOffice() {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -57,7 +39,7 @@ function DentalOffice() {
         message: "Error al obtener datos de usuario",
     });
 
-    console.log(clinic);
+    // console.log(clinic);
 
     const { data: users } = useGet<UserType[]>({
         key: ["users", "Admin"],
@@ -65,13 +47,13 @@ function DentalOffice() {
         message: "Error al obtener datos de paciente",
     });
 
-    console.log(users)
+    // console.log(users)
 
     const {
         handleSubmit,
         register,
         reset,
-        watch,
+        // watch,
         formState: { errors },
     } = useForm<DentalOfficeFormValues>({
         resolver: zodResolver(dentalOfficeSchema),
