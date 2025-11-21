@@ -5,14 +5,14 @@ import {
 } from "./appointmentSchema";
 import { patientSchema, type PatientFormValues } from "./patientSchema";
 import { userSchema, type UserFormValues } from "./userSchema";
-import { roleSchema, type RoleFormValues } from "./roleSchema";
+import { userRoleSchema, type UserRoleFormValues } from "./userRoleSchema";
 import {
   dentalOfficeSchema,
   type DentalOfficeFormValues,
 } from "./dentalOfficeSchema";
 import { stateSchema, type StateFormValues } from "./stateSchema";
 
-export { roleSchema, type RoleFormValues };
+export { userRoleSchema, type UserRoleFormValues };
 export { appointmentSchema, patientSchema, personSchema };
 export type { AppointmentFormValues, PatientFormValues };
 export { userSchema, type UserFormValues };
