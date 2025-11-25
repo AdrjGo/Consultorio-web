@@ -1,5 +1,5 @@
 import { PageWrapper } from "@components/layout/PageWrapper"
-import { CustomTabs, DentalOffice } from "@components/ui"
+import { CustomTabs, DentalOffice, RolePermission } from "@components/ui"
 import { Clock, FileText, Settings, UsersRound } from "lucide-react";
 import { useState } from "react";
 
@@ -35,7 +35,7 @@ function Config({ tab }: { tab: string }) {
                     {
                         value: 4,
                         label: <><UsersRound size={17} /> Roles y Permisos</>,
-                        content: <div>Configuración de Notificaciones</div>
+                        content: <RolePermission />
                     }
                 ]}
             />

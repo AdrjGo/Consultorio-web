@@ -5,7 +5,7 @@ import Patients from "./Patients.tsx";
 import PatientProfile from "./PatientProfile.tsx";
 import UserManagement from "./UserManagement.tsx";
 import Config from "./Config.tsx";
-import RolModal from "@components/ui/user/RolModal.tsx";
+import RolModal from "@components/ui/user/UserRoleModal.tsx";
 
 export {
   Login,

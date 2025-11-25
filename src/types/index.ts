@@ -7,6 +7,8 @@ import type { Pagination } from "./Pagination";
 import type { clinicType } from "./clinicType";
 import type { UserRoleType } from "./UserRoleType";
 import type { ModalState } from "./ModalStateType";
+import type { PermissionType, PermissionKeyType } from "./PermissionType";
+import type { RolePermissionsType } from "types/RolePermissionsType";
 
 export type {
   PatientType,
@@ -19,4 +21,7 @@ export type {
   clinicType,
   UserRoleType,
   ModalState,
+  PermissionType,
+  PermissionKeyType,
+  RolePermissionsType,
 };
