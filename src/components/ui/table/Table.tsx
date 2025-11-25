@@ -2,7 +2,7 @@ import Button from "@components/ui/Button";
 import Modal from "@components/ui/Modal";
 import Pagination from "@components/ui/table/Pagination";
 import { useModal } from "@hooks";
-import { Eye, PencilLine, Trash } from "lucide-react";
+import { Eye, SquarePen, Trash } from "lucide-react";
 import React from "react";
 import { useNavigate } from "react-router";
 import { twMerge } from "tailwind-merge";
@@ -91,23 +91,27 @@ function Table<T>({
               <td className="[&>button]:w-fit [&>button]:bg-transparent [&>button]:hover:bg-gray-200 flex gap-2 justify-center">
                 {viewButton && (
                   <Button
-                    children={<Eye className="size-4 text-blue-600" />}
+                    className="max-md:hidden text-blue-600"
                     onClick={() => handleProfile((row as any).id)}
-                  />
+                  >
+                    <Eye className="size-4" /> Ver
+                  </Button>
                 )}
                 {editButton && (
                   <Button
-                    className="max-md:hidden"
-                    children={<PencilLine className="size-4 text-gray-600" />}
+                    className="max-md:hidden text-amber-500"
                     onClick={() => handleEdit((row as any).id)}
-                  />
+                  >
+                    <SquarePen className="size-4" /> Editar
+                  </Button>
                 )}
                 {deleteButton && (
                   <Button
-                    className="max-md:hidden"
-                    children={<Trash className="size-4 text-red-600" />}
+                    className="max-md:hidden text-red-600"
                     onClick={() => modal.open()}
-                  />
+                  >
+                    <Trash className="size-4" /> Eliminar
+                  </Button>
                 )}
                 {customButtons && customButtons(row)}
               </td>
