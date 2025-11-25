@@ -34,7 +34,7 @@ function FormRoles({
   const onSubmit = (data: UserRoleFormValues) => {
     const body = data.roleIds.map((roleId) => ({ roleId, userId }));
     update(body);
-    // console.log("Body enviado:", body);
+    console.log("Body enviado:", body);
   };
 
   return (

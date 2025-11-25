@@ -55,7 +55,7 @@ function UserRoleModal({ modalSecurity, userId }: UserRoleModalProps) {
 
   console.log(methods.watch());
 
-  if (!roles || !userRoles) return "Cargando roles...";
+  if (!roles || !userRoles || !userId) return "Cargando roles...";
 
   return (
     <Modal

@@ -1,45 +1,106 @@
 import Button from "@components/ui/Button";
 import Input from "@components/ui/Input";
 import Modal from "@components/ui/Modal";
-import { useGet, usePost } from "@hooks";
-import type { RoleWithPermissionsFormValues } from "@schemas";
-import type { ModalState, RolePermissionsType } from "@types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useGet, usePost, useUpdate } from "@hooks";
+import {
+  roleWithPermissionsSchema,
+  type RoleWithPermissionsFormValues,
+} from "@schemas";
+import type {
+  ModalState,
+  RolePermissionsType,
+  roleWithPermissions,
+} from "@types";
+import { getUrlParams } from "@utils";
+import { useEffect } from "react";
 import { useForm, useWatch, type Control } from "react-hook-form";
 
 type CreateRolModalProps = {
   modalFormRole: ModalState;
+  closeModal: () => void;
+  isEditing: boolean;
 };
 
-function CreateRoleModal({ modalFormRole }: CreateRolModalProps) {
+function CreateRoleModal({
+  modalFormRole,
+  closeModal,
+  isEditing,
+}: CreateRolModalProps) {
   const {
     handleSubmit,
     register,
     control,
-    // watch,
+    reset,
+    watch,
     formState: { errors, isSubmitting },
-  } = useForm<RoleWithPermissionsFormValues>();
+  } = useForm<RoleWithPermissionsFormValues>({
+    resolver: zodResolver(roleWithPermissionsSchema),
+    defaultValues: {
+      role: {
+        name: "",
+        description: "",
+      },
+      permissions: [],
+    },
+  });
+
+  console.log(errors);
+
+  // console.log(watch());
 
   const { data: rolePermissions } = useGet<RolePermissionsType[]>({
     key: "roles",
     urlEndpoint: "Permission",
     message: "Error al obtener datos de roles",
   });
-  // console.log(watch());
+
+  const idRole = getUrlParams({ name: "role" });
+
+  const { data: roleWithPermission } = useGet<roleWithPermissions>({
+    key: ["roleWithPermission", idRole ?? ""],
+    urlEndpoint: `Role/${idRole}/permissions`,
+    message: "Error al obtener datos de roles",
+    enabled: Boolean(idRole),
+  });
+
+  useEffect(() => {
+    if (roleWithPermission && isEditing) {
+      reset({
+        role: {
+          name: roleWithPermission.name,
+          description: roleWithPermission.description,
+        },
+        permissions: roleWithPermission.permissions,
+      });
+    }
+  }, [reset, roleWithPermission, idRole]);
+
+  // console.log(roleWithPermission);
 
   const { post } = usePost<RoleWithPermissionsFormValues, unknown>({
     url: "Role/createWithPermissions",
     setOpenModal: modalFormRole.close,
   });
 
+  const { update } = useUpdate<RoleWithPermissionsFormValues, unknown>({
+    method: "PATCH",
+    url: `Role/${idRole}/updateWithPermissions`,
+    successMessage: "Role actualizado con éxito",
+    setOpenModal: modalFormRole.close,
+  });
+
   const onSubmit = (data: RoleWithPermissionsFormValues) => {
-    post(data);
+    isEditing ? update(data) : post(data);
     console.log(data);
   };
+
+  if (isEditing && !roleWithPermission) return null;
 
   return (
     <Modal
       openModal={modalFormRole.isOpen}
-      setOpenModal={modalFormRole.close}
+      setOpenModal={closeModal}
       classNames="p-0 !h-3/4 !w-3/4 overflow-hidden"
     >
       <form
@@ -49,7 +110,9 @@ function CreateRoleModal({ modalFormRole }: CreateRolModalProps) {
         <div className="flex gap-2 w-full">
           <section className="grid gap-4 p-4 w-[30%] h-fit">
             <span className="border-b border-gray-200 pb-3">
-              <h2 className="text-normal font-semibold">Crear nuevo Rol</h2>
+              <h2 className="text-normal font-semibold">
+                {isEditing ? "Editar Rol" : "Crear nuevo Rol"}
+              </h2>
               <p className="text-small text-gray-500">
                 Define la información básica del rol
               </p>
@@ -82,9 +145,12 @@ function CreateRoleModal({ modalFormRole }: CreateRolModalProps) {
 
           <section className="bg-[#f9fafb] p-4 border-l border-gray-100 w-[70%] h-full  grid gap-4 overflow-hidden">
             <span className="border-b border-gray-300 pb-3">
-              <h2 className="text-normal font-semibold">Asignar Permisos</h2>
+              <h2 className="text-normal font-semibold">
+                {isEditing ? "Editar" : "Asignar"} Permisos
+              </h2>
               <p className="text-small text-gray-500">
-                Define los permisos del nuevo rol (pueden ser modificados)
+                Define los permisos del rol (pueden ser modificados en el
+                futuro)
               </p>
               <Input
                 forInput="searchPermissions"
@@ -92,6 +158,11 @@ function CreateRoleModal({ modalFormRole }: CreateRolModalProps) {
               />
             </span>
             <div className="grid gap-6 size-full overflow-y-scroll pr-1">
+              {errors && (
+                <p className="text-red-500 text-small mt-1">
+                  {errors.permissions?.message}
+                </p>
+              )}
               {rolePermissions?.map((rolePermission, index) => (
                 <div
                   className="grid border-b border-gray-200 pb-4 transition-colors"
@@ -135,6 +206,7 @@ function CreateRoleModal({ modalFormRole }: CreateRolModalProps) {
 
         <div className="flex gap-4">
           <Button
+            className="bg-transparent text-black border border-back"
             children="Cancelar"
             onClick={() => modalFormRole.close()}
             type="button"

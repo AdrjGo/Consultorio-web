@@ -8,7 +8,10 @@ import type { clinicType } from "./clinicType";
 import type { UserRoleType } from "./UserRoleType";
 import type { ModalState } from "./ModalStateType";
 import type { PermissionType, PermissionKeyType } from "./PermissionType";
-import type { RolePermissionsType } from "types/RolePermissionsType";
+import type {
+  RolePermissionsType,
+  roleWithPermissions,
+} from "types/RolePermissionsType";
 
 export type {
   PatientType,
@@ -24,4 +27,5 @@ export type {
   PermissionType,
   PermissionKeyType,
   RolePermissionsType,
+  roleWithPermissions,
 };

@@ -4,7 +4,7 @@ import { twMerge } from "tailwind-merge";
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   forInput: string | undefined;
   label?: string;
-  errors?: FieldError | undefined;
+  errors?: FieldError;
   icon?: React.ReactNode;
   maxLength?: number;
 }

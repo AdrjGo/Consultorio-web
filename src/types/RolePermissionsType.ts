@@ -5,3 +5,10 @@ export type RolePermissionsType = {
   key: string;
   permissions: PermissionType[];
 };
+
+export type roleWithPermissions = {
+  id: string;
+  name: string;
+  description: string;
+  permissions: [];
+};
