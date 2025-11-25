@@ -82,7 +82,7 @@ function Login() {
             label="Email"
             placeholder="correo@email.com"
             {...register("email")}
-            errors={errors.email?.message}
+            errors={errors.email}
           />
           <Input
             forInput="password"
@@ -90,7 +90,7 @@ function Login() {
             label="Contraseña"
             placeholder="••••••••"
             {...register("password")}
-            errors={errors.password?.message}
+            errors={errors.password}
           />
           <Button
             type="submit"

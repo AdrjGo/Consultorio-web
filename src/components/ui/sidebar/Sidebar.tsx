@@ -16,7 +16,10 @@ function Sidebar({ panelOpen }: { panelOpen: boolean }) {
 
   const logout = () => {
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-    navigate("/");
+    if (!document.cookie.includes("token")) {
+      navigate("/");
+      window.location.reload();
+    }
   };
 
   const { data } = useGetUser();
@@ -32,17 +35,18 @@ function Sidebar({ panelOpen }: { panelOpen: boolean }) {
   return (
     <nav
       className={`flex flex-col bg-white md:max-w-64 h-screen border-r border-gray-200 transition-all duration-400 ease-in-out
-    ${panelOpen ? "md:w-full w-72 p-3 opacity-100" : "w-0 p-0 opacity-0 overflow-hidden"
-        }`}
+    ${
+      panelOpen
+        ? "md:w-full w-72 p-3 opacity-100"
+        : "w-0 p-0 opacity-0 overflow-hidden"
+    }`}
     >
       <section className="flex items-center w-full top-0 h-14 gap-1.5 ">
-        {
-          !import.meta.env.VITE_LOGO_SYS_URL ? (
-            <Icons.Logo className="size-14" />
-          ) : (
-            <Icons.LogoUser className="size-14" />
-          )
-        }
+        {!import.meta.env.VITE_LOGO_SYS_URL ? (
+          <Icons.Logo className="size-14" />
+        ) : (
+          <Icons.LogoUser className="size-14" />
+        )}
         <div className="text-sm/6">
           <h2 className="text-body font-bold">{clinic?.name ?? "OdontoDIS"}</h2>
           <p className="text-sm text-gray-500">{pagetab}</p>
