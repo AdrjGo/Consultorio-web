@@ -3,7 +3,7 @@ import Modal from "@components/ui/Modal";
 import Pagination from "@components/ui/table/Pagination";
 import { useModal } from "@hooks";
 import { Eye, SquarePen, Trash } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { twMerge } from "tailwind-merge";
 
@@ -25,7 +25,7 @@ type TableProps<T> = {
   viewButton?: boolean;
   editButton?: boolean;
   deleteButton?: boolean;
-  handleDelete?: () => void;
+  handleDelete?: (id: string) => void;
   deleteTitle?: string;
   deleteDesc?: string;
   customButtons?: (row: T) => React.ReactNode;
@@ -51,6 +51,7 @@ function Table<T>({
   const handleProfile = (id: string) => {
     navigate(urlPageEdit ? `${urlPageEdit}/${id}` : "/odis/404");
   };
+  const [deleteId, setDeleteId] = useState<string | null>(null);
 
   const modal = useModal();
 
@@ -99,7 +100,7 @@ function Table<T>({
                 )}
                 {editButton && (
                   <Button
-                    className="max-md:hidden text-amber-500"
+                    className="max-md:hidden text-blue-900"
                     onClick={() => handleEdit((row as any).id)}
                   >
                     <SquarePen className="size-4" /> Editar
@@ -108,7 +109,10 @@ function Table<T>({
                 {deleteButton && (
                   <Button
                     className="max-md:hidden text-red-600"
-                    onClick={() => modal.open()}
+                    onClick={() => {
+                      setDeleteId((row as any).id);
+                      modal.open();
+                    }}
                   >
                     <Trash className="size-4" /> Eliminar
                   </Button>
@@ -132,7 +136,7 @@ function Table<T>({
           </Button>
           <Button
             className="text-white! bg-red-500!"
-            onClick={() => handleDelete?.()}
+            onClick={() => handleDelete?.(deleteId ?? "")}
           >
             Confirmar
           </Button>

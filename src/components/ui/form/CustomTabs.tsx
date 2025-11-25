@@ -10,7 +10,7 @@ interface Tab {
 interface TabsProps {
   tabs: Tab[];
   activeTab: number;
-  setActiveTab: React.Dispatch<React.SetStateAction<number>>;
+  setActiveTab: React.Dispatch<React.SetStateAction<number>> | any;
   classNameContent?: string;
 }
 
