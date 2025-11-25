@@ -3,7 +3,7 @@ import { getToken, Toast } from "@utils";
 
 type Props = {
   setOpenModal?: (open: boolean) => void;
-  successMessage: string;
+  successMessage?: string;
   url: string;
 };
 
@@ -23,9 +23,10 @@ function useDelete<T, R>({ setOpenModal, successMessage, url }: Props) {
       if (!res.ok) throw new Error(result.message || "Error al procesar");
       return result;
     },
-    onSuccess: () => {
+    onSuccess: (data: any) => {
       setOpenModal?.(false);
-      Toast.success(successMessage);
+      Toast.success(data?.message ?? successMessage);
+      window.location.reload();
     },
     onError: (error: any) => {
       Toast.error(error.message);
