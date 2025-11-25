@@ -18,7 +18,7 @@ function CustomTab({
   tabs,
   activeTab,
   setActiveTab,
-  classNameContent
+  classNameContent,
 }: TabsProps) {
   return (
     <section>
@@ -28,8 +28,9 @@ function CustomTab({
           <button
             key={tab.value}
             type="button"
-            className={`text-small font-bold flex items-center justify-center gap-1 flex-1 py-2 max-md:px-2 m-1 text-nowrap text-gray-500 ${activeTab === tab.value ? "bg-white rounded-md text-black!" : ""
-              }`}
+            className={`text-small font-bold flex items-center justify-center gap-1 flex-1 py-2 max-md:px-2 m-1 text-nowrap text-gray-500 ${
+              activeTab === tab.value ? "bg-white rounded-md text-black!" : ""
+            }`}
             onClick={() => setActiveTab(tab.value ?? "1")}
           >
             {tab.label}

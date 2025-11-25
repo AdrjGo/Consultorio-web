@@ -6,8 +6,8 @@ type Props = {
   openModal: boolean;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
   children: React.ReactNode;
-  title: string;
-  desc: string;
+  title?: string;
+  desc?: string;
   classNames?: string;
   onClickOutside?: () => void;
 };
@@ -67,7 +67,7 @@ function Modal({
       )}
       onClose={() => setOpenModal(false)}
     >
-      <div className="grid justify-between items-center mb-4">
+      <div className="grid justify-between items-center">
         <h2 className="text-body font-bold">{title}</h2>
         <span className="text-small text-gray-500">{desc}</span>
 
