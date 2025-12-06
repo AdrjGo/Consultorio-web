@@ -37,7 +37,7 @@ function UserRoleModal({ modalSecurity, userId }: UserRoleModalProps) {
     enabled: userId ? true : false,
   });
 
-  const methods = useForm<UserRoleFormValues | StateFormValues>();
+  const methods = useForm();
 
   useEffect(() => {
     if (modalSecurity.isOpen && userId && userRoles) {

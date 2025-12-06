@@ -1,6 +1,7 @@
 import Button from "@components/ui/Button";
 import { CustomTabs } from "@components/ui/form/CustomTabs";
 import type { PatientFormValues } from "@schemas";
+import { useResponsibleStore } from "@store";
 import { Save } from "lucide-react";
 import React from "react";
 import type { UseFormHandleSubmit } from "react-hook-form";
@@ -19,7 +20,7 @@ type PatientFormProps = {
   activeTab: number;
   setActiveTab: React.Dispatch<React.SetStateAction<number>>;
   responsible: boolean | undefined;
-  setResponsible: React.Dispatch<React.SetStateAction<boolean>>;
+  // setResponsible: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 function PatientForm({
@@ -29,9 +30,11 @@ function PatientForm({
   activeTab,
   setActiveTab,
   formKey,
-  responsible,
-  setResponsible,
-}: PatientFormProps) {
+}: // responsible,
+// setResponsible,
+PatientFormProps) {
+  const { responsible, setResponsible, toggleResponsible } =
+    useResponsibleStore();
 
   return (
     <>
@@ -44,8 +47,9 @@ function PatientForm({
         {activeTab === tabs[tabs.length - 1].value && (
           <Button
             type="submit"
-            className={`text-small text-white! px-5 ${activeTab == 3 ? "w-full!" : ""
-              }`}
+            className={`text-small text-white! px-5 ${
+              activeTab == 3 ? "w-full!" : ""
+            }`}
           >
             <Save className="size-4" />
             Guardar
@@ -58,7 +62,7 @@ function PatientForm({
             type="checkbox"
             id="responsible"
             checked={responsible}
-            onChange={() => setResponsible(!responsible)}
+            onChange={() => toggleResponsible()}
           />
           <label htmlFor="responsible" className="text-small">
             El paciente es menor de edad
@@ -70,4 +74,3 @@ function PatientForm({
 }
 
 export const PatientFormMemo = React.memo(PatientForm);
-

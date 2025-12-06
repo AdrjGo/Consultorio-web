@@ -201,10 +201,10 @@ function UserManagement({ tab }: { tab: string }) {
           handleEdit={handleEdit}
           customButtons={(row) => (
             <Button
-              className="max-md:hidden"
+              className="max-md:hidden text-green-600"
               onClick={() => handleSecurity(row.id)}
             >
-              <ShieldUser className="size-5 text-blue-500" />
+              <ShieldUser className="size-4" /> Seguridad
             </Button>
           )}
         />

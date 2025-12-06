@@ -1,9 +1,10 @@
+import type { FieldError } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 
 interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   forSelect: string;
   label?: string;
-  errors?: string | undefined;
+  errors?: FieldError | undefined;
   values?: string[] | number[];
   options?: string[];
   optionDefault?: boolean;
@@ -48,7 +49,9 @@ function Select({
           </option>
         ))}
       </select>
-      {errors && <p className="text-red-500 text-small mt-1">{errors}</p>}
+      {errors && (
+        <p className="text-red-500 text-small mt-1">{errors.message}</p>
+      )}
     </div>
   );
 }

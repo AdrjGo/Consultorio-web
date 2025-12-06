@@ -1,16 +1,15 @@
 import Input from "@components/ui/Input";
 import Select from "@components/ui/Select";
 import type { PatientFormValues } from "@schemas";
-import type { FieldErrors, UseFormRegister } from "react-hook-form";
+import type { FieldError, FieldErrors, UseFormRegister } from "react-hook-form";
 
 type Props = {
   register: UseFormRegister<any>;
   errors: FieldErrors<PatientFormValues>;
 };
 
-function getError(errors: FieldErrors, path: string): string | undefined {
-  return path.split(".").reduce((acc, key) => acc?.[key], errors as any)
-    ?.message;
+function getError(errors: FieldErrors, path: string): FieldError {
+  return path.split(".").reduce((acc, key) => acc?.[key], errors as any);
 }
 
 function FormContact({ register, errors }: Props) {
@@ -74,7 +73,7 @@ function FormContact({ register, errors }: Props) {
         placeholder="Calle, número, etc..."
         className="w-full mb-3"
         {...register("address")}
-        errors={errors.address?.message}
+        errors={errors.address}
       />
       <div className="grid grid-cols-4 gap-x-5 gap-y-3 mb-3">
         {contactFields.map((field, index) => {

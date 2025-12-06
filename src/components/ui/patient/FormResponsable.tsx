@@ -1,26 +1,15 @@
 import Input from "@components/ui/Input";
 import Select from "@components/ui/Select";
 import type { PatientFormValues } from "@schemas";
-import type { FieldErrors, UseFormRegister } from "react-hook-form";
+import type { FieldError, FieldErrors, UseFormRegister } from "react-hook-form";
 
 type Props = {
-  responsible: boolean;
-  setResponsible: React.Dispatch<React.SetStateAction<boolean>>;
   register: UseFormRegister<any>;
   errors: FieldErrors<PatientFormValues>;
   field: string;
 };
 
-function getError(errors: FieldErrors, path: string): string | undefined {
-  return path.split(".").reduce((acc, key) => acc?.[key], errors as any)
-    ?.message;
-}
-
-function FormResponsable({
-  register,
-  errors,
-  field,
-}: Props) {
+function FormResponsable({ register, errors, field }: Props) {
   const responsibleFields = [
     {
       name: "parentage",
@@ -103,55 +92,40 @@ function FormResponsable({
     },
   ];
 
-  return (
-    <section>
-      {/* <div className="flex gap-2 my-2">
-        <input
-          type="checkbox"
-          id="responsible"
-          checked={responsible}
-          onChange={() => setResponsible(!responsible)}
-        />
-        <label htmlFor="responsible" className="text-small">
-          El paciente es menor de edad
-        </label>
-      </div> */}
+  function getError(errors: FieldErrors, path: string): FieldError {
+    return path.split(".").reduce((acc, key) => acc?.[key], errors as any);
+  }
 
-      {/* <div className="border rounded-md py-3 px-3 border-blue-200 bg-blue-50 grid gap-4"> */}
-      {/* <span className="text-small text-gray-500 font-medium">
-          Datos del responsable
-        </span> */}
-      <section className="grid grid-cols-4 gap-x-5 gap-y-3 mb-3">
-        {responsibleFields.map((field) => {
-          const error = getError(errors, field.register);
-          return (
-            <div key={field.name} className="col-span-2">
-              {field.component === "input" ? (
-                <Input
-                  forInput={field.name}
-                  label={field.label}
-                  type={field.type}
-                  placeholder={field.placeholder}
-                  className="w-full"
-                  {...register(field.register)}
-                  maxLength={20}
-                  errors={error}
-                />
-              ) : (
-                <Select
-                  forSelect={field.name}
-                  label={field.label}
-                  options={field.options?.map((o) => o.label)}
-                  values={field.options?.map((o) => o.value)}
-                  {...register(field.register)}
-                  errors={error}
-                />
-              )}
-            </div>
-          );
-        })}
-      </section>
-      {/* </div> */}
+  return (
+    <section className="grid grid-cols-4 gap-x-5 gap-y-3 mb-3">
+      {responsibleFields.map((field) => {
+        const error = getError(errors, field.register);
+        return (
+          <div key={field.name} className="col-span-2">
+            {field.component === "input" ? (
+              <Input
+                forInput={field.name}
+                label={field.label}
+                type={field.type}
+                placeholder={field.placeholder}
+                className="w-full"
+                {...register(field.register)}
+                maxLength={20}
+                errors={error}
+              />
+            ) : (
+              <Select
+                forSelect={field.name}
+                label={field.label}
+                options={field.options?.map((o) => o.label)}
+                values={field.options?.map((o) => o.value)}
+                {...register(field.register)}
+                errors={error}
+              />
+            )}
+          </div>
+        );
+      })}
     </section>
   );
 }

@@ -1,14 +1,13 @@
 import Input from "@components/ui/Input";
 import Select from "@components/ui/Select";
 import type { PatientFormValues } from "@schemas";
-import type { FieldErrors, UseFormRegister } from "react-hook-form";
+import type { FieldError, FieldErrors, UseFormRegister } from "react-hook-form";
 
 type Props = {
   register: UseFormRegister<any>;
   errors: FieldErrors<PatientFormValues>;
   field?: string;
 };
-
 
 function FormPerson({ register, errors, field }: Props) {
   const personFields = [
@@ -80,8 +79,8 @@ function FormPerson({ register, errors, field }: Props) {
     },
   ];
 
-  function getError(errors: any, path: string) {
-    return path.split('.').reduce((acc, key) => acc?.[key], errors)?.message;
+  function getError(errors: FieldErrors, path: string): FieldError {
+    return path.split(".").reduce((acc, key) => acc?.[key], errors as any);
   }
 
   return (
