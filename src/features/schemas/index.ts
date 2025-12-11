@@ -20,6 +20,7 @@ import {
   roleWithPermissionsSchema,
   type RoleWithPermissionsFormValues,
 } from "./roleWithPermissionsSchema";
+import { dynamicFormSchema, type DynamicFormValues } from "./dynamicFormSchema";
 
 export { userRoleSchema, type UserRoleFormValues };
 export { appointmentSchema, patientSchema, personSchema };
@@ -30,3 +31,4 @@ export { stateSchema, type StateFormValues };
 export { rolePermissionsSchema, type RolePermissionsFormValues };
 export { roleSchema, type RoleFormValues };
 export { roleWithPermissionsSchema, type RoleWithPermissionsFormValues };
+export { dynamicFormSchema, type DynamicFormValues };

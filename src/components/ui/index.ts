@@ -32,6 +32,8 @@ import FormState from "@components/ui/user/RolModal/FormState";
 import DentalOffice from "@components/ui/config/DentalOffice";
 import RolePermission from "@components/ui/config/RolePermission";
 import CreateRolModal from "@components/ui/config/RolePersmissonModal/CreateRoleModal";
+import DynamicForm from "@components/ui/config/DynamicForm";
+import FormModal from "@components/ui/config/FormModal/FormModal";
 
 export {
   Input,
@@ -59,4 +61,6 @@ export {
   FormState,
   RolePermission,
   CreateRolModal,
+  DynamicForm,
+  FormModal,
 };
