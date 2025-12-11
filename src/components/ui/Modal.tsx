@@ -36,27 +36,27 @@ function Modal({
   }, [openModal]);
 
   /* Cerrar modal click outside*/
-  useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) return;
+  // useEffect(() => {
+  //   const dialog = dialogRef.current;
+  //   if (!dialog) return;
 
-    const handleClickOutside = (event: MouseEvent) => {
-      const rect = dialog.getBoundingClientRect();
-      const isInDialog =
-        rect.top <= event.clientY &&
-        event.clientY <= rect.bottom &&
-        rect.left <= event.clientX &&
-        event.clientX <= rect.right;
+  //   const handleClickOutside = (event: MouseEvent) => {
+  //     const rect = dialog.getBoundingClientRect();
+  //     const isInDialog =
+  //       rect.top <= event.clientY &&
+  //       event.clientY <= rect.bottom &&
+  //       rect.left <= event.clientX &&
+  //       event.clientX <= rect.right;
 
-      if (!isInDialog) {
-        onClickOutside?.();
-        setOpenModal(false);
-      }
-    };
+  //     if (!isInDialog) {
+  //       onClickOutside?.();
+  //       setOpenModal(false);
+  //     }
+  //   };
 
-    dialog.addEventListener("click", handleClickOutside);
-    return () => dialog.removeEventListener("click", handleClickOutside);
-  }, [setOpenModal, onClickOutside]);
+  //   dialog.addEventListener("click", handleClickOutside);
+  //   return () => dialog.removeEventListener("click", handleClickOutside);
+  // }, [setOpenModal, onClickOutside]);
 
   return (
     <dialog
