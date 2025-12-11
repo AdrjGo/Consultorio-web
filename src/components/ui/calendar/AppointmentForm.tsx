@@ -35,7 +35,11 @@ function AppointmentForm({
   formKey,
 }: AppointmentFormProps) {
   return (
-    <form onSubmit={handleSubmit(onSubmit)} key={formKey} className="grid gap-3">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      key={formKey}
+      className="grid gap-3"
+    >
       <Select
         forSelect="patient"
         label="Paciente"
@@ -47,7 +51,7 @@ function AppointmentForm({
             patient.patientPerson.name + " " + patient.patientPerson.lastName
         )}
         {...register("patientId")}
-        errors={errors.patientId?.message}
+        errors={errors.patientId}
       />
 
       <div className="flex justify-between gap-3">
@@ -57,21 +61,21 @@ function AppointmentForm({
           type="date"
           min={dayjs().format("YYYY-MM-DD")}
           {...register("date")}
-          errors={errors.date?.message}
+          errors={errors.date}
         />
         <Input
           forInput="time"
           label="Hora inicio"
           type="time"
           {...register("startTime")}
-          errors={errors.startTime?.message}
+          errors={errors.startTime}
         />
         <Input
           forInput="time"
           label="Hora fin"
           type="time"
           {...register("endTime")}
-          errors={errors.endTime?.message}
+          errors={errors.endTime}
         />
       </div>
 
@@ -81,7 +85,7 @@ function AppointmentForm({
         values={professional.map((p) => p.id)}
         options={professional.map((p) => p.name)}
         {...register("professionalId")}
-        errors={errors.professionalId?.message}
+        errors={errors.professionalId}
       />
 
       <Select
@@ -90,7 +94,7 @@ function AppointmentForm({
         options={appointmentTypes?.map((t) => t.label)}
         values={appointmentTypes?.map((t) => t.value)}
         {...register("type", { valueAsNumber: true })}
-        errors={errors.type?.message}
+        errors={errors.type}
       />
 
       <Select
@@ -99,7 +103,7 @@ function AppointmentForm({
         options={appointmentStatus?.map((t) => t.label)}
         values={appointmentStatus?.map((t) => t.value)}
         {...register("status", { valueAsNumber: true })}
-        errors={errors.status?.message}
+        errors={errors.status}
       />
 
       <Input
