@@ -34,6 +34,7 @@ import RolePermission from "@components/ui/config/RolePermission";
 import CreateRolModal from "@components/ui/config/RolePersmissonModal/CreateRoleModal";
 import DynamicForm from "@components/ui/config/DynamicForm";
 import FormModal from "@components/ui/config/FormModal/FormModal";
+import GeneralHistory from "@components/ui/patient/profile/GeneralHistory";
 
 export {
   Input,
@@ -63,4 +64,5 @@ export {
   CreateRolModal,
   DynamicForm,
   FormModal,
+  GeneralHistory,
 };

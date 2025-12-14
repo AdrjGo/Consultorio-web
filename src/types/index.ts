@@ -14,6 +14,7 @@ import type {
 } from "types/RolePermissionsType";
 import type { FormType } from "./FormType";
 import type { SubmoduleType } from "./SubmoduleType";
+import type { FormResType } from "./FormResType";
 
 export type {
   PatientType,
@@ -31,5 +32,6 @@ export type {
   RolePermissionsType,
   roleWithPermissions,
   FormType,
+  FormResType,
   SubmoduleType,
 };
