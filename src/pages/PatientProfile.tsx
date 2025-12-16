@@ -6,6 +6,7 @@ import {
   GeneralHistory,
   Personalata,
   PretreatmentExam,
+  TreatmentSummary,
 } from "@components/ui";
 import { useGet } from "@hooks";
 import type { PatientType } from "@types";
@@ -85,7 +86,7 @@ function PatientProfile() {
           {
             value: 5,
             label: "Resumen de Tratamiento",
-            content: <></>,
+            content: <TreatmentSummary patientId={id ?? ""} />,
           },
           {
             value: 6,

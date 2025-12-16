@@ -40,6 +40,7 @@ import PretreatmentExam from "@components/ui/patient/profile/PretreatmentExam";
 import CreatePretreatmentModal from "@components/ui/patient/CreatePretreatmentModal";
 import TreatmentProcessModal from "@components/ui/patient/TreatmentProcessModal";
 import ClinicHistory from "@components/ui/patient/profile/ClinicHistory";
+import TreatmentSummary from "@components/ui/patient/profile/TreatmentSummary";
 
 export {
   Input,
@@ -75,4 +76,5 @@ export {
   CreatePretreatmentModal,
   TreatmentProcessModal,
   ClinicHistory,
+  TreatmentSummary,
 };
