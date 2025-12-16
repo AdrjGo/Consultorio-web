@@ -1,6 +1,7 @@
 import { PageWrapper } from "@components/layout/PageWrapper";
 import {
   Button,
+  ClinicHistory,
   CustomTabs,
   GeneralHistory,
   Personalata,
@@ -79,7 +80,7 @@ function PatientProfile() {
           {
             value: 4,
             label: "Historia de ortodoncia",
-            content: <></>,
+            content: <ClinicHistory patientId={id ?? ""} />,
           },
           {
             value: 5,

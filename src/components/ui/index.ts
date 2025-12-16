@@ -15,14 +15,6 @@ import Pagination from "./table/Pagination";
 import DataList from "./ComboBox";
 import AppointmentForm from "./calendar/AppointmentForm";
 
-/* Componentes UI - Patientes */
-import FormPerson from "@components/ui/patient/person/FormPerson";
-import FormContact from "@components/ui/patient/FormContact";
-import FormResponsable from "@components/ui/patient/FormResponsable";
-import { PatientFormMemo } from "@components/ui/patient/PatientForm";
-import Personalata from "@components/ui/patient/profile/PersonaData";
-import FormUserPerson from "@components/ui/user/FormUserPerson";
-
 /* Componentes UI - Usuarios */
 import UserModal from "@components/ui/user/UserModal";
 import InputFile from "@components/ui/InputFile";
@@ -33,12 +25,21 @@ import FormState from "@components/ui/user/RolModal/FormState";
 import DentalOffice from "@components/ui/config/DentalOffice";
 import RolePermission from "@components/ui/config/RolePermission";
 import CreateRolModal from "@components/ui/config/RolePersmissonModal/CreateRoleModal";
+
+/* Componentes UI - Patientes */
+import FormPerson from "@components/ui/patient/person/FormPerson";
+import FormContact from "@components/ui/patient/FormContact";
+import FormResponsable from "@components/ui/patient/FormResponsable";
+import { PatientFormMemo } from "@components/ui/patient/PatientForm";
+import Personalata from "@components/ui/patient/profile/PersonaData";
+import FormUserPerson from "@components/ui/user/FormUserPerson";
 import DynamicForm from "@components/ui/config/DynamicForm";
 import FormModal from "@components/ui/config/FormModal/FormModal";
 import GeneralHistory from "@components/ui/patient/profile/GeneralHistory";
 import PretreatmentExam from "@components/ui/patient/profile/PretreatmentExam";
 import CreatePretreatmentModal from "@components/ui/patient/CreatePretreatmentModal";
 import TreatmentProcessModal from "@components/ui/patient/TreatmentProcessModal";
+import ClinicHistory from "@components/ui/patient/profile/ClinicHistory";
 
 export {
   Input,
@@ -73,4 +74,5 @@ export {
   PretreatmentExam,
   CreatePretreatmentModal,
   TreatmentProcessModal,
+  ClinicHistory,
 };
