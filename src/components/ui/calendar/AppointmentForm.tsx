@@ -59,7 +59,7 @@ function AppointmentForm({
           forInput="date"
           label="Fecha"
           type="date"
-          min={dayjs().format("YYYY-MM-DD")}
+          min={!isEditing ? dayjs().format("YYYY-MM-DD") : undefined}
           {...register("date")}
           errors={errors.date}
         />
