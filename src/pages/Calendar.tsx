@@ -19,7 +19,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 import type { AppointmentTypes as AppTypes } from "types/AppointmentType";
 import type { EventClickArg } from "@fullcalendar/core/index.js";
-import { isMobile, removeAccents } from "@utils";
+import { getUrlParams, isMobile, removeAccents, setUrlParams } from "@utils";
 import { getStatusColor } from "@features";
 import { appointmentSchema, type AppointmentFormValues } from "@schemas";
 
@@ -133,8 +133,9 @@ function Calendar({ tab }: { tab: string }) {
   const events =
     appointments?.map((appointment) => ({
       id: appointment.id,
-      title: `${appointment.patient.patientPerson.name} ${appointment.patient.patientPerson.lastName
-        } - ${appointment.type.replaceAll("_", " ")}`,
+      title: `${appointment.patient.patientPerson.name} ${
+        appointment.patient.patientPerson.lastName
+      } - ${appointment.type.replaceAll("_", " ")}`,
       start: appointment.startDate,
       end: appointment.endDate,
       color: getStatusColor(appointment.status),
@@ -143,22 +144,29 @@ function Calendar({ tab }: { tab: string }) {
   // Verificación de si el dispositivo es móvil
   const calendarHeader = isMobile
     ? {
-      left: "prev,next today",
-      center: "title",
-      right: "",
-    }
+        left: "prev,next today",
+        center: "title",
+        right: "",
+      }
     : {
-      left: "prev,next today",
-      center: "title",
-      right: "dayGridMonth,timeGridWeek,listWeek",
-    };
+        left: "prev,next today",
+        center: "title",
+        right: "dayGridMonth,timeGridWeek,listWeek",
+      };
   const initialView = isMobile ? "listWeek" : "dayGridMonth";
 
   // Función para manejar el evento de clic en el calendario
   const handleEventClick = (info: EventClickArg | any) => {
-    const eventId = info.event.id;
+    // const eventId = info.event.id;
+    setUrlParams({
+      name: "appointmentId",
+      value: info.event.id,
+    });
+
+    const eventId = getUrlParams({ name: "appointmentId" });
+
     const event = appointments?.find((a) => a.id === eventId);
-    // console.log(event);
+    console.log(eventId);
     if (event) {
       reset({
         patientId: event.patientId,
@@ -180,7 +188,7 @@ function Calendar({ tab }: { tab: string }) {
 
       setAppointmentId(event.id);
       setIsEditing(true);
-      modal.open()
+      modal.open();
     }
   };
 
@@ -192,8 +200,19 @@ function Calendar({ tab }: { tab: string }) {
     setIsEditing(false);
     setAppointmentId(null);
     // reset(defaultValues);
-    modal.open()
+    modal.open();
   }, [reset]);
+
+  const closeModal = () => {
+    setIsEditing(false);
+    setAppointmentId(null);
+    setUrlParams({
+      name: "appointmentId",
+      value: "",
+    });
+    reset(defaultValues);
+    modal.close();
+  };
 
   return (
     <PageWrapper
@@ -238,7 +257,7 @@ function Calendar({ tab }: { tab: string }) {
 
       <Modal
         openModal={modal.isOpen}
-        setOpenModal={modal.close}
+        setOpenModal={closeModal}
         title={isEditing ? "Editar Cita" : "Crear Nueva Cita"}
         desc={
           isEditing
