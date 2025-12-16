@@ -12,7 +12,7 @@ import {
 import { columns } from "@constants";
 import { defaultValuesPatient } from "@features";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useGet, useModal, usePost, useUpdate } from "@hooks";
+import { useDelete, useGet, useModal, usePost, useUpdate } from "@hooks";
 import { patientSchema, type PatientFormValues } from "@schemas";
 import { useResponsibleStore } from "@store";
 import type { Pagination, PatientType } from "@types";
@@ -32,9 +32,9 @@ function Patients({ tab }: { tab: string }) {
   );
   const [activeTab, setActiveTab] = useState(1);
   const [isEditing, setIsEditing] = useState(false);
+  const [patientToDelete, setPatientToDelete] = useState<string | null>(null);
   const modal = useModal();
-  const { responsible, setResponsible, toggleResponsible } =
-    useResponsibleStore();
+  const { responsible, setResponsible } = useResponsibleStore();
 
   const { data } = useGet<Pagination<PatientType>>({
     key: ["patient", page, state, debouncedName],
@@ -174,16 +174,21 @@ function Patients({ tab }: { tab: string }) {
 
   const { id } = useParams<{ id: string }>();
 
-  // const { deleteItem } = useDelete({
-  //   url: `Patient/${id}`,
-  //   successMessage: "Cita eliminada con éxito",
-  //   setOpenModal: modal.close,
-  // });
+  const { deleteItem } = useDelete({
+    url: `Patient/${patientToDelete}`,
+  });
 
-  // const handleDelete = (id: string) => {
-  //   setUrlParams({ name: "patientId", value: id });
-  //   deleteItem({ state: "INACTIVE" });
-  // }
+  const handleDelete = (id: string) => {
+    setPatientToDelete(id);
+    deleteItem(patientToDelete);
+    // console.log(id);
+    modal.close();
+  };
+
+  const closeModal = () => {
+    setUrlParams({ name: "patientId", value: "" });
+    modal.close();
+  };
 
   return (
     <>
@@ -215,7 +220,7 @@ function Patients({ tab }: { tab: string }) {
               viewButton
               editButton
               deleteButton
-              // handleDelete={handleDelete}
+              handleDelete={(id: string) => handleDelete(id)}
               deleteTitle="Eliminar Paciente"
               deleteDesc="El paciente cambiará de estado a Inactivo"
               columns={filteredColumns}
@@ -231,7 +236,7 @@ function Patients({ tab }: { tab: string }) {
           <Modal
             classNames="md:w-[50svw]! w-full"
             openModal={modal.isOpen}
-            setOpenModal={modal.close}
+            setOpenModal={closeModal}
             title={isEditing ? "Editar Paciente" : "Agregar Paciente Nuevo"}
             desc="Completa los datos del paciente. Los campos marcados con * son obligatorios."
             onClickOutside={() =>
