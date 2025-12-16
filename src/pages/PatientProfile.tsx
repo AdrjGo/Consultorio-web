@@ -2,6 +2,7 @@ import { PageWrapper } from "@components/layout/PageWrapper";
 import {
   Button,
   ClinicHistory,
+  Contracts,
   CustomTabs,
   GeneralHistory,
   Personalata,
@@ -90,16 +91,21 @@ function PatientProfile() {
           },
           {
             value: 6,
+            label: "Contratos",
+            content: <Contracts patientId={id ?? ""} />,
+          },
+          {
+            value: 7,
             label: "Seguimiento",
             content: <></>,
           },
           {
-            value: 7,
+            value: 8,
             label: "Imágenes",
             content: <></>,
           },
           {
-            value: 8,
+            value: 9,
             label: "Pagos",
             content: <></>,
           },

@@ -7,6 +7,7 @@ import Select from "./Select";
 import { CustomTabs } from "./form/CustomTabs";
 import Filters from "@components/ui/patient/Filters";
 import DeleteModal from "@components/ui/DeleteModal";
+import NoForm from "@components/ui/NoForm";
 
 /* Componentes UI - Calendario */
 import TodayAppoinmentCard from "./calendar/TodayAppoinmentCard";
@@ -41,6 +42,8 @@ import CreatePretreatmentModal from "@components/ui/patient/CreatePretreatmentMo
 import TreatmentProcessModal from "@components/ui/patient/TreatmentProcessModal";
 import ClinicHistory from "@components/ui/patient/profile/ClinicHistory";
 import TreatmentSummary from "@components/ui/patient/profile/TreatmentSummary";
+import Contracts from "@components/ui/patient/profile/Contracts";
+import { AccordionCard } from "@components/ui/patient/AccordionCard";
 
 export {
   Input,
@@ -48,6 +51,7 @@ export {
   Sidebar,
   Modal,
   Select,
+  NoForm,
   DeleteModal,
   TodayAppoinmentCard,
   TableMemo,
@@ -77,4 +81,6 @@ export {
   TreatmentProcessModal,
   ClinicHistory,
   TreatmentSummary,
+  Contracts,
+  AccordionCard,
 };
