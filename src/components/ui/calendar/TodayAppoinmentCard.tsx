@@ -64,6 +64,11 @@ function TodayAppoinmentCard({ onClick }: Props) {
       textColor: "text-yellow-600",
     },
     { status: "Cancelado", color: "bg-red-100", textColor: "text-red-600" },
+    {
+      status: "Completado",
+      color: "bg-green-600",
+      textColor: "text-white",
+    },
   ];
 
   return (
@@ -81,12 +86,14 @@ function TodayAppoinmentCard({ onClick }: Props) {
             ?.slice()
             .sort(
               (a, b) =>
-                new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+                new Date(a.startDate).getTime() -
+                new Date(b.startDate).getTime()
             )
 
             .map((appointment, index) => {
               const color = statusColors.find(
-                (s) => s.status.toLowerCase() === appointment.status.toLowerCase()
+                (s) =>
+                  s.status.toLowerCase() === appointment.status.toLowerCase()
               );
 
               return (
@@ -107,7 +114,10 @@ function TodayAppoinmentCard({ onClick }: Props) {
 
                   <ol className="[&>li]:flex [&>li]:gap-2 items-center text-small grid gap-2">
                     <li className="font-semibold">
-                      <User strokeWidth={1.25} className="text-gray-600 size-5" />
+                      <User
+                        strokeWidth={1.25}
+                        className="text-gray-600 size-5"
+                      />
                       {appointment.patient.patientPerson.name}
                     </li>
                     <li>
@@ -164,10 +174,10 @@ function TodayAppoinmentCard({ onClick }: Props) {
                 </section>
               );
             }) ?? (
-              <div className="text-center text-gray-400 font-semibold">
-                No hay citas para hoy
-              </div>
-            )}
+            <div className="text-center text-gray-400 font-semibold">
+              No hay citas para hoy
+            </div>
+          )}
         </div>
       </section>
     </div>

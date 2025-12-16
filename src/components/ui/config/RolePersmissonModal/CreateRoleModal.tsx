@@ -152,10 +152,10 @@ function CreateRoleModal({
                 Define los permisos del rol (pueden ser modificados en el
                 futuro)
               </p>
-              <Input
+              {/* <Input
                 forInput="searchPermissions"
                 placeholder="Buscar permisos..."
-              />
+              /> */}
             </span>
             <div className="grid gap-6 size-full overflow-y-scroll pr-1">
               {errors && (

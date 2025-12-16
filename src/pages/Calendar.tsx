@@ -83,6 +83,7 @@ function Calendar({ tab }: { tab: string }) {
     register,
     handleSubmit,
     reset,
+    // watch,
     formState: { errors },
   } = useForm<AppointmentFormValues>({
     resolver: zodResolver(appointmentSchema),
@@ -213,6 +214,8 @@ function Calendar({ tab }: { tab: string }) {
     reset(defaultValues);
     modal.close();
   };
+
+  // console.log(watch());
 
   return (
     <PageWrapper

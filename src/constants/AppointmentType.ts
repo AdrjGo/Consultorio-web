@@ -15,4 +15,5 @@ export const AppointmentStatus = [
   { label: "Reprogramado", value: 2 },
   { label: "Pendiente", value: 3 },
   { label: "Cancelado", value: 4 },
+  { label: "Completado", value: 5 },
 ];
