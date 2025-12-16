@@ -15,6 +15,14 @@ import type {
 import type { FormType } from "./FormType";
 import type { SubmoduleType } from "./SubmoduleType";
 import type { FormResType } from "./FormResType";
+import type {
+  PretreatmentType,
+  PretreatmentSummaryType,
+} from "./PretreatmentType";
+import type {
+  TreatmentProcessType,
+  TreatmentProcessSummaryType,
+} from "types/TreatmentProcess";
 
 export type {
   PatientType,
@@ -34,4 +42,8 @@ export type {
   FormType,
   FormResType,
   SubmoduleType,
+  PretreatmentType,
+  PretreatmentSummaryType,
+  TreatmentProcessType,
+  TreatmentProcessSummaryType,
 };

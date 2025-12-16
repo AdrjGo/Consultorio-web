@@ -4,6 +4,7 @@ import {
   CustomTabs,
   GeneralHistory,
   Personalata,
+  PretreatmentExam,
 } from "@components/ui";
 import { useGet } from "@hooks";
 import type { PatientType } from "@types";
@@ -73,7 +74,7 @@ function PatientProfile() {
           {
             value: 3,
             label: "Examen Dental",
-            content: <></>,
+            content: <PretreatmentExam />,
           },
           {
             value: 4,

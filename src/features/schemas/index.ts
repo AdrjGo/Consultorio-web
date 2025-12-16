@@ -21,6 +21,14 @@ import {
   type RoleWithPermissionsFormValues,
 } from "./roleWithPermissionsSchema";
 import { dynamicFormSchema, type DynamicFormValues } from "./dynamicFormSchema";
+import {
+  pretreatmentSchema,
+  type PretreatmentFormValues,
+} from "./pretreatmentSchema";
+import {
+  treatmentProcessSchema,
+  type TreatmentProcessFormValues,
+} from "./treatmentProcessSchema";
 
 export { userRoleSchema, type UserRoleFormValues };
 export { appointmentSchema, patientSchema, personSchema };
@@ -32,3 +40,5 @@ export { rolePermissionsSchema, type RolePermissionsFormValues };
 export { roleSchema, type RoleFormValues };
 export { roleWithPermissionsSchema, type RoleWithPermissionsFormValues };
 export { dynamicFormSchema, type DynamicFormValues };
+export { pretreatmentSchema, type PretreatmentFormValues };
+export { treatmentProcessSchema, type TreatmentProcessFormValues };

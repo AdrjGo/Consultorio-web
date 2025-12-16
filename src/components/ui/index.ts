@@ -6,6 +6,7 @@ import Modal from "./Modal";
 import Select from "./Select";
 import { CustomTabs } from "./form/CustomTabs";
 import Filters from "@components/ui/patient/Filters";
+import DeleteModal from "@components/ui/DeleteModal";
 
 /* Componentes UI - Calendario */
 import TodayAppoinmentCard from "./calendar/TodayAppoinmentCard";
@@ -35,6 +36,9 @@ import CreateRolModal from "@components/ui/config/RolePersmissonModal/CreateRole
 import DynamicForm from "@components/ui/config/DynamicForm";
 import FormModal from "@components/ui/config/FormModal/FormModal";
 import GeneralHistory from "@components/ui/patient/profile/GeneralHistory";
+import PretreatmentExam from "@components/ui/patient/profile/PretreatmentExam";
+import CreatePretreatmentModal from "@components/ui/patient/CreatePretreatmentModal";
+import TreatmentProcessModal from "@components/ui/patient/TreatmentProcessModal";
 
 export {
   Input,
@@ -42,6 +46,7 @@ export {
   Sidebar,
   Modal,
   Select,
+  DeleteModal,
   TodayAppoinmentCard,
   TableMemo,
   Pagination,
@@ -65,4 +70,7 @@ export {
   DynamicForm,
   FormModal,
   GeneralHistory,
+  PretreatmentExam,
+  CreatePretreatmentModal,
+  TreatmentProcessModal,
 };
