@@ -5,6 +5,7 @@ import validator from "@rjsf/validator-ajv8";
 import type { RJSFSchema } from "@rjsf/utils";
 import type { FormResType, FormType } from "@types";
 import { Files } from "lucide-react";
+import NoForm from "@components/ui/NoForm";
 
 type ClinicHistoryProps = {
   patientId: string;
@@ -52,12 +53,7 @@ function ClinicHistory({ patientId }: ClinicHistoryProps) {
           />
         </div>
       ) : (
-        <div className="w-full grid place-items-center gap-2">
-          <Files />
-          <p className=" text-small text-gray-500">
-            No hay un formulario para el Historia Odontológica disponible
-          </p>
-        </div>
+        <NoForm text=" No hay un formulario para el Historia Odontológica disponible" />
       )}
     </SectionLayout>
   );

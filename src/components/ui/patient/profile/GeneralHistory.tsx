@@ -1,4 +1,5 @@
 import { SectionLayout } from "@components/layout";
+import NoForm from "@components/ui/NoForm";
 import { useGet, usePost } from "@hooks";
 import Form from "@rjsf/antd";
 import type { RJSFSchema } from "@rjsf/utils";
@@ -50,12 +51,7 @@ function GeneralHistory() {
           />
         </div>
       ) : (
-        <div className="w-full grid place-items-center gap-2">
-          <Files />
-          <p className=" text-small text-gray-500">
-            No hay un formulario para el Historial de salud general disponible
-          </p>
-        </div>
+        <NoForm text=" No hay un formulario para el Historial de salud general disponible" />
       )}
     </SectionLayout>
   );
