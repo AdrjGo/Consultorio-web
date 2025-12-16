@@ -1,5 +1,5 @@
 import Button from "@components/ui/Button";
-import Modal from "@components/ui/Modal";
+import DeleteModal from "@components/ui/DeleteModal";
 import Pagination from "@components/ui/table/Pagination";
 import { useModal } from "@hooks";
 import { Eye, SquarePen, Trash } from "lucide-react";
@@ -29,6 +29,7 @@ type TableProps<T> = {
   deleteTitle?: string;
   deleteDesc?: string;
   customButtons?: (row: T) => React.ReactNode;
+  textButton?: boolean;
 };
 
 function Table<T>({
@@ -46,6 +47,7 @@ function Table<T>({
   deleteDesc,
   deleteTitle,
   customButtons,
+  textButton,
 }: TableProps<T>) {
   const navigate = useNavigate();
   const handleProfile = (id: string) => {
@@ -95,7 +97,7 @@ function Table<T>({
                     className="max-md:hidden text-blue-600"
                     onClick={() => handleProfile((row as any).id)}
                   >
-                    <Eye className="size-4" /> Ver
+                    <Eye className="size-4" /> {textButton ?? "Ver"}
                   </Button>
                 )}
                 {editButton && (
@@ -103,7 +105,7 @@ function Table<T>({
                     className="max-md:hidden text-blue-900"
                     onClick={() => handleEdit((row as any).id)}
                   >
-                    <SquarePen className="size-4" /> Editar
+                    <SquarePen className="size-4" /> {textButton ?? "Editar"}
                   </Button>
                 )}
                 {deleteButton && (
@@ -114,7 +116,7 @@ function Table<T>({
                       modal.open();
                     }}
                   >
-                    <Trash className="size-4" /> Eliminar
+                    <Trash className="size-4" /> {textButton ?? "Eliminar"}
                   </Button>
                 )}
                 {customButtons && customButtons(row)}
@@ -124,24 +126,13 @@ function Table<T>({
         </tbody>
       </table>
 
-      <Modal
-        title={deleteTitle ?? "Eliminar"}
-        desc={deleteDesc ?? "Está seguro que desea eliminar?"}
-        openModal={modal.isOpen}
-        setOpenModal={modal.close}
-      >
-        <div className="flex justify-between gap-3 [&>button]:bg-white [&>button]:text-black [&>button]:border-gray-200 [&>button]:rounded-md [&>button]:p-2 [&>button]:text-small [&>button]:font-semibold [&>button]:hover:bg-gray-200 [&>button]:border [&>button]:focus:bg-gray-100 mt-4">
-          <Button className="text-small bg-white" onClick={() => modal.close()}>
-            Salir
-          </Button>
-          <Button
-            className="text-white! bg-red-500!"
-            onClick={() => handleDelete?.(deleteId ?? "")}
-          >
-            Confirmar
-          </Button>
-        </div>
-      </Modal>
+      <DeleteModal
+        modal={modal}
+        handleDelete={handleDelete ?? (() => {})}
+        deleteTitle={deleteTitle}
+        deleteDesc={deleteDesc}
+        deleteId={deleteId ?? ""}
+      />
 
       {pagination && <Pagination data={pagination} setPage={setPage} />}
     </div>
