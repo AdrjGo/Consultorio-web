@@ -2,7 +2,7 @@ import Button from "@components/ui/Button";
 import DeleteModal from "@components/ui/DeleteModal";
 import Pagination from "@components/ui/table/Pagination";
 import { useModal } from "@hooks";
-import { Eye, SquarePen, Trash } from "lucide-react";
+import { Eye, Grid2x2Plus, SquarePen, Trash } from "lucide-react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { twMerge } from "tailwind-merge";
@@ -79,50 +79,62 @@ function Table<T>({
           </tr>
         </thead>
         <tbody className="[&>tr]:border-b [&>tr]:border-gray-200">
-          {data.map((row, rowIndex) => (
-            <tr
-              key={rowIndex}
-              className="text-left text-small [&>td]:border-b [&>td]:border-gray-200 [&>td]:md:px-1 [&>td]:py-1.5 [&>td]:nth-3:max-md:text-center  border-l-4 "
-            >
-              {columns.map((col, colIndex) => (
-                <td key={colIndex}>
-                  {col.render ? col.render(row) : (row as any)[col.key]}
-                </td>
-              ))}
+          {data.length > 0 ? (
+            data.map((row, rowIndex) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <tr
+                key={rowIndex}
+                className="text-left text-small [&>td]:border-b [&>td]:border-gray-200 [&>td]:md:px-1 [&>td]:py-1.5 [&>td]:nth-3:max-md:text-center  border-l-4 "
+              >
+                {columns.map((col, colIndex) => (
+                  <td key={colIndex}>
+                    {col.render ? col.render(row) : (row as any)[col.key]}
+                  </td>
+                ))}
 
-              {/* Acciones */}
-              <td className="[&>button]:w-fit [&>button]:bg-transparent [&>button]:hover:bg-gray-200 flex gap-2 justify-center">
-                {viewButton && (
-                  <Button
-                    className="max-md:hidden text-blue-600"
-                    onClick={() => handleProfile((row as any).id)}
-                  >
-                    <Eye className="size-4" /> {textButton ?? "Ver"}
-                  </Button>
-                )}
-                {editButton && (
-                  <Button
-                    className="max-md:hidden text-blue-900"
-                    onClick={() => handleEdit((row as any).id)}
-                  >
-                    <SquarePen className="size-4" /> {textButton ?? "Editar"}
-                  </Button>
-                )}
-                {deleteButton && (
-                  <Button
-                    className="max-md:hidden text-red-600"
-                    onClick={() => {
-                      setDeleteId((row as any).id);
-                      modal.open();
-                    }}
-                  >
-                    <Trash className="size-4" /> {textButton ?? "Eliminar"}
-                  </Button>
-                )}
-                {customButtons && customButtons(row)}
+                {/* Acciones */}
+                <td className="[&>button]:w-fit [&>button]:bg-transparent [&>button]:hover:bg-gray-200 flex gap-2 justify-center">
+                  {viewButton && (
+                    <Button
+                      className="max-md:hidden text-blue-600"
+                      onClick={() => handleProfile((row as any).id)}
+                    >
+                      <Eye className="size-4" /> {textButton ?? "Ver"}
+                    </Button>
+                  )}
+                  {editButton && (
+                    <Button
+                      className="max-md:hidden text-blue-900"
+                      onClick={() => handleEdit((row as any).id)}
+                    >
+                      <SquarePen className="size-4" /> {textButton ?? "Editar"}
+                    </Button>
+                  )}
+                  {deleteButton && (
+                    <Button
+                      className="max-md:hidden text-red-600"
+                      onClick={() => {
+                        setDeleteId((row as any).id);
+                        modal.open();
+                      }}
+                    >
+                      <Trash className="size-4" /> {textButton ?? "Eliminar"}
+                    </Button>
+                  )}
+                  {customButtons && customButtons(row)}
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={columns.length + 1}>
+                <div className="flex flex-col items-center justify-center gap-2 py-10 text-gray-500">
+                  <Grid2x2Plus size={40} className="text-gray-300" />
+                  <span className="text-small">No hay datos para mostrar</span>
+                </div>
               </td>
             </tr>
-          )) ?? "No hay resultados"}
+          )}
         </tbody>
       </table>
 

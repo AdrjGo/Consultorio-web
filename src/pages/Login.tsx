@@ -81,6 +81,7 @@ function Login() {
             type="email"
             label="Email"
             placeholder="correo@email.com"
+            maxLength={35}
             {...register("email")}
             errors={errors.email}
           />
@@ -90,6 +91,7 @@ function Login() {
             label="Contraseña"
             placeholder="••••••••"
             {...register("password")}
+            maxLength={16}
             errors={errors.password}
           />
           <Button
