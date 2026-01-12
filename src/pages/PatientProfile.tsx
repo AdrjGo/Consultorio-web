@@ -5,6 +5,7 @@ import {
   Contracts,
   CustomTabs,
   GeneralHistory,
+  Monitoring,
   Personalata,
   PretreatmentExam,
   TreatmentSummary,
@@ -14,9 +15,11 @@ import type { PatientType } from "@types";
 import { calculateAge } from "@utils";
 import { Mars, Undo2, Venus } from "lucide-react";
 import { useParams, useSearchParams } from "react-router";
+import { useNavigate } from "react-router";
 
 function PatientProfile() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
 
   const { data: patient } = useGet<PatientType>({
     key: ["patient", id ?? ""],
@@ -54,7 +57,7 @@ function PatientProfile() {
         patient?.state === "ACTIVE" ? "Activo" : "Inactivo"
       }`}
       extraComponent={
-        <Button className="" onClick={() => window.history.back()}>
+        <Button className="" onClick={() => navigate("/odis/patients")}>
           <Undo2 />
           Volver a la lista
         </Button>
@@ -97,7 +100,7 @@ function PatientProfile() {
           {
             value: 7,
             label: "Seguimiento",
-            content: <></>,
+            content: <Monitoring patientId={id ?? ""} />,
           },
           {
             value: 8,
