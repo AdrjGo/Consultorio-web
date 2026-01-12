@@ -44,6 +44,8 @@ import ClinicHistory from "@components/ui/patient/profile/ClinicHistory";
 import TreatmentSummary from "@components/ui/patient/profile/TreatmentSummary";
 import Contracts from "@components/ui/patient/profile/Contracts";
 import { AccordionCard } from "@components/ui/patient/AccordionCard";
+import Monitoring from "@components/ui/patient/profile/Monitoring";
+import MonitoringModal from "@components/ui/patient/MonitoringModal";
 
 export {
   Input,
@@ -83,4 +85,6 @@ export {
   TreatmentSummary,
   Contracts,
   AccordionCard,
+  Monitoring,
+  MonitoringModal,
 };

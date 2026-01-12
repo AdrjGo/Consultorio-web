@@ -23,6 +23,7 @@ import type {
   TreatmentProcessType,
   TreatmentProcessSummaryType,
 } from "types/TreatmentProcess";
+import type { MonitoringType } from "./MonitoringType";
 
 export type {
   PatientType,
@@ -46,4 +47,5 @@ export type {
   PretreatmentSummaryType,
   TreatmentProcessType,
   TreatmentProcessSummaryType,
+  MonitoringType,
 };

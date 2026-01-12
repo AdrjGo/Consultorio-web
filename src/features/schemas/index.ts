@@ -29,6 +29,10 @@ import {
   treatmentProcessSchema,
   type TreatmentProcessFormValues,
 } from "./treatmentProcessSchema";
+import {
+  monitoringSchema,
+  type MonitoringFormValues,
+} from "./MonitoringSchema";
 
 export { userRoleSchema, type UserRoleFormValues };
 export { appointmentSchema, patientSchema, personSchema };
@@ -42,3 +46,4 @@ export { roleWithPermissionsSchema, type RoleWithPermissionsFormValues };
 export { dynamicFormSchema, type DynamicFormValues };
 export { pretreatmentSchema, type PretreatmentFormValues };
 export { treatmentProcessSchema, type TreatmentProcessFormValues };
+export { monitoringSchema, type MonitoringFormValues };
