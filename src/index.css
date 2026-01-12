@@ -8,9 +8,9 @@
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
 
-  color-scheme: light;
-  color: black;
-  background-color: #f9fafb;
+  color-scheme: light dark;
+  /* color: var(--color-text-black);
+  background-color: light-dark(#efedea, #223a2c); */
   /* font-size: 14px; */
 
   font-synthesis: none;
@@ -33,6 +33,11 @@ button {
 }
 
 @theme {
+  --color-text-black: black;
+  --color-text-white: white;
+  --color-background: #f9fafb;
+  --color-background-dark: #212121;
+
   --color-primary: rgb(14, 117, 200);
   --color-blue: #2563eb;
   --color-secondary: rgb(157, 206, 248);
