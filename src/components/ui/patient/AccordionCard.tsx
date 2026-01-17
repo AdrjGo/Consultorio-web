@@ -21,7 +21,7 @@ export function AccordionCard({
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="border border-gray-200 rounded-xl bg-white">
+    <div className="border dark:border-none border-gray-200 rounded-xl bg-white dark:bg-dark">
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
@@ -37,14 +37,22 @@ export function AccordionCard({
           </span>
 
           <div>
-            <h3 className="text-sm font-semibold text-gray-800">{title}</h3>
-            {subtitle && <p className="text-xs text-gray-500">{subtitle}</p>}
+            <h3 className="text-sm font-semibold text-gray-800 dark:text-white">
+              {title}
+            </h3>
+            {subtitle && (
+              <p className="text-xs text-gray-500 dark:text-gray-300">
+                {subtitle}
+              </p>
+            )}
           </div>
         </div>
 
         <div className="flex items-center gap-3">
           {typeof count === "number" && (
-            <span className="text-xs text-gray-500">{count} contrato(s)</span>
+            <span className="text-xs text-gray-500 dark:text-gray-300">
+              {count} contrato(s)
+            </span>
           )}
 
           <ChevronDown

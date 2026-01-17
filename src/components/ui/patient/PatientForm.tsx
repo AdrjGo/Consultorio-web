@@ -33,8 +33,7 @@ function PatientForm({
 }: // responsible,
 // setResponsible,
 PatientFormProps) {
-  const { responsible, setResponsible, toggleResponsible } =
-    useResponsibleStore();
+  const { responsible, toggleResponsible } = useResponsibleStore();
 
   return (
     <>
@@ -64,7 +63,7 @@ PatientFormProps) {
             checked={responsible}
             onChange={() => toggleResponsible()}
           />
-          <label htmlFor="responsible" className="text-small">
+          <label htmlFor="responsible" className="text-small dark:text-white">
             El paciente es menor de edad
           </label>
         </div>

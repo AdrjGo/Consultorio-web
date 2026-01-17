@@ -8,6 +8,7 @@ import { CustomTabs } from "./form/CustomTabs";
 import Filters from "@components/ui/patient/Filters";
 import DeleteModal from "@components/ui/DeleteModal";
 import NoForm from "@components/ui/NoForm";
+import ToggleThemeButton from "@components/ui/ToggleThemeButton";
 
 /* Componentes UI - Calendario */
 import TodayAppoinmentCard from "./calendar/TodayAppoinmentCard";
@@ -55,6 +56,7 @@ export {
   Select,
   NoForm,
   DeleteModal,
+  ToggleThemeButton,
   TodayAppoinmentCard,
   TableMemo,
   Pagination,

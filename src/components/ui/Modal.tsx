@@ -63,19 +63,21 @@ function Modal({
       ref={dialogRef}
       className={twMerge(
         classNames,
-        "relative bg-white rounded-md text-black p-5 md:p-6 top-1/2 left-1/2 backdrop:bg-black/40  transform -translate-x-1/2 -translate-y-1/2 md:w-2/6"
+        "relative bg-white dark:bg-dark-secondary rounded-md text-black p-5 md:p-6 top-1/2 left-1/2 backdrop:bg-black/40 dark:backdrop:bg-white/10  transform -translate-x-1/2 -translate-y-1/2 md:w-2/6",
       )}
       onClose={() => setOpenModal(false)}
     >
       <div className="grid justify-between items-center">
-        <h2 className="text-body font-bold">{title}</h2>
-        <span className="text-small text-gray-500">{desc}</span>
+        <h2 className="text-body font-bold dark:text-white">{title}</h2>
+        <span className="text-small text-gray-500 dark:text-gray-300">
+          {desc}
+        </span>
 
         <button
-          className="text-gray-500 hover:text-gray-700 absolute right-3 top-3 flex items-center justify-center"
+          className="text-gray-500 hover:text-gray-700 absolute right-1 top-1.5 flex items-center justify-center"
           onClick={() => setOpenModal(false)}
         >
-          <X className="size-4" />
+          <X className="size-5 dark:text-white" />
         </button>
       </div>
       {children}

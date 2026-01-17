@@ -45,10 +45,10 @@ function AppointmentForm({
         label="Paciente"
         values={data?.map((patient) => patient.id)}
         disabled={isEditing}
-        className="disabled:bg-gray-200"
+        className="disabled:bg-gray-200 dark:disabled:bg-dark-fourth"
         options={data?.map(
           (patient) =>
-            patient.patientPerson.name + " " + patient.patientPerson.lastName
+            patient.patientPerson.name + " " + patient.patientPerson.lastName,
         )}
         {...register("patientId")}
         errors={errors.patientId}

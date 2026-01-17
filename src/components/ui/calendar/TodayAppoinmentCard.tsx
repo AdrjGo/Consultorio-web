@@ -72,11 +72,11 @@ function TodayAppoinmentCard({ onClick }: Props) {
   ];
 
   return (
-    <div className="bg-white md:w-1/4 border border-gray-200 rounded-lg p-5 overflow-hidden flex flex-col max-h-[80vh]">
-      <h3 className="text-black font-bold text-subtitle flex items-center gap-2">
-        <Clock3 className="text-gray-600" /> Citas de hoy
+    <div className="bg-white dark:bg-dark-secondary md:w-1/4 border dark:border-none border-gray-200 rounded-lg p-5 overflow-hidden flex flex-col max-h-[80vh]">
+      <h3 className="text-black dark:text-white font-bold text-subtitle flex items-center gap-2">
+        <Clock3 className="text-gray-600 dark:text-white" /> Citas de hoy
       </h3>
-      <span className="text-small text-gray-400 font-semibold">
+      <span className="text-small text-gray-400 dark:text-gray-300 font-semibold">
         {data?.length} Citas programadas
       </span>
 
@@ -87,13 +87,13 @@ function TodayAppoinmentCard({ onClick }: Props) {
             .sort(
               (a, b) =>
                 new Date(a.startDate).getTime() -
-                new Date(b.startDate).getTime()
+                new Date(b.startDate).getTime(),
             )
 
             .map((appointment, index) => {
               const color = statusColors.find(
                 (s) =>
-                  s.status.toLowerCase() === appointment.status.toLowerCase()
+                  s.status.toLowerCase() === appointment.status.toLowerCase(),
               );
 
               return (

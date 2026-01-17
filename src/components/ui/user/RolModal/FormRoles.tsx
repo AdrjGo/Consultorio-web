@@ -47,7 +47,7 @@ function FormRoles({
       {roles?.map((role) => (
         <section
           key={role.id}
-          className="flex items-start gap-3 p-2 rounded-lg border border-gray-200 hover:bg-blue-50 transition-colors"
+          className="flex items-start gap-3 p-2 rounded-lg border dark:border-none border-gray-200 dark:bg-dark hover:bg-blue-50 dark:hover:bg-dark-fourth transition-colors"
         >
           <input
             id={role.id}
@@ -60,8 +60,12 @@ function FormRoles({
             htmlFor={role.id}
             className="flex-1 cursor-pointer text-small font-bold"
           >
-            <span className="font-bold text-small">{role.name}</span>
-            <p className="text-tiny text-gray-600">{role.description}</p>
+            <span className="font-bold text-small dark:text-white">
+              {role.name}
+            </span>
+            <p className="text-tiny text-gray-600 dark:text-gray-300">
+              {role.description}
+            </p>
           </label>
         </section>
       ))}

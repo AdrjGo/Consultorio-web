@@ -75,7 +75,7 @@ function Calendar({ tab }: { tab: string }) {
       reason: "",
       observations: "",
     }),
-    []
+    [],
   );
 
   // Manejo de formulario con react-hook-form
@@ -178,10 +178,10 @@ function Calendar({ tab }: { tab: string }) {
         type: AppointmentTypes.findIndex(
           (t) =>
             removeAccents(t.label) ===
-            removeAccents(event.type.replaceAll("_", " "))
+            removeAccents(event.type.replaceAll("_", " ")),
         ),
         status: AppointmentStatus.findIndex(
-          (s) => s.label.toLowerCase() === event.status.toLowerCase()
+          (s) => s.label.toLowerCase() === event.status.toLowerCase(),
         ),
         reason: event.reason || "",
         observations: event.observations || "",
@@ -233,7 +233,7 @@ function Calendar({ tab }: { tab: string }) {
       }
     >
       <section className="mt-5 flex justify-between gap-3.5 max-h-[80vh] max-md:grid">
-        <div className="bg-white border border-gray-200 rounded-lg p-3 md:p-5 md:w-full w-[93svw]">
+        <div className="bg-white dark:bg-dark-secondary border border-gray-200 dark:border-none rounded-lg p-3 md:p-5 md:w-full w-[93svw]">
           <FullCalendar
             plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
             initialView={initialView}

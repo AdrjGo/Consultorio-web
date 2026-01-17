@@ -51,7 +51,7 @@ function TreatmentProcessModal({
       setOpenModal={closeModal}
     >
       <section className="grid gap-3 my-2">
-        <span className="text-tiny text-blue-800 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+        <span className="text-tiny text-blue-800 dark:text-white p-3 bg-blue-50 dark:bg-dark border border-blue-200 rounded-lg">
           💡 Los pagos se descuentan de la deuda total del tratamiento. El
           paciente puede pagar cualquier monto en cada cita.
         </span>

@@ -1,4 +1,4 @@
-import { Sidebar } from "@components/ui";
+import { Sidebar, ToggleThemeButton } from "@components/ui";
 import { decodeToken } from "@services";
 import { useThemeStore } from "@store";
 import { getToken } from "@utils";
@@ -8,7 +8,7 @@ import { Outlet, useNavigate } from "react-router";
 
 function Layout() {
   const [open, setOpen] = useState<boolean>(
-    localStorage.getItem("sidebar") === "true"
+    localStorage.getItem("sidebar") === "true",
   );
   const navigate = useNavigate();
 
@@ -30,31 +30,23 @@ function Layout() {
     }
   }, [tokenCookie]);
 
-  const { theme, toggleTheme } = useThemeStore();
-
   return (
-    <div className="flex h-screen max-md:w-fit bg-background text-black dark:text-white dark:bg-background-dark">
-      <Sidebar panelOpen={open} />
+    <div className="flex h-screen max-md:w-fit bg-background text-black dark:bg-dark dark:text-white">
+      <Sidebar panelOpen={open} OnClick={() => setOpen((prev) => !prev)} />
       <div className="flex flex-col w-full min-h-screen flex-1">
-        <div className="bg-white flex justify-between items-center p-3 gap-2 border-b border-gray-200">
+        <div className="bg-white dark:bg-dark-tertiary flex justify-between items-center p-3 gap-2 border-b border-gray-200 dark:border-none">
           <button
-            className="group hover:bg-gray-200 size-fit p-1 rounded-lg"
+            className="group hover:bg-gray-200 dark:hover:bg-dark-fourth size-fit p-1 rounded-lg"
             onClick={() => setOpen((prev) => !prev)}
           >
             <PanelLeft
               size={15}
               strokeWidth={1.75}
-              className="text-gray-600 group-hover:text-black"
+              className="text-gray-600 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white"
             />
           </button>
           <div className="border-r border-gray-200 h-1/2"></div>
-          <button onClick={toggleTheme} className="p-1 rounded-lg">
-            {theme === "light" ? (
-              <Sun size={18} className="text-gray-700" />
-            ) : (
-              <Moon size={18} className="text-gray-300" />
-            )}
-          </button>
+          <ToggleThemeButton />
         </div>
         <Outlet />
       </div>

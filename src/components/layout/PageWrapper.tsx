@@ -29,7 +29,7 @@ export function PageWrapper({
           <h2 className="text-title font-bold flex gap-2 items-center">
             {title}
           </h2>
-          <span className="text-small md:text-normal text-gray-500">
+          <span className="text-small md:text-normal text-gray-500 dark:text-gray-300">
             {desc}
           </span>
         </div>

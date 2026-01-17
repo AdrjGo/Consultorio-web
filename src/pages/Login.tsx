@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { Icons } from "@components/Icons/Icons";
-import { Button, Input } from "@components/ui";
+import { Button, Input, ToggleThemeButton } from "@components/ui";
 import { Toast } from "@utils";
 
 const loginSchema = z.object({
@@ -66,12 +66,17 @@ function Login() {
   };
 
   return (
-    <main className="w-full flex justify-center items-center h-screen">
-      <section className="bg-white grid place-items-center rounded-lg p-4 border border-gray-200">
+    <main className="w-full flex justify-center items-center h-screen bg-[#efedea] dark:bg-dark">
+      <section className="bg-white relative dark:bg-dark-secondary grid place-items-center rounded-lg p-4 border dark:border-none border-gray-200">
+        <div className="absolute top-2 right-2">
+          <ToggleThemeButton />
+        </div>
         <div className="mb-6 grid place-items-center">
           <Icons.Logo className="size-36" />
-          <h1 className="text-title font-extrabold text-primary">OdontoDIS</h1>
-          <p className="font-extralight text-body text-secondary">
+          <h1 className="text-title font-extrabold text-primary dark:text-white">
+            OdontoDIS
+          </h1>
+          <p className="font-extralight text-body text-blue dark:text-secondary">
             Tu consultorio, más inteligente
           </p>
         </div>
@@ -99,7 +104,7 @@ function Login() {
             children={onLoad ? "Iniciando sesión..." : "Iniciar sesión"}
             disabled={onLoad}
           />
-          <div className="text-sm text-gray-400 mt-6">
+          <div className="text-sm text-gray-400 dark:text-gray-300 mt-6">
             <p>Si olvidó su Contraseña, no se preocupe, puede recuperarla</p>
             <p>Contacte a soporte@odontodis.com para más información</p>
           </div>

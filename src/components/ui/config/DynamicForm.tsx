@@ -63,18 +63,20 @@ function DynamicForm() {
       {forms?.map((form) => (
         <section
           key={form.id}
-          className="p-4 border border-gray-300 rounded-lg flex justify-between items-center"
+          className=" dark:bg-dark p-4 border dark:border-none border-gray-300 rounded-lg flex justify-between items-center"
         >
           <div>
             <h3 className="text-normal font-bold uppercase">
               {form.form.name}
             </h3>
-            <p className="text-tiny text-gray-500">{form.form.description}</p>
+            <p className="text-tiny text-gray-500 dark:text-gray-300">
+              {form.form.description}
+            </p>
           </div>
 
           <div>
             <Button
-              className="text-small bg-white border border-gray-300 rounded-md px-5 py-2 shadow-none"
+              className="text-small bg-white dark:bg-dark-tertiary border dark:border-none dark:hover:bg-dark-fourth border-gray-300 rounded-md px-5 py-2 shadow-none"
               onClick={() => handleEdit(form.id)}
             >
               <SquarePen className="size-3" />

@@ -14,10 +14,10 @@ import { useDebounce } from "use-debounce";
 function UserManagement({ tab }: { tab: string }) {
   const [name, setName] = useState(getUrlParams({ name: "search" }) || "");
   const [state, setState] = useState<string>(
-    getUrlParams({ name: "state" }) || ""
+    getUrlParams({ name: "state" }) || "",
   );
   const [role, setRole] = useState<string>(
-    getUrlParams({ name: "role" }) || ""
+    getUrlParams({ name: "role" }) || "",
   );
   const [debouncedName] = useDebounce(name, 750);
   const [viewPassword, setViewPassword] = useState(false);
@@ -64,7 +64,7 @@ function UserManagement({ tab }: { tab: string }) {
           className={`rounded-full p-1 px-2 font-semibold ${
             user.state === "ACTIVE"
               ? "bg-green-100 text-green-600"
-              : "bg-gray-200 text-gray-500"
+              : "bg-gray-200 dark:bg-dark-tertiary text-gray-500 dark:text-white"
           }`}
         >
           {user.state}
@@ -180,7 +180,7 @@ function UserManagement({ tab }: { tab: string }) {
         </Button>
       }
     >
-      <section className="bg-white border border-gray-200 rounded-lg p-3 md:p-5 md:w-full w-[93svw] max-md:mb-4">
+      <section className="bg-white dark:bg-dark-secondary border border-gray-200 rounded-lg p-3 md:p-5 md:w-full w-[93svw] max-md:mb-4">
         <Filters
           title="Usuarios del Sistema"
           description="Todos los usuarios registrados en el sistema"

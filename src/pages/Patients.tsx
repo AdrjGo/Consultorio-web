@@ -28,7 +28,7 @@ function Patients({ tab }: { tab: string }) {
   const [name, setName] = useState(getUrlParams({ name: "search" }) || "");
   const [debouncedName] = useDebounce(name, 750);
   const [state, setState] = useState<string>(
-    getUrlParams({ name: "state" }) || "active"
+    getUrlParams({ name: "state" }) || "active",
   );
   const [activeTab, setActiveTab] = useState(1);
   const [isEditing, setIsEditing] = useState(false);
@@ -105,7 +105,7 @@ function Patients({ tab }: { tab: string }) {
         ),
       },
     ],
-    [register, errors, responsible]
+    [register, errors, responsible],
   );
 
   const handleEdit = (id: string) => {
@@ -207,7 +207,7 @@ function Patients({ tab }: { tab: string }) {
             </Button>
           }
         >
-          <section className="bg-white border border-gray-200 rounded-lg p-3 md:p-5 md:w-full w-[93svw] max-md:mb-4">
+          <section className="bg-white dark:bg-dark-secondary border dark:border-none border-gray-200 rounded-lg p-3 md:p-5 md:w-full w-[93svw] max-md:mb-4">
             <Filters
               title="Lista de Pacientes"
               description="Todos los pacientes registrados en el sistema"

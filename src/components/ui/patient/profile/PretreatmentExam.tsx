@@ -59,17 +59,17 @@ function PretreatmentExam() {
     {
       title: "Costo Total",
       value: pretreatmentExam?.totalCost,
-      color: "text-blue-600",
+      color: "text-blue-600 dark:text-blue-400",
     },
     {
       title: "Total Pagado",
       value: TreatmentProgresses?.totalPayment,
-      color: "text-green-600",
+      color: "text-green-600 dark:text-green-400",
     },
     {
       title: "Deuda Pendiente",
       value: TreatmentProgresses?.totalDebt,
-      color: "text-red-600",
+      color: "text-red-600 dark:text-red-400",
     },
   ];
 
@@ -103,9 +103,12 @@ function PretreatmentExam() {
       title="Examen Dental Pretratamiento"
       description="Gestión de exámenes de pretratamiento y avances"
     >
-      <div className="rounded-md bg-blue-50 border border-blue-300 flex justify-around text-center p-3">
+      <div className="rounded-md bg-blue-50 dark:bg-dark-tertiary border border-blue-300 dark:border-dark-fourth flex justify-around text-center p-3">
         {payments.map((payment, index) => (
-          <span key={index} className="text-tiny text-gray-500 font-semibold">
+          <span
+            key={index}
+            className="text-tiny text-gray-500 dark:text-gray-300 font-semibold"
+          >
             {payment.title}
             <p className={`text-normal ${payment.color} font-bold`}>
               Bs. {payment.value}
@@ -114,9 +117,9 @@ function PretreatmentExam() {
         ))}
       </div>
       <div className="flex justify-between gap-5">
-        <section className="rounded-md border border-gray-200 w-full">
+        <section className="rounded-md border border-gray-200 dark:border-dark w-full">
           {/* <CardHeader className="bg-gradient-to-r from-emerald-50 to-emerald-100"></CardHeader> */}
-          <div className="bg-linear-to-r from-blue-50 to-blue-100 p-3 flex justify-between">
+          <div className="bg-linear-to-r from-blue-50 to-blue-100 p-3 dark:from-blue-700/10 dark:to-blue-900/10 flex justify-between">
             <h2 className="flex gap-2 items-center font-bold">
               <FileCheck className="size-4 text-blue-500" />
               Exámenes Pretratamiento
@@ -172,7 +175,7 @@ function PretreatmentExam() {
 
         <section className="rounded-md border border-gray-200 w-full">
           {/* <CardHeader className="bg-gradient-to-r from-emerald-50 to-emerald-100"></CardHeader> */}
-          <div className="bg-linear-to-r from-emerald-50 to-emerald-100 p-3">
+          <div className="bg-linear-to-r from-emerald-50 to-emerald-100 dark:from-emerald-700/10 dark:to-emerald-900/10  p-3">
             <h2 className="flex gap-2 items-center font-bold">
               <TrendingUp className="size-4 text-green-600" />
               Avances del Tratamiento
@@ -198,7 +201,7 @@ function PretreatmentExam() {
                   <div className="grid flex-1">
                     <span className="text-tiny text-gray-500">
                       {dayjs(treatmentProcess.date, "DD-MM-YYYY").format(
-                        "D [de] MMMM [de] YYYY"
+                        "D [de] MMMM [de] YYYY",
                       )}
                     </span>
                     <span className="text-small text-green-600 font-semibold">
@@ -219,7 +222,7 @@ function PretreatmentExam() {
                     <Trash className="size-4" />
                   </Button>
                 </section>
-              )
+              ),
             )}
           </div>
         </section>

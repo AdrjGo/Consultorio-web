@@ -41,7 +41,9 @@ const UserModal = ({
         key={userId ?? "newUser"}
         className="flex flex-col gap-3"
       >
-        <span className="font-bold text-small">Datos Personales</span>
+        <span className="font-bold text-small dark:text-white">
+          Datos Personales
+        </span>
         <FormUserPerson register={register} errors={errors} field="person" />
         {!isEditing && (
           <div>

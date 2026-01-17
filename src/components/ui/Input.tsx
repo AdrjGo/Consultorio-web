@@ -20,13 +20,16 @@ function Input({
 }: InputProps) {
   return (
     <div className="grid w-full">
-      <label htmlFor={forInput} className="text-small font-medium">
+      <label
+        htmlFor={forInput}
+        className="text-small font-medium dark:text-white"
+      >
         {label}
       </label>
       <div
         className={`flex gap-1 items-center w-full${
           icon
-            ? "bg-white text-black h-10 border border-gray-300 rounded-md py-2 px-2 placeholder-gray-400 focus:border-primary focus:outline-none w-full text-small"
+            ? "bg-white dark:bg-dark text-black dark:text-white h-10 border dark:border-none border-gray-300 rounded-md py-2 px-2 placeholder-gray-400 dark:placeholder-gray-200 focus:border-primary focus:outline-none w-full text-small"
             : ""
         }`}
       >
@@ -37,10 +40,10 @@ function Input({
           {...props}
           placeholder={placeholder}
           className={twMerge(
-            `bg-white text-black ${
-              icon ? "" : "h-10 border border-gray-300 "
-            }  rounded-md py-2 px-2 placeholder-gray-400 focus:border-primary focus:outline-none w-full text-small`,
-            className
+            `bg-white dark:bg-dark text-black dark:text-white ${
+              icon ? "" : "h-10 border dark:border-none border-gray-300 "
+            }  rounded-md py-2 px-2 placeholder-gray-400 dark:placeholder-gray-200 focus:border-primary focus:outline-none w-full text-small`,
+            className,
           )}
           onChange={props.onChange}
           maxLength={maxLength}

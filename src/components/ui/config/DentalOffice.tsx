@@ -225,9 +225,9 @@ function DentalOffice() {
           errors={errors.logoUrl}
           disabled
         />
-        <div className="p-4 border border-gray-300 rounded-lg bg-gray-50">
+        <div className="p-4 border dark:border-none border-gray-300 rounded-lg bg-gray-50 dark:bg-dark">
           <p className="text-sm font-medium mb-3">Vista Previa del Logo</p>
-          <div className="flex items-center justify-center w-full h-fit bg-white border border-gray-300 rounded">
+          <div className="flex items-center justify-center w-full h-fit bg-white dark:bg-dark-tertiary border dark:border-none border-gray-300 rounded">
             {previewUrl ? (
               <img
                 src={previewUrl}
@@ -235,7 +235,7 @@ function DentalOffice() {
                 className="h-96 object-contain"
               />
             ) : (
-              <div className="text-center text-gray-400 my-5">
+              <div className="text-center text-gray-400 dark:text-white my-5">
                 {clinic?.logoUrl ? (
                   <img
                     src={clinic.logoUrl}

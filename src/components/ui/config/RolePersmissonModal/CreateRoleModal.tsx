@@ -47,7 +47,7 @@ function CreateRoleModal({
 
   console.log(errors);
 
-  // console.log(watch());
+  console.log(watch());
 
   const { data: rolePermissions } = useGet<RolePermissionsType[]>({
     key: "roles",
@@ -109,11 +109,11 @@ function CreateRoleModal({
       >
         <div className="flex gap-2 w-full">
           <section className="grid gap-4 p-4 w-[30%] h-fit">
-            <span className="border-b border-gray-200 pb-3">
-              <h2 className="text-normal font-semibold">
+            <span className="border-b border-gray-200 dark:border-dark-fourth pb-3">
+              <h2 className="text-normal font-semibold dark:text-white">
                 {isEditing ? "Editar Rol" : "Crear nuevo Rol"}
               </h2>
-              <p className="text-small text-gray-500">
+              <p className="text-small text-gray-500 dark:text-gray-300">
                 Define la información básica del rol
               </p>
             </span>
@@ -135,20 +135,20 @@ function CreateRoleModal({
               {...register("role.description")}
             />
 
-            <div className="bg-[#EDFAF9] border border-[#baf9f3] p-4 rounded-lg">
-              <span className="text-small text-gray-500 font-bold">
+            <div className="bg-[#EDFAF9] dark:bg-dark border dark:border-none border-[#baf9f3] p-4 rounded-lg">
+              <span className="text-small text-gray-500 dark:text-gray-300 font-bold">
                 VISTA PREVIA
               </span>
               <PreviewWatched control={control} />
             </div>
           </section>
 
-          <section className="bg-[#f9fafb] p-4 border-l border-gray-100 w-[70%] h-full  grid gap-4 overflow-hidden">
-            <span className="border-b border-gray-300 pb-3">
-              <h2 className="text-normal font-semibold">
+          <section className="bg-background dark:bg-dark p-4 rounded-md border-l dark:border-none border-gray-100 w-[70%] h-full  grid gap-4 overflow-hidden">
+            <span className="border-b border-gray-300 dark:border-dark-fourth pb-3">
+              <h2 className="text-normal font-semibold dark:text-white">
                 {isEditing ? "Editar" : "Asignar"} Permisos
               </h2>
-              <p className="text-small text-gray-500">
+              <p className="text-small text-gray-500 dark:text-gray-300">
                 Define los permisos del rol (pueden ser modificados en el
                 futuro)
               </p>
@@ -165,17 +165,17 @@ function CreateRoleModal({
               )}
               {rolePermissions?.map((rolePermission, index) => (
                 <div
-                  className="grid border-b border-gray-200 pb-4 transition-colors"
+                  className="grid border-b border-gray-200 dark:border-dark-fourth pb-4 transition-colors"
                   key={index}
                 >
-                  <span className="text-normal font-semibold">
+                  <span className="text-normal font-semibold dark:text-white">
                     {rolePermission.key}
                   </span>
                   <section className="grid grid-cols-3 gap-4 ">
                     {rolePermission.permissions.map((permission, index) => (
                       <article
                         key={index}
-                        className="bg-white flex items-start gap-3 p-2 rounded-lg border border-gray-200 hover:bg-blue-50 hover:border-blue transition-colors"
+                        className="bg-white dark:bg-dark-tertiary flex items-start gap-3 p-2 rounded-lg border dark:border-none border-gray-200 hover:bg-blue-50 dark:hover:bg-dark-fourth hover:border-blue transition-colors"
                       >
                         <input
                           id={permission.id}
@@ -186,12 +186,12 @@ function CreateRoleModal({
                         />
                         <label
                           htmlFor={permission.id}
-                          className="flex-1 cursor-pointer text-small font-bold"
+                          className="flex-1 cursor-pointer text-small font-bold dark:text-white"
                         >
                           <span className="font-bold text-small">
                             {permission.name}
                           </span>
-                          <p className="text-tiny text-gray-600">
+                          <p className="text-tiny text-gray-600 dark:text-gray-400">
                             {permission.description}
                           </p>
                         </label>
@@ -204,9 +204,9 @@ function CreateRoleModal({
           </section>
         </div>
 
-        <div className="flex gap-4">
+        <div className="flex gap-4 mt-4">
           <Button
-            className="bg-transparent text-black border border-back"
+            className="bg-transparent dark:bg-dark-tertiary text-black dark:text-white border dark:border-none border-back"
             children="Cancelar"
             onClick={() => modalFormRole.close()}
             type="button"
@@ -236,18 +236,21 @@ function PreviewWatched({ control }: { control: Control<any> }) {
 
   const selectedPermissions = useWatch({
     control,
-    name: "rolePermissions",
+    name: "permissions",
     defaultValue: [],
   });
 
   const countPermission = selectedPermissions.length;
+  console.log(countPermission);
 
   return (
     <div>
-      <h2 className="text-normal font-bold">{name}</h2>
-      <p className="text-small text-gray-500">{description}</p>
-      <div className="w-full border-b border-gray-200 my-2"></div>
-      <span className="text-green-800 text-small font-medium">
+      <h2 className="text-normal font-bold dark:text-white">{name}</h2>
+      <p className="text-small text-gray-500 dark:text-gray-300">
+        {description}
+      </p>
+      <div className="w-full border-b border-gray-200 dark:border-dark-fourth my-2"></div>
+      <span className="text-green-800 dark:text-green-500 text-small font-medium">
         {countPermission} Permisos seleccionados
       </span>
     </div>

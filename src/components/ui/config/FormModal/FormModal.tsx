@@ -37,7 +37,7 @@ export default function FormModal({
 
   const SAMPLE_SCHEMA: RJSFSchema = {};
   const [schemaText, setSchemaText] = useState(() =>
-    JSON.stringify(SAMPLE_SCHEMA, null, 2)
+    JSON.stringify(SAMPLE_SCHEMA, null, 2),
   );
   const [liveSchema, setLiveSchema] = useState<RJSFSchema>(SAMPLE_SCHEMA);
   const [parseError, setParseError] = useState<string | null>(null);
@@ -190,7 +190,9 @@ export default function FormModal({
             </section>
 
             <section className="flex flex-col gap-2 w-full min-h-0">
-              <p className="font-medium">Esquema del formulario (JSON)</p>
+              <p className="font-medium dark:text-white">
+                Esquema del formulario (JSON)
+              </p>
               <div className="flex-1 border rounded overflow-hidden">
                 <Editor
                   defaultLanguage="json"
@@ -200,6 +202,7 @@ export default function FormModal({
                   }}
                   options={{ minimap: { enabled: false }, formatOnType: true }}
                   height="100%"
+                  theme="vs-dark"
                 />
               </div>
 
@@ -213,7 +216,9 @@ export default function FormModal({
 
           {/* Right: Preview */}
           <section className="w-1/2 h-full overflow-auto">
-            <h3 className="mb-2 font-semibold">Previsualzación</h3>
+            <h3 className="mb-2 font-semibold dark:text-white">
+              Previsualzación
+            </h3>
             <div className="bg-white p-4 rounded shadow-sm">
               <Form
                 id="new"
@@ -228,7 +233,7 @@ export default function FormModal({
         </div>
         <section className="flex gap-4">
           <Button
-            className="bg-transparent text-black border border-back"
+            className="bg-transparent dark:bg-dark-fourth text-black dark:text-white border dark:border-none border-back"
             children="Cancelar"
             onClick={closeModal}
             type="button"

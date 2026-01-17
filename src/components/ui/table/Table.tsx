@@ -62,17 +62,17 @@ function Table<T>({
       <table
         className={twMerge(
           className,
-          `w-full md:px-4 border-separate border-spacing-y-1`
+          `w-full md:px-4 border-separate border-spacing-y-1`,
         )}
       >
         <thead>
-          <tr className="text-left border-b border-gray-300">
-            {columns.map((col, index) => (
+          <tr className="text-left">
+            {columns?.map((col, index) => (
               <th
                 key={index}
-                className={twMerge(col.className, `text-small py-2`)}
+                className={twMerge(col?.className, `text-small py-2`)}
               >
-                {col.label}
+                {col?.label}
               </th>
             ))}
             <th className="text-small py-2 text-center">Acciones</th>
@@ -84,11 +84,11 @@ function Table<T>({
               // eslint-disable-next-line react/no-array-index-key
               <tr
                 key={rowIndex}
-                className="text-left text-small [&>td]:border-b [&>td]:border-gray-200 [&>td]:md:px-1 [&>td]:py-1.5 [&>td]:nth-3:max-md:text-center  border-l-4 "
+                className="text-left text-small [&>td]:border-b [&>td]:border-gray-200 dark:[&>td]:border-dark-fourth [&>td]:md:px-1 [&>td]:py-1.5 [&>td]:nth-3:max-md:text-center  border-l-4 "
               >
                 {columns.map((col, colIndex) => (
                   <td key={colIndex}>
-                    {col.render ? col.render(row) : (row as any)[col.key]}
+                    {col?.render ? col?.render(row) : (row as any)[col?.key]}
                   </td>
                 ))}
 
@@ -96,7 +96,7 @@ function Table<T>({
                 <td className="[&>button]:w-fit [&>button]:bg-transparent [&>button]:hover:bg-gray-200 flex gap-2 justify-center">
                   {viewButton && (
                     <Button
-                      className="max-md:hidden text-blue-600"
+                      className="max-md:hidden text-blue-600 dark:bg-blue-300/10!"
                       onClick={() => handleProfile((row as any).id)}
                     >
                       <Eye className="size-4" /> {textButton ?? "Ver"}
@@ -104,7 +104,7 @@ function Table<T>({
                   )}
                   {editButton && (
                     <Button
-                      className="max-md:hidden text-blue-900"
+                      className="max-md:hidden text-blue-900 dark:bg-blue-300/10! dark:text-white"
                       onClick={() => handleEdit((row as any).id)}
                     >
                       <SquarePen className="size-4" /> {textButton ?? "Editar"}
@@ -112,7 +112,7 @@ function Table<T>({
                   )}
                   {deleteButton && (
                     <Button
-                      className="max-md:hidden text-red-600"
+                      className="max-md:hidden text-red-600 dark:text-red-400 dark:bg-red-500/10!"
                       onClick={() => {
                         setDeleteId((row as any).id);
                         modal.open();
@@ -128,9 +128,11 @@ function Table<T>({
           ) : (
             <tr>
               <td colSpan={columns.length + 1}>
-                <div className="flex flex-col items-center justify-center gap-2 py-10 text-gray-500">
+                <div className="flex flex-col? items-center justify-center gap-2 py-10 text-gray-500">
                   <Grid2x2Plus size={40} className="text-gray-300" />
-                  <span className="text-small">No hay datos para mostrar</span>
+                  <span className="text-small dark:text-gray-300">
+                    No hay datos para mostrar
+                  </span>
                 </div>
               </td>
             </tr>

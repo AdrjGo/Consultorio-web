@@ -9,8 +9,9 @@ export const columns = [
     label: "Nombre Completo",
     render: (patient: PatientType) => (
       <span
-        className={`font-medium ${patient.state === "ACTIVE" ? "" : "text-red-500"
-          }`}
+        className={`font-medium ${
+          patient.state === "ACTIVE" ? "" : "text-red-500"
+        }`}
       >
         {patient.patientPerson.name} {patient.patientPerson.lastName}
       </span>
@@ -43,10 +44,11 @@ export const columns = [
     label: "Responsable",
     render: (patient: PatientType) => (
       <span
-        className={`p-1.5 rounded-full font-semibold ${patient?.responsible
-          ? "text-[#16a34a] bg-green-100"
-          : "text-gray-500 bg-gray-200"
-          }`}
+        className={`p-1.5 rounded-full font-semibold ${
+          patient?.responsible
+            ? "text-[#16a34a] bg-green-100"
+            : "text-gray-500 dark:text-white bg-gray-200 dark:bg-dark-tertiary"
+        }`}
       >
         {patient?.responsible
           ? `${patient.responsible.person.name} ${patient.responsible.person.lastName}`

@@ -26,14 +26,17 @@ function Select({
 }: SelectProps) {
   return (
     <div className={twMerge(containerClassName, "grid min-w-fit")}>
-      <label htmlFor={forSelect} className="text-small font-medium">
+      <label
+        htmlFor={forSelect}
+        className="text-small font-medium dark:text-white"
+      >
         {label}
       </label>
       <select
         id={forSelect}
         className={twMerge(
           className,
-          "bg-white text-black h-10 border border-gray-300 rounded-md py-2 px-2 placeholder-gray-400 focus:border-primary focus:outline-none w-full text-small"
+          "bg-white dark:bg-dark text-black dark:text-white h-10 border dark:border-none border-gray-300 rounded-md py-2 px-2 placeholder-gray-400 focus:border-primary focus:outline-none w-full text-small",
         )}
         onChange={onChange}
         {...props}

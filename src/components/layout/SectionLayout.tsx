@@ -12,11 +12,13 @@ function SectionLayout({
   extraComponent,
 }: Props) {
   return (
-    <section className="bg-white border border-gray-300 rounded-md p-5 grid gap-4">
+    <section className="bg-white dark:bg-dark-secondary border dark:border-none border-gray-300 rounded-md p-5 grid gap-4">
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-subtitle font-bold">{title}</h2>
-          <p className="text-small text-gray-500">{description}</p>
+          <p className="text-small text-gray-500 dark:text-gray-300">
+            {description}
+          </p>
         </div>
         <div>{extraComponent}</div>
       </div>
