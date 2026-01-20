@@ -84,7 +84,7 @@ function Calendar({ tab }: { tab: string }) {
     handleSubmit,
     reset,
     // watch,
-    formState: { errors },
+    control,
   } = useForm<AppointmentFormValues>({
     resolver: zodResolver(appointmentSchema),
     defaultValues: defaultValues,
@@ -273,7 +273,7 @@ function Calendar({ tab }: { tab: string }) {
           handleSubmit={handleSubmit}
           onSubmit={onSubmit}
           register={register}
-          errors={errors}
+          control={control}
           isEditing={isEditing}
           data={data}
           professional={professional}

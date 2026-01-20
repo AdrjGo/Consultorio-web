@@ -3,17 +3,19 @@ import type { AppointmentFormValues } from "@schemas";
 import type { PatientType } from "@types";
 import dayjs from "dayjs";
 import { Save } from "lucide-react";
-import type {
-  FieldErrors,
-  UseFormHandleSubmit,
-  UseFormRegister,
+import {
+  useFormState,
+  type Control,
+  type UseFormHandleSubmit,
+  type UseFormRegister,
 } from "react-hook-form";
 
 type AppointmentFormProps = {
   handleSubmit: UseFormHandleSubmit<AppointmentFormValues>;
   onSubmit: (data: AppointmentFormValues) => void;
   register: UseFormRegister<AppointmentFormValues>;
-  errors: FieldErrors<AppointmentFormValues>;
+  // errors: FieldErrors<AppointmentFormValues>;
+  control: Control<AppointmentFormValues>;
   isEditing: boolean;
   data?: PatientType[];
   professional: { id: string; name: string }[];
@@ -26,7 +28,8 @@ function AppointmentForm({
   handleSubmit,
   onSubmit,
   register,
-  errors,
+  // errors,
+  control,
   isEditing,
   data,
   professional,
@@ -34,6 +37,10 @@ function AppointmentForm({
   appointmentStatus,
   formKey,
 }: AppointmentFormProps) {
+  const { errors } = useFormState({
+    control,
+  });
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -93,6 +100,7 @@ function AppointmentForm({
         label="Tipo de cita"
         options={appointmentTypes?.map((t) => t.label)}
         values={appointmentTypes?.map((t) => t.value)}
+        optionDefault={false}
         {...register("type", { valueAsNumber: true })}
         errors={errors.type}
       />
@@ -102,6 +110,7 @@ function AppointmentForm({
         label="Estado de la cita"
         options={appointmentStatus?.map((t) => t.label)}
         values={appointmentStatus?.map((t) => t.value)}
+        optionDefault={false}
         {...register("status", { valueAsNumber: true })}
         errors={errors.status}
       />
@@ -110,12 +119,14 @@ function AppointmentForm({
         forInput="reason"
         label="Motivo de la cita"
         {...register("reason")}
+        maxLength={100}
       />
       <Input
         forInput="obs"
         label="Observaciones"
         placeholder="Obserbaciones adicionales..."
         {...register("observations")}
+        maxLength={100}
       />
 
       <Button>

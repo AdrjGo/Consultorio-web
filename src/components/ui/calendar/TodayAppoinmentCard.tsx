@@ -98,7 +98,7 @@ function TodayAppoinmentCard({ onClick }: Props) {
 
               return (
                 <section
-                  className="border border-gray-200 rounded-md p-3 grid"
+                  className="dark:bg-dark-tertiary border dark:border-none border-gray-200 rounded-md p-3 grid"
                   key={index}
                 >
                   <div className="flex justify-between items-center mb-3">
@@ -116,21 +116,21 @@ function TodayAppoinmentCard({ onClick }: Props) {
                     <li className="font-semibold">
                       <User
                         strokeWidth={1.25}
-                        className="text-gray-600 size-5"
+                        className="text-gray-600 dark:text-gray-300 size-5"
                       />
                       {appointment.patient.patientPerson.name}
                     </li>
                     <li>
                       <FileText
                         strokeWidth={1.25}
-                        className="text-gray-600 size-5"
+                        className="text-gray-600 dark:text-gray-300 size-5"
                       />
                       {appointment.type.replaceAll("_", " ")}
                     </li>
                     <li>
                       <Notebook
                         strokeWidth={1.25}
-                        className="text-gray-600 size-5"
+                        className="text-gray-600 dark:text-gray-300 size-5"
                       />
                       {appointment.reason}
                     </li>
