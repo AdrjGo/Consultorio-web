@@ -99,7 +99,7 @@ function Table<T>({
                       className="text-blue-600 dark:bg-blue-300/10!"
                       onClick={() => handleProfile((row as any).id)}
                     >
-                      <Eye className="size-4" /> {textButton ?? "Ver"}
+                      <Eye className="size-4" /> {textButton ? "Ver" : null}
                     </Button>
                   )}
                   {editButton && (
@@ -107,7 +107,8 @@ function Table<T>({
                       className="text-blue-900 dark:bg-blue-300/10! dark:text-white"
                       onClick={() => handleEdit((row as any).id)}
                     >
-                      <SquarePen className="size-4" /> {textButton ?? "Editar"}
+                      <SquarePen className="size-4" />{" "}
+                      {textButton ? "Editar" : null}
                     </Button>
                   )}
                   {deleteButton && (
@@ -118,7 +119,8 @@ function Table<T>({
                         modal.open();
                       }}
                     >
-                      <Trash className="size-4" /> {textButton ?? "Eliminar"}
+                      <Trash className="size-4" />{" "}
+                      {textButton ? "Eliminar" : null}
                     </Button>
                   )}
                   {customButtons && customButtons(row)}

@@ -63,7 +63,7 @@ function Modal({
       ref={dialogRef}
       className={twMerge(
         classNames,
-        "relative bg-white dark:bg-dark-secondary rounded-md text-black p-5 md:p-6 top-1/2 left-1/2 backdrop:bg-black/40 dark:backdrop:bg-white/10  transform -translate-x-1/2 -translate-y-1/2 md:w-2/6 w-full",
+        "relative bg-white dark:bg-dark-secondary rounded-md text-black p-4 md:p-6 top-1/2 left-1/2 backdrop:bg-black/40 dark:backdrop:bg-white/10  transform -translate-x-1/2 -translate-y-1/2 md:w-2/6 w-full",
       )}
       onClose={() => setOpenModal(false)}
     >
