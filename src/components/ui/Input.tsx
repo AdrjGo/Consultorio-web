@@ -7,6 +7,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   errors?: FieldError;
   icon?: React.ReactNode;
   maxLength?: number;
+  containerClassName?: string;
 }
 function Input({
   forInput,
@@ -16,10 +17,11 @@ function Input({
   errors,
   icon,
   maxLength,
+  containerClassName,
   ...props
 }: InputProps) {
   return (
-    <div className="grid w-full">
+    <div className={twMerge(containerClassName, "grid w-full")}>
       <label
         htmlFor={forInput}
         className="text-small font-medium dark:text-white"

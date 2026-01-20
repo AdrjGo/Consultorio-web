@@ -10,7 +10,7 @@ import type {
   PretreatmentType,
   TreatmentProcessSummaryType,
 } from "@types";
-import { setUrlParams } from "@utils";
+import { isMobile, setUrlParams } from "@utils";
 import dayjs from "dayjs";
 import es from "dayjs/locale/es";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -116,8 +116,8 @@ function PretreatmentExam() {
           </span>
         ))}
       </div>
-      <div className="flex justify-between gap-5">
-        <section className="rounded-md border border-gray-200 dark:border-dark w-full">
+      <div className="md:flex grid md:justify-between gap-5 max-h-full max-w-screen ">
+        <section className="rounded-md border border-gray-200 dark:border-dark md:w-full w-[85svw]">
           {/* <CardHeader className="bg-gradient-to-r from-emerald-50 to-emerald-100"></CardHeader> */}
           <div className="bg-linear-to-r from-blue-50 to-blue-100 p-3 dark:from-blue-700/10 dark:to-blue-900/10 flex justify-between">
             <h2 className="flex gap-2 items-center font-bold">
@@ -133,7 +133,7 @@ function PretreatmentExam() {
             handleEdit={handleEdit}
             deleteButton
             handleDelete={(id: string) => handleDelete(id)}
-            textButton={false}
+            textButton={isMobile ? false : true}
             data={pretreatmentExam?.exams || []}
             columns={[
               {
@@ -173,7 +173,7 @@ function PretreatmentExam() {
           />
         </section>
 
-        <section className="rounded-md border border-gray-200 w-full">
+        <section className="rounded-md border dark:border-dark  border-gray-200 w-full">
           {/* <CardHeader className="bg-gradient-to-r from-emerald-50 to-emerald-100"></CardHeader> */}
           <div className="bg-linear-to-r from-emerald-50 to-emerald-100 dark:from-emerald-700/10 dark:to-emerald-900/10  p-3">
             <h2 className="flex gap-2 items-center font-bold">
@@ -196,7 +196,7 @@ function PretreatmentExam() {
               (treatmentProcess, index) => (
                 <section
                   key={index}
-                  className="rounded-md border border-gray-200 p-2 gap-1 flex items-center"
+                  className="rounded-md border dark:border-none border-gray-200 dark:bg-dark p-2 gap-1 flex items-center"
                 >
                   <div className="grid flex-1">
                     <span className="text-tiny text-gray-500">

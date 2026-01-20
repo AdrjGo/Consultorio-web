@@ -42,7 +42,7 @@ function Filters({
       <span className="text-small text-gray-500 dark:text-gray-300">
         {description}
       </span>
-      <div className="my-4 flex gap-5 items-center">
+      <div className="my-4 md:flex grid grid-cols-5 md:gap-5 gap-2 items-center">
         <Input
           forInput="nameSearch"
           type="text"
@@ -56,6 +56,7 @@ function Filters({
             setName(e.target.value);
           }}
           autoComplete="off"
+          containerClassName="col-span-5"
         />
 
         <Select
@@ -68,6 +69,7 @@ function Filters({
             setUrlParams({ name: "state", value: e.target.value });
             setState(e.target.value);
           }}
+          containerClassName="col-span-2"
         />
 
         {activeRoles && (
@@ -81,19 +83,20 @@ function Filters({
               setUrlParams({ name: "role", value: e.target.value });
               setRole(e.target.value);
             }}
+            containerClassName="col-span-2"
           />
         )}
 
         <Button
-          className="flex gap-2 size-fit py-2.5"
+          className={`flex gap-2 size-fit py-2.5 ${isMobile ? "w-full h-10" : ""}`}
           onClick={() => {
             history.replaceState({}, document.title, window.location.pathname);
             setName("");
-            setState("active");
+            setState("");
             setRole("");
           }}
         >
-          <BrushCleaning className="size-4" />
+          <BrushCleaning className="size-5" />
           {isMobile ? "" : "Limpiar Filtros"}
         </Button>
       </div>

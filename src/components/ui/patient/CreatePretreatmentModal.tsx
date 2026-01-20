@@ -93,7 +93,7 @@ function CreatePretreatmentModal({
       desc="Registra los hallazgos iniciales antes de comenzar el tratamiento ortodóncico"
       openModal={modalFormPretreatment.isOpen}
       setOpenModal={closeModal}
-      classNames="!w-2/6 p-4"
+      classNames="p-4"
     >
       <form className="grid gap-3" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex gap-4 mt-4">

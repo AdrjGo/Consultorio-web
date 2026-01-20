@@ -159,10 +159,10 @@ function Patients({ tab }: { tab: string }) {
     }
   }, [patient]);
 
-  const columnsInMobile = [0, 3, 4, 7];
-  const filteredColumns = useMemo(() => {
-    return isMobile ? columnsInMobile.map((i) => columns[i]) : columns;
-  }, [isMobile]);
+  // const columnsInMobile = [0, 3, 4, 7];
+  // const filteredColumns = useMemo(() => {
+  //   return isMobile ? columnsInMobile.map((i) => columns[i]) : columns;
+  // }, [isMobile]);
 
   const handleNewPatient = useCallback(() => {
     setActiveTab(1);
@@ -207,7 +207,7 @@ function Patients({ tab }: { tab: string }) {
             </Button>
           }
         >
-          <section className="bg-white dark:bg-dark-secondary border dark:border-none border-gray-200 rounded-lg p-3 md:p-5 md:w-full w-[93svw] max-md:mb-4">
+          <section className="bg-white dark:bg-dark-secondary border dark:border-none border-gray-200 rounded-lg p-3 md:p-5 md:w-full  max-md:mb-4">
             <Filters
               title="Lista de Pacientes"
               description="Todos los pacientes registrados en el sistema"
@@ -220,10 +220,11 @@ function Patients({ tab }: { tab: string }) {
               viewButton
               editButton
               deleteButton
+              textButton={isMobile ? false : true}
               handleDelete={(id: string) => handleDelete(id)}
               deleteTitle="Eliminar Paciente"
               deleteDesc="El paciente cambiará de estado a Inactivo"
-              columns={filteredColumns}
+              columns={columns}
               data={data?.items || []}
               className={`[&>thead>tr>th]:nth-last-[1]:text-center`}
               setPage={setPage}

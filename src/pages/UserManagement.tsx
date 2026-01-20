@@ -1,11 +1,11 @@
 import { PageWrapper } from "@components/layout/PageWrapper";
-import { Button, Filters, Modal, TableMemo, UserModal } from "@components/ui";
+import { Button, Filters, TableMemo, UserModal } from "@components/ui";
 import RolModal from "@components/ui/user/UserRoleModal";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useGet, useModal, usePost, useUpdate } from "@hooks";
 import { userSchema, type UserFormValues } from "@schemas";
 import type { UserType } from "@types";
-import { getUrlParams, parseDate } from "@utils";
+import { getUrlParams, isMobile, parseDate } from "@utils";
 import { ShieldUser, UserStar } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -37,7 +37,7 @@ function UserManagement({ tab }: { tab: string }) {
     enabled: userId ? true : false,
   });
 
-  // console.log(users)
+  console.log(users);
 
   const userColumns = [
     {
@@ -180,7 +180,7 @@ function UserManagement({ tab }: { tab: string }) {
         </Button>
       }
     >
-      <section className="bg-white dark:bg-dark-secondary border border-gray-200 rounded-lg p-3 md:p-5 md:w-full w-[93svw] max-md:mb-4">
+      <section className="bg-white dark:bg-dark-secondary border dark:border-none border-gray-200 rounded-lg p-3 md:p-5 md:w-full w-[93svw] max-md:mb-4">
         <Filters
           title="Usuarios del Sistema"
           description="Todos los usuarios registrados en el sistema"
@@ -198,13 +198,14 @@ function UserManagement({ tab }: { tab: string }) {
           columns={userColumns}
           data={users || []}
           className={`[&>thead>tr>th]:nth-last-[1]:text-center`}
+          textButton={isMobile ? false : true}
           handleEdit={handleEdit}
           customButtons={(row) => (
             <Button
-              className="max-md:hidden text-green-600"
+              className="text-green-600 bg-green-500/10!"
               onClick={() => handleSecurity(row.id)}
             >
-              <ShieldUser className="size-4" /> Seguridad
+              <ShieldUser className="size-5" /> {isMobile ? "" : "Seguridad"}
             </Button>
           )}
         />

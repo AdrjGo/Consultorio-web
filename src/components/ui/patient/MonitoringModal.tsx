@@ -36,7 +36,7 @@ function MonitoringModal({ modal, closeModal }: MonitoringModalProps) {
       desc="Registra el progreso del tratamiento y pagos asociados"
       openModal={modal.isOpen}
       setOpenModal={modal.close}
-      classNames="!w-2/6 p-4"
+      classNames="p-4"
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-4 my-3">
@@ -64,8 +64,12 @@ function MonitoringModal({ modal, closeModal }: MonitoringModalProps) {
           {/* Header */}
           <div className="flex justify-between items-start">
             <div>
-              <h3 className="font-semibold text-sm">Archivos de Evidencia</h3>
-              <p className="text-xs text-gray-500">Radiografías, fotografías</p>
+              <h3 className="font-semibold text-sm dark:text-white">
+                Archivos de Evidencia
+              </h3>
+              <p className="text-xs text-gray-500 dark:text-gray-300">
+                Radiografías, fotografías
+              </p>
             </div>
 
             <Button
@@ -76,7 +80,7 @@ function MonitoringModal({ modal, closeModal }: MonitoringModalProps) {
               //     description: "",
               //   })
               // }
-              className="flex gap-2 items-center w-fit bg-white text-black border border-gray-300 text-tiny"
+              className="flex gap-2 items-center w-fit bg-white dark:bg-dark-fourth text-black dark:text-white border border-gray-300 dark:border-dark-fourth text-tiny"
             >
               <Upload size={14} />
               Agregar Archivo
