@@ -8,6 +8,7 @@ import { useGet, useGetUser } from "@hooks";
 import { useTabStore } from "@store";
 import { SideTabsAdmin, SideTabsManagement } from "@constants";
 import type { clinicType } from "@types";
+import { isMobile } from "@utils";
 
 function Sidebar({
   panelOpen,
@@ -21,7 +22,7 @@ function Sidebar({
   const navigate = useNavigate();
 
   const logout = () => {
-    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+    document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC";
     if (!document.cookie.includes("token")) {
       navigate("/");
       window.location.reload();
@@ -71,7 +72,7 @@ function Sidebar({
                 icon={tab.icon}
                 text={tab.text}
                 to={tab.to}
-                OnClick={OnClick}
+                OnClick={!isMobile ? () => {} : OnClick}
               />
             ))}
           </div>
@@ -86,7 +87,7 @@ function Sidebar({
                 icon={tab.icon}
                 text={tab.text}
                 to={tab.to}
-                OnClick={OnClick}
+                OnClick={!isMobile ? () => {} : OnClick}
               />
             ))}
           </div>
