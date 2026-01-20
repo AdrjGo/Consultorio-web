@@ -1,8 +1,7 @@
 import { Sidebar, ToggleThemeButton } from "@components/ui";
 import { decodeToken } from "@services";
-import { useThemeStore } from "@store";
 import { getToken } from "@utils";
-import { Moon, PanelLeft, Sun } from "lucide-react";
+import { PanelLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router";
 
