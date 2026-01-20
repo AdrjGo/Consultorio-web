@@ -42,7 +42,7 @@ function TreatmentSummary({ patientId }: TreatmentSummaryProps) {
       description="Resumen del tratamiento a realizar"
     >
       {!isPending && formSubmodule ? (
-        <div className="p-3">
+        <div className="p-3 rounded-md bg-[#e7e8e9]">
           <Form
             id="response"
             schema={formSubmodule?.jsonSchema as RJSFSchema}

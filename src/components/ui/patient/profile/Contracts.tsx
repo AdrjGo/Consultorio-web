@@ -42,7 +42,7 @@ function Contracts({ patientId }: ContractsProps) {
       key: ["form", c.submoduleId, patientId],
       urlEndpoint: `Form/submodule/${c.submoduleId}/${patientId}`,
       message: "Error al obtener datos de formulario",
-    })
+    }),
   );
 
   return (
@@ -64,7 +64,7 @@ function Contracts({ patientId }: ContractsProps) {
               textColor={contract.textColor}
             >
               {form ? (
-                <div className="p-3">
+                <div className="p-3 rounded-md bg-[#e7e8e9]">
                   <Form
                     id={`contract-${contract.submoduleId}`}
                     schema={form.jsonSchema as RJSFSchema}

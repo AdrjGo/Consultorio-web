@@ -1,18 +1,25 @@
 import Input from "@components/ui/Input";
 import Select from "@components/ui/Select";
 import type { PatientFormValues } from "@schemas";
-import type { FieldError, FieldErrors, UseFormRegister } from "react-hook-form";
+import {
+  useFormState,
+  type Control,
+  type FieldError,
+  type FieldErrors,
+  type UseFormRegister,
+} from "react-hook-form";
 
 type Props = {
   register: UseFormRegister<any>;
-  errors: FieldErrors<PatientFormValues>;
+  // errors: FieldErrors<PatientFormValues>;
+  control: Control<PatientFormValues>;
 };
 
 function getError(errors: FieldErrors, path: string): FieldError {
   return path.split(".").reduce((acc, key) => acc?.[key], errors as any);
 }
 
-function FormContact({ register, errors }: Props) {
+function FormContact({ register, control }: Props) {
   const contactFields = [
     {
       name: "zone",
@@ -63,6 +70,10 @@ function FormContact({ register, errors }: Props) {
       register: "sender",
     },
   ];
+
+  const { errors } = useFormState({
+    control,
+  });
 
   return (
     <section>

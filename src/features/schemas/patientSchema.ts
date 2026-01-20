@@ -24,7 +24,12 @@ export const patientSchema = z.object({
     .min(1, { message: "La ocupación es requerida" })
     .max(50, { message: "El lugar de trabajo u ocupación es muy largo" }),
   sender: z.string().optional(),
-  nit: z.string().max(12, { message: "El NIT es muy larga" }).optional(),
+  nit: z
+    .string()
+    .max(12, { message: "El NIT es muy largo" })
+    .regex(/^[0-9]+$/, { message: "El NIT debe ser numérico" })
+    .or(z.literal(""))
+    .optional(),
   person: personSchema,
   responsible: z
     .object({

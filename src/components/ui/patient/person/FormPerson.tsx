@@ -1,15 +1,23 @@
 import Input from "@components/ui/Input";
 import Select from "@components/ui/Select";
 import type { PatientFormValues } from "@schemas";
-import type { FieldError, FieldErrors, UseFormRegister } from "react-hook-form";
+import { getError } from "@utils";
+import type {
+  Control,
+  FieldError,
+  FieldErrors,
+  UseFormRegister,
+} from "react-hook-form";
+import { useFormState } from "react-hook-form";
 
 type Props = {
   register: UseFormRegister<any>;
-  errors: FieldErrors<PatientFormValues>;
+  // errors: FieldErrors<PatientFormValues>;
+  control: Control<PatientFormValues>;
   field?: string;
 };
 
-function FormPerson({ register, errors, field }: Props) {
+function FormPerson({ register, field, control }: Props) {
   const personFields = [
     {
       name: "name",
@@ -18,6 +26,7 @@ function FormPerson({ register, errors, field }: Props) {
       placeholder: "Nombre Completo",
       component: "input",
       register: `${field}.name`,
+      maxLength: 20,
     },
     {
       name: "lastName",
@@ -26,14 +35,16 @@ function FormPerson({ register, errors, field }: Props) {
       placeholder: "Apellidos",
       component: "input",
       register: `${field}.lastName`,
+      maxLength: 20,
     },
     {
       name: "ci",
       label: "Carnet de identidad*",
-      type: "number",
+      type: "text",
       placeholder: "12345678",
       component: "input",
       register: `${field}.ci`,
+      maxLength: 9,
     },
     {
       name: "birthDate",
@@ -60,6 +71,7 @@ function FormPerson({ register, errors, field }: Props) {
       placeholder: "Médico, Abogado, etc...",
       component: "input",
       register: `${field}.profession`,
+      maxLength: 30,
     },
     {
       name: "occupation",
@@ -68,20 +80,22 @@ function FormPerson({ register, errors, field }: Props) {
       placeholder: "Ej: Empleado, Autónomo, etc...",
       component: "input",
       register: "occupation",
+      maxLength: 30,
     },
     {
       name: "nit",
       label: "NIT/Documento fiscal",
-      type: "number",
+      type: "text",
       placeholder: "NIT",
       component: "input",
       register: "nit",
+      maxLength: 12,
     },
   ];
 
-  function getError(errors: FieldErrors, path: string): FieldError {
-    return path.split(".").reduce((acc, key) => acc?.[key], errors as any);
-  }
+  const { errors } = useFormState({
+    control,
+  });
 
   return (
     <section className="grid grid-cols-4 gap-x-5 gap-y-3">
@@ -95,7 +109,7 @@ function FormPerson({ register, errors, field }: Props) {
                 type={field.type}
                 placeholder={field.placeholder}
                 className="w-full"
-                maxLength={20}
+                maxLength={field.maxLength}
                 {...register(field.register)}
                 errors={getError(errors, field.register)}
               />

@@ -5,7 +5,6 @@ import Form from "@rjsf/antd";
 import type { RJSFSchema } from "@rjsf/utils";
 import validator from "@rjsf/validator-ajv8";
 import type { FormResType, FormType } from "@types";
-import { Files } from "lucide-react";
 import { useParams } from "react-router";
 
 function GeneralHistory() {
@@ -40,7 +39,7 @@ function GeneralHistory() {
       description="Antecedentes médicos y odontológicos"
     >
       {!isPending && formSubmodule ? (
-        <div className="p-3">
+        <div className="p-3 rounded-md bg-[#e7e8e9]">
           <Form
             id="response"
             schema={formSubmodule?.jsonSchema as RJSFSchema}

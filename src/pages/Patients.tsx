@@ -51,16 +51,13 @@ function Patients({ tab }: { tab: string }) {
     enabled: patientId ? true : false,
   });
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<PatientFormValues>({
-    mode: "onBlur",
-    resolver: zodResolver(patientSchema),
-    defaultValues: defaultValuesPatient(responsible),
-  });
+  const { register, handleSubmit, reset, control } = useForm<PatientFormValues>(
+    {
+      mode: "onBlur",
+      resolver: zodResolver(patientSchema),
+      defaultValues: defaultValuesPatient(responsible),
+    },
+  );
 
   const { post } = usePost<PatientFormValues, unknown>({
     url: `Patient`,
@@ -85,13 +82,13 @@ function Patients({ tab }: { tab: string }) {
         value: 1,
         label: "Datos Personales",
         content: (
-          <FormPerson register={register} errors={errors} field="person" />
+          <FormPerson register={register} control={control} field="person" />
         ),
       },
       {
         value: 2,
         label: "Contacto",
-        content: <FormContact register={register} errors={errors} />,
+        content: <FormContact register={register} control={control} />,
       },
       {
         value: 3,
@@ -99,13 +96,13 @@ function Patients({ tab }: { tab: string }) {
         content: (
           <FormResponsable
             register={register}
-            errors={errors}
+            control={control}
             field="responsible.person"
           />
         ),
       },
     ],
-    [register, errors, responsible],
+    [register, control, responsible],
   );
 
   const handleEdit = (id: string) => {
@@ -190,6 +187,8 @@ function Patients({ tab }: { tab: string }) {
     modal.close();
   };
 
+  console.log(isMobile);
+
   return (
     <>
       {!id ? (
@@ -207,7 +206,7 @@ function Patients({ tab }: { tab: string }) {
             </Button>
           }
         >
-          <section className="bg-white dark:bg-dark-secondary border dark:border-none border-gray-200 rounded-lg p-3 md:p-5 md:w-full  max-md:mb-4">
+          <section className="bg-white dark:bg-dark-secondary border dark:border-none border-gray-200 rounded-lg p-3 md:p-5 md:w-full max-md:mb-4">
             <Filters
               title="Lista de Pacientes"
               description="Todos los pacientes registrados en el sistema"
@@ -220,7 +219,7 @@ function Patients({ tab }: { tab: string }) {
               viewButton
               editButton
               deleteButton
-              textButton={isMobile ? false : true}
+              textButton={!isMobile}
               handleDelete={(id: string) => handleDelete(id)}
               deleteTitle="Eliminar Paciente"
               deleteDesc="El paciente cambiará de estado a Inactivo"

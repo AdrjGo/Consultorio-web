@@ -1,15 +1,22 @@
 import Input from "@components/ui/Input";
 import Select from "@components/ui/Select";
 import type { PatientFormValues } from "@schemas";
-import type { FieldError, FieldErrors, UseFormRegister } from "react-hook-form";
+import {
+  useFormState,
+  type Control,
+  type FieldError,
+  type FieldErrors,
+  type UseFormRegister,
+} from "react-hook-form";
 
 type Props = {
   register: UseFormRegister<any>;
-  errors: FieldErrors<PatientFormValues>;
+  // errors: FieldErrors<PatientFormValues>;
+  control: Control<PatientFormValues>;
   field: string;
 };
 
-function FormResponsable({ register, errors, field }: Props) {
+function FormResponsable({ register, field, control }: Props) {
   const responsibleFields = [
     {
       name: "parentage",
@@ -95,7 +102,9 @@ function FormResponsable({ register, errors, field }: Props) {
   function getError(errors: FieldErrors, path: string): FieldError {
     return path.split(".").reduce((acc, key) => acc?.[key], errors as any);
   }
-
+  const { errors } = useFormState({
+    control,
+  });
   return (
     <section className="grid grid-cols-4 gap-x-5 gap-y-3 mb-3">
       {responsibleFields.map((field) => {

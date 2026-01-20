@@ -46,7 +46,7 @@ PatientFormProps) {
         {activeTab === tabs[tabs.length - 1].value && (
           <Button
             type="submit"
-            className={`text-small text-white! px-5 ${
+            className={`text-small text-white! mt-3 px-5 ${
               activeTab == 3 ? "w-full!" : ""
             }`}
           >

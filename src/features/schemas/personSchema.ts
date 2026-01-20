@@ -31,6 +31,7 @@ export const personSchema = z.object({
 
   ci: z
     .string()
+    .regex(/^[0-9]+$/, { message: "El CI debe ser numérico" })
     .min(1, { message: "El CI es requerido" })
     .max(9, { message: "El CI es muy largo" }),
 
