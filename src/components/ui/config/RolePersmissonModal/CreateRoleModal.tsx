@@ -12,7 +12,7 @@ import type {
   RolePermissionsType,
   roleWithPermissions,
 } from "@types";
-import { getUrlParams } from "@utils";
+import { getError, getUrlParams } from "@utils";
 import { useEffect } from "react";
 import { useForm, useWatch, type Control } from "react-hook-form";
 
@@ -32,7 +32,7 @@ function CreateRoleModal({
     register,
     control,
     reset,
-    watch,
+    // watch,
     formState: { errors, isSubmitting },
   } = useForm<RoleWithPermissionsFormValues>({
     resolver: zodResolver(roleWithPermissionsSchema),
@@ -45,9 +45,9 @@ function CreateRoleModal({
     },
   });
 
-  console.log(errors);
+  // console.log(errors);
 
-  console.log(watch());
+  // console.log(watch());
 
   const { data: rolePermissions } = useGet<RolePermissionsType[]>({
     key: "roles",
@@ -123,7 +123,7 @@ function CreateRoleModal({
               label="Nombre del Rol"
               placeholder="Ejemplo: Administrador"
               maxLength={20}
-              errors={errors.role?.name}
+              errors={getError(errors, "role.name")}
               {...register("role.name")}
             />
             <Input
@@ -241,7 +241,7 @@ function PreviewWatched({ control }: { control: Control<any> }) {
   });
 
   const countPermission = selectedPermissions.length;
-  console.log(countPermission);
+  // console.log(countPermission);
 
   return (
     <div>

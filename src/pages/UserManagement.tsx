@@ -37,7 +37,7 @@ function UserManagement({ tab }: { tab: string }) {
     enabled: userId ? true : false,
   });
 
-  console.log(users);
+  // console.log(users);
 
   const userColumns = [
     {
@@ -110,12 +110,7 @@ function UserManagement({ tab }: { tab: string }) {
     modalUser.open();
   };
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<UserFormValues>({
+  const { register, handleSubmit, reset, control } = useForm<UserFormValues>({
     resolver: zodResolver(userSchema),
     defaultValues: defaultValuesUser(isEditing),
   });
@@ -220,7 +215,7 @@ function UserManagement({ tab }: { tab: string }) {
           handleSubmit={handleSubmit}
           onSubmit={onSubmit}
           register={register}
-          errors={errors}
+          control={control}
           viewPassword={viewPassword}
           setViewPassword={setViewPassword}
         />

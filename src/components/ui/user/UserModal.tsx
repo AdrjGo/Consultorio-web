@@ -2,19 +2,22 @@ import Button from "@components/ui/Button";
 import Input from "@components/ui/Input";
 import Modal from "@components/ui/Modal";
 import FormUserPerson from "@components/ui/user/FormUserPerson";
+import type { UserFormValues } from "@schemas";
+import type { ModalState } from "@types";
 import { Eye, EyeClosed, Save } from "lucide-react";
+import { useFormState, type Control } from "react-hook-form";
 
 type UserModalProps = {
   isEditing: boolean;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
   userId: string | null;
   setUserId: React.Dispatch<React.SetStateAction<string | null>>;
-  modal: any;
+  modal: ModalState;
   handleSubmit: any;
   onSubmit: any;
   register: any;
-  errors: any;
   viewPassword: boolean;
+  control: Control<UserFormValues>;
   setViewPassword: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -24,11 +27,16 @@ const UserModal = ({
   modal,
   handleSubmit,
   onSubmit,
+  control,
   register,
-  errors,
   viewPassword,
   setViewPassword,
 }: UserModalProps) => {
+  // console.log("formulario renderizado");
+  const { errors } = useFormState({
+    control,
+  });
+
   return (
     <Modal
       title={isEditing ? "Editar Usuario" : "Nuevo usuario"}
@@ -44,16 +52,19 @@ const UserModal = ({
         <span className="font-bold text-small dark:text-white">
           Datos Personales
         </span>
-        <FormUserPerson register={register} errors={errors} field="person" />
+        <FormUserPerson register={register} control={control} field="person" />
         {!isEditing && (
           <div>
-            <span className="font-bold text-small">Credenciales de Acceso</span>
+            <span className="font-bold text-small dark:text-white">
+              Credenciales de Acceso
+            </span>
             <div className="flex">
               <Input
                 forInput="password"
                 type={viewPassword ? "text" : "password"}
                 placeholder="Ingresa una contraseña segura"
                 label="Contraseña*"
+                maxLength={16}
                 icon={
                   <button
                     type="button"
@@ -67,8 +78,8 @@ const UserModal = ({
                     )}
                   </button>
                 }
-                errors={errors.password}
                 {...register("password")}
+                errors={errors.password}
               />
             </div>
             <span className="text-tiny text-gray-400">
