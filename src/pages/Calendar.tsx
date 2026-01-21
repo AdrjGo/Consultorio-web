@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { CalendarPlus } from "lucide-react";
+import { CalendarPlus, Lock } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 import { useGet, useModal, usePost, useUpdate } from "@hooks";
 import type { AppointmentPayload, PatientType, UserType } from "@types";
@@ -19,7 +19,13 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 import type { AppointmentTypes as AppTypes } from "types/AppointmentType";
 import type { EventClickArg } from "@fullcalendar/core/index.js";
-import { getUrlParams, isMobile, removeAccents, setUrlParams } from "@utils";
+import {
+  getUrlParams,
+  hasPermission,
+  isMobile,
+  removeAccents,
+  setUrlParams,
+} from "@utils";
 import { getStatusColor } from "@features";
 import { appointmentSchema, type AppointmentFormValues } from "@schemas";
 
@@ -215,21 +221,21 @@ function Calendar({ tab }: { tab: string }) {
     modal.close();
   };
 
-  // console.log(watch());
-
   return (
     <PageWrapper
       tab={tab}
       title="Agenda de Citas"
       desc="Gestiona las citas y horarios del consultorio"
       extraComponent={
-        <Button
-          className="text-small text-white! px-5 bg-green"
-          onClick={() => handleNewAppointment()}
-        >
-          <CalendarPlus className="size-4" />
-          Agregar Cita
-        </Button>
+        hasPermission("Crear Cita") && (
+          <Button
+            className="text-small text-white! px-5 bg-green"
+            onClick={() => handleNewAppointment()}
+          >
+            <CalendarPlus className="size-4" />
+            Agregar Cita
+          </Button>
+        )
       }
     >
       <section className="mt-5 flex justify-between gap-3.5 max-h-[80vh] max-md:grid">
@@ -252,10 +258,11 @@ function Calendar({ tab }: { tab: string }) {
             height={screen.height - screen.width / 5.6}
           />
         </div>
-
-        <TodayAppoinmentCard
-          onClick={(id) => handleEventClick({ event: { id } })}
-        />
+        {hasPermission("Leer Cita") && (
+          <TodayAppoinmentCard
+            onClick={(id) => handleEventClick({ event: { id } })}
+          />
+        )}
       </section>
 
       <Modal
@@ -268,18 +275,27 @@ function Calendar({ tab }: { tab: string }) {
             : "Programa una nueva cita para un paciente"
         }
       >
-        <AppointmentForm
-          key={appointmentId ?? "new"}
-          handleSubmit={handleSubmit}
-          onSubmit={onSubmit}
-          register={register}
-          control={control}
-          isEditing={isEditing}
-          data={data}
-          professional={professional}
-          appointmentTypes={AppointmentTypes}
-          appointmentStatus={AppointmentStatus}
-        />
+        {hasPermission("Crear Cita") ? (
+          <AppointmentForm
+            key={appointmentId ?? "new"}
+            handleSubmit={handleSubmit}
+            onSubmit={onSubmit}
+            register={register}
+            control={control}
+            isEditing={isEditing}
+            data={data}
+            professional={professional}
+            appointmentTypes={AppointmentTypes}
+            appointmentStatus={AppointmentStatus}
+          />
+        ) : (
+          <div className="grid place-items-center mt-3 gap-2">
+            <Lock className="size-10 dark:text-white" />
+            <p className="text-normal font-extrabold text-primary dark:text-white">
+              No tienes permisos de citas
+            </p>
+          </div>
+        )}
       </Modal>
     </PageWrapper>
   );

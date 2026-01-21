@@ -12,6 +12,7 @@ import dayjs from "dayjs";
 import type { AppointmentTypes } from "types/AppointmentType";
 import Button from "@components/ui/Button";
 import Modal from "@components/ui/Modal";
+import { hasPermission } from "@utils";
 
 type Props = {
   onClick: (appointmentId: string) => void;
@@ -137,17 +138,21 @@ function TodayAppoinmentCard({ onClick }: Props) {
                   </ol>
 
                   <div className="flex justify-between gap-3 [&>button]:bg-white [&>button]:text-black [&>button]:border-gray-200 [&>button]:rounded-md [&>button]:p-2 [&>button]:text-small [&>button]:font-semibold [&>button]:hover:bg-gray-200 [&>button]:border [&>button]:focus:bg-gray-100 mt-4">
-                    <Button onClick={() => onClick(appointment.id)}>
-                      <PencilLine className="size-3" />
-                      Editar
-                    </Button>
-                    <Button
-                      className="text-white! bg-red-500!"
-                      onClick={() => setOpenModal(true)}
-                    >
-                      <Trash className="size-3" />
-                      Eliminar
-                    </Button>
+                    {hasPermission("Actualizar Cita") && (
+                      <Button onClick={() => onClick(appointment.id)}>
+                        <PencilLine className="size-3" />
+                        Editar
+                      </Button>
+                    )}
+                    {hasPermission("Eliminar Cita") && (
+                      <Button
+                        className="text-white! bg-red-500!"
+                        onClick={() => setOpenModal(true)}
+                      >
+                        <Trash className="size-3" />
+                        Eliminar
+                      </Button>
+                    )}
                   </div>
 
                   <Modal
