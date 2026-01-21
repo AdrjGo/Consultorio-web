@@ -1,6 +1,15 @@
 import { createBrowserRouter } from "react-router";
-import { Calendar, Config, Login, NotFound, PatientProfile, Patients, UserManagement } from "../pages";
+import {
+  Calendar,
+  Config,
+  Login,
+  NotFound,
+  PatientProfile,
+  Patients,
+  UserManagement,
+} from "../pages";
 import PrivateRoute from "./PrivateRoute";
+import ProtectedRoute from "./ProtectedRoute";
 // import Layout from "../components/layout";
 
 const router = createBrowserRouter([
@@ -22,7 +31,18 @@ const router = createBrowserRouter([
             children: [
               {
                 path: "patient-profile/:id",
-                element: <PatientProfile />,
+                element: <ProtectedRoute permission="Leer Paciente" />,
+                children: [
+                  {
+                    index: false,
+                    element: <PatientProfile />,
+                  },
+                ],
+                // element: (
+                //   <ProtectedRoute permission="Leer Paciente">
+                //     <PatientProfile />
+                //   </ProtectedRoute>
+                // ),
               },
             ],
           },
