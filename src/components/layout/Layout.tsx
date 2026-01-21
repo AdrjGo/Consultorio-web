@@ -21,9 +21,10 @@ function Layout() {
   const expIn = tokenExp ? tokenExp * 1000 - Date.now() : 0;
 
   useEffect(() => {
-    console.log(expIn);
+    // console.log(expIn);
     if (expIn <= 0) {
-      document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+      document.cookie =
+        "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       location.reload();
       navigate("/");
     }
