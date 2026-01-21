@@ -22,7 +22,8 @@ function Sidebar({
   const navigate = useNavigate();
 
   const logout = () => {
-    document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+    // alert("Se ha cerrado la sesión");
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     if (!document.cookie.includes("token")) {
       navigate("/");
       window.location.reload();
