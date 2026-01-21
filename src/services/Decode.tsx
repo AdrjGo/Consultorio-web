@@ -12,6 +12,7 @@ type Token = {
   personId: string;
   role: string;
   userId: string;
+  permission: string[];
 };
 
 export const decodeToken = () => {
