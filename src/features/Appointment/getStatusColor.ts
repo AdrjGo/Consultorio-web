@@ -2,7 +2,7 @@
 export function getStatusColor(status: string) {
   switch (status.toLowerCase()) {
     case "confirmado":
-      return "oklch(79.2% 0.209 151.711)";
+      return "#059669";
     case "programado":
       return "#2563eb";
     case "reprogramado":
