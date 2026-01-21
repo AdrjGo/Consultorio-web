@@ -58,7 +58,7 @@ function Table<T>({
   const modal = useModal();
 
   return (
-    <div className="w-full overflow-x-auto whitespace-nowrap">
+    <div className="w-full overflow-x-auto">
       <table
         className={twMerge(
           className,
