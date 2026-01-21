@@ -6,6 +6,7 @@ import {
   FormPerson,
   FormResponsable,
   Modal,
+  NoPermission,
   PatientFormMemo,
   TableMemo,
 } from "@components/ui";
@@ -16,7 +17,13 @@ import { useDelete, useGet, useModal, usePost, useUpdate } from "@hooks";
 import { patientSchema, type PatientFormValues } from "@schemas";
 import { useResponsibleStore } from "@store";
 import type { Pagination, PatientType } from "@types";
-import { getUrlParams, isMobile, parseDate, setUrlParams } from "@utils";
+import {
+  getUrlParams,
+  hasPermission,
+  isMobile,
+  parseDate,
+  setUrlParams,
+} from "@utils";
 import { UserRoundPlus } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -187,7 +194,7 @@ function Patients({ tab }: { tab: string }) {
     modal.close();
   };
 
-  console.log(isMobile);
+  // console.log(isMobile);
 
   return (
     <>
@@ -197,13 +204,15 @@ function Patients({ tab }: { tab: string }) {
           title="Pacientes"
           desc="Gestiona la información de todos los pacientes"
           extraComponent={
-            <Button
-              className="text-small text-white! px-5 bg-green "
-              onClick={() => handleNewPatient()}
-            >
-              <UserRoundPlus className="size-4 mr-2" />
-              Agregar Paciente
-            </Button>
+            hasPermission("Crear Paciente") && (
+              <Button
+                className="text-small text-white! px-5 bg-green "
+                onClick={() => handleNewPatient()}
+              >
+                <UserRoundPlus className="size-4 mr-2" />
+                Agregar Paciente
+              </Button>
+            )
           }
         >
           <section className="bg-white dark:bg-dark-secondary border dark:border-none border-gray-200 rounded-lg p-3 md:p-5 md:w-full max-md:mb-4">
@@ -216,9 +225,9 @@ function Patients({ tab }: { tab: string }) {
               name={name}
             />
             <TableMemo
-              viewButton
-              editButton
-              deleteButton
+              viewButton={hasPermission("Leer Paciente")}
+              editButton={hasPermission("Actualizar Paciente")}
+              deleteButton={hasPermission("Eliminar Paciente")}
               textButton={!isMobile}
               handleDelete={(id: string) => handleDelete(id)}
               deleteTitle="Eliminar Paciente"
@@ -243,15 +252,21 @@ function Patients({ tab }: { tab: string }) {
               setUrlParams({ name: "patientId", value: "" })
             }
           >
-            <PatientFormMemo
-              key={patientId ?? "new"}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-              handleSubmit={handleSubmit}
-              onSubmit={onSubmit}
-              tabs={responsible ? tabs : tabs.slice(0, 2)}
-              responsible={responsible}
-            />
+            {hasPermission(
+              isEditing ? "Actualizar Paciente" : "Crear Paciente",
+            ) ? (
+              <PatientFormMemo
+                key={patientId ?? "new"}
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                handleSubmit={handleSubmit}
+                onSubmit={onSubmit}
+                tabs={responsible ? tabs : tabs.slice(0, 2)}
+                responsible={responsible}
+              />
+            ) : (
+              <NoPermission />
+            )}
           </Modal>
         </PageWrapper>
       ) : (

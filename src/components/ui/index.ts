@@ -9,6 +9,7 @@ import Filters from "@components/ui/patient/Filters";
 import DeleteModal from "@components/ui/DeleteModal";
 import NoForm from "@components/ui/NoForm";
 import ToggleThemeButton from "@components/ui/ToggleThemeButton";
+import NoPermission from "@components/ui/NoPermission";
 
 /* Componentes UI - Calendario */
 import TodayAppoinmentCard from "./calendar/TodayAppoinmentCard";
@@ -57,6 +58,7 @@ export {
   NoForm,
   DeleteModal,
   ToggleThemeButton,
+  NoPermission,
   TodayAppoinmentCard,
   TableMemo,
   Pagination,

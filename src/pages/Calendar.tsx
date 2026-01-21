@@ -9,6 +9,7 @@ import {
   Modal,
   TodayAppoinmentCard,
   AppointmentForm,
+  NoPermission,
 } from "@components/ui";
 import { PageWrapper } from "@components/layout/PageWrapper";
 import { AppointmentStatus, AppointmentTypes } from "@constants";
@@ -275,7 +276,7 @@ function Calendar({ tab }: { tab: string }) {
             : "Programa una nueva cita para un paciente"
         }
       >
-        {hasPermission("Crear Cita") ? (
+        {hasPermission(isEditing ? "Actualizar Cita" : "Crear Cita") ? (
           <AppointmentForm
             key={appointmentId ?? "new"}
             handleSubmit={handleSubmit}
@@ -289,12 +290,7 @@ function Calendar({ tab }: { tab: string }) {
             appointmentStatus={AppointmentStatus}
           />
         ) : (
-          <div className="grid place-items-center mt-3 gap-2">
-            <Lock className="size-10 dark:text-white" />
-            <p className="text-normal font-extrabold text-primary dark:text-white">
-              No tienes permisos de citas
-            </p>
-          </div>
+          <NoPermission />
         )}
       </Modal>
     </PageWrapper>
