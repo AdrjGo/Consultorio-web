@@ -4,7 +4,7 @@ import CreateRolModal from "@components/ui/config/RolePersmissonModal/CreateRole
 import { TableMemo } from "@components/ui/table/Table";
 import { useDelete, useGet, useModal } from "@hooks";
 import type { RoleType } from "@types";
-import { setUrlParams } from "@utils";
+import { hasPermission, setUrlParams } from "@utils";
 import { Lock } from "lucide-react";
 import { useState } from "react";
 
@@ -51,19 +51,21 @@ function RolePermission() {
         title="Gestión de Roles"
         description="Administra los roles y permisos del sistema - Nota: no se puede eliminar un rol si tiene usuarios asociados"
         extraComponent={
-          <Button
-            className="text-small text-white! px-5 bg-green"
-            onClick={() => modalFormRole.open()}
-          >
-            <Lock className="size-4" />
-            Agregar Nuevo Rol
-          </Button>
+          hasPermission("Crear Rol") && (
+            <Button
+              className="text-small text-white! px-5 bg-green"
+              onClick={() => modalFormRole.open()}
+            >
+              <Lock className="size-4" />
+              Agregar Nuevo Rol
+            </Button>
+          )
         }
       >
         <TableMemo
-          editButton
+          editButton={hasPermission("Actualizar Rol")}
           handleEdit={handleEdit}
-          deleteButton
+          deleteButton={hasPermission("Eliminar Rol")}
           handleDelete={(id: string) => handleDeteleRole(id)}
           columns={[
             {

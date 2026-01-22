@@ -10,7 +10,7 @@ import { useGet, useModal, usePost, useUpdate } from "@hooks";
 import { supabase } from "@store";
 import Select from "@components/ui/Select";
 import type { clinicType, UserType } from "@types";
-import { Toast } from "@utils";
+import { hasPermission, Toast } from "@utils";
 import { SectionLayout } from "@components/layout";
 
 function DentalOffice() {
@@ -206,7 +206,13 @@ function DentalOffice() {
         description="Carga y gestiona el logo de tu clínica"
       >
         <InputFile
-          title="Haz click para subir un logo"
+          title={
+            !hasPermission("Actualizar Datos de Consultorio")
+              ? "No tienes permiso para subir el logo"
+              : !edit
+                ? "Habilita el modo edicion para subir tu logo"
+                : "Haz click para subir un logo"
+          }
           description="SVG (Max, 1MB - 100x100px)"
           id="logo"
           onChange={handleFileChange}
@@ -253,25 +259,29 @@ function DentalOffice() {
           </div>
         </div>
       </SectionLayout>
-      <div className="flex gap-4">
-        {clinic?.name && (
-          <Button
-            children={`${!edit ? "Editar" : "Salir de editar"}`}
-            type="button"
-            disabled={loading}
-            className="w-full mb-4 bg-white text-black border border-gray-300 rounded-md"
-            onClick={() => {
-              setEdit(!edit);
-              Toast.info(`Edición ${!edit ? "activada" : "desactivada"}`);
-            }}
-          />
-        )}
-        <Button
-          children={loading ? "Guardando..." : "Guardar Cambios"}
-          disabled={loading}
-          className="w-full mb-4"
-        />
-      </div>
+      {hasPermission("Actualizar Datos de Consultorio") && (
+        <div className="flex gap-4">
+          {clinic?.name && (
+            <Button
+              children={`${!edit ? "Editar" : "Salir de editar"}`}
+              type="button"
+              disabled={loading}
+              className="w-full mb-4 bg-white text-black border border-gray-300 rounded-md"
+              onClick={() => {
+                setEdit(!edit);
+                Toast.info(`Edición ${!edit ? "activada" : "desactivada"}`);
+              }}
+            />
+          )}
+          {edit && (
+            <Button
+              children={loading ? "Guardando..." : "Guardar Cambios"}
+              disabled={loading}
+              className="w-full mb-4"
+            />
+          )}
+        </div>
+      )}
     </form>
   );
 }

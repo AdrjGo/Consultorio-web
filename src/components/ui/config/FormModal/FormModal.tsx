@@ -12,7 +12,8 @@ import Select from "@components/ui/Select";
 import { useGet, usePost, useUpdate } from "@hooks";
 import Input from "@components/ui/Input";
 import Button from "@components/ui/Button";
-import { getUrlParams } from "@utils";
+import { getUrlParams, hasPermission } from "@utils";
+import NoPermission from "@components/ui/NoPermission";
 
 type CreateRolModalProps = {
   modalForm: ModalState;
@@ -149,102 +150,113 @@ export default function FormModal({
       setOpenModal={closeModal}
       classNames="!w-5/6 !h-[80vh] p-4"
     >
-      <form
-        id={form?.id}
-        className="grid gap-3 h-full"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <div className="flex gap-4 h-full overflow-hidden">
-          {/* Left: Editors */}
-          <div className="w-1/2 grid gap-2">
-            <section className="grid gap-2 grid-cols-2">
-              {/* <p className="font-medium">Datos</p> */}
-              <Select
-                forSelect="submod"
-                label="Submodulo"
-                options={submodule?.map((s) => s.submoduleName)}
-                values={submodule?.map((s) => s.id)}
-                {...register("submodId")}
-                errors={errors.submodId}
-              />
-              <Input
-                forInput="numberVersion"
-                label="Versión"
-                type="number"
-                {...register("numberVersion", { valueAsNumber: true })}
-                errors={errors.numberVersion}
-              />
-              <Input
-                forInput="Nombre del formulario"
-                label="Nombre del formulario"
-                {...register("form.name")}
-                errors={errors.form?.name}
-              />
-              <Input
-                forInput="Descripción del formulario"
-                label="Descripción del formulario"
-                {...register("form.description")}
-                errors={errors.form?.description}
-              />
-              <input type="hidden" {...register("jsonSchema")} />
-            </section>
+      {hasPermission(
+        isEditing
+          ? "Actualizar Formularios Dinámicos"
+          : "Crear Formularios Dinámicos",
+      ) ? (
+        <form
+          id={form?.id}
+          className="grid gap-3 h-full"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <div className="flex gap-4 h-full overflow-hidden">
+            {/* Left: Editors */}
+            <div className="w-1/2 grid gap-2">
+              <section className="grid gap-2 grid-cols-2">
+                {/* <p className="font-medium">Datos</p> */}
+                <Select
+                  forSelect="submod"
+                  label="Submodulo"
+                  options={submodule?.map((s) => s.submoduleName)}
+                  values={submodule?.map((s) => s.id)}
+                  {...register("submodId")}
+                  errors={errors.submodId}
+                />
+                <Input
+                  forInput="numberVersion"
+                  label="Versión"
+                  type="number"
+                  {...register("numberVersion", { valueAsNumber: true })}
+                  errors={errors.numberVersion}
+                />
+                <Input
+                  forInput="Nombre del formulario"
+                  label="Nombre del formulario"
+                  {...register("form.name")}
+                  errors={errors.form?.name}
+                />
+                <Input
+                  forInput="Descripción del formulario"
+                  label="Descripción del formulario"
+                  {...register("form.description")}
+                  errors={errors.form?.description}
+                />
+                <input type="hidden" {...register("jsonSchema")} />
+              </section>
 
-            <section className="flex flex-col gap-2 w-full min-h-0">
-              <p className="font-medium dark:text-white">
-                Esquema del formulario (JSON)
-              </p>
-              <div className="flex-1 border rounded overflow-hidden">
-                <Editor
-                  defaultLanguage="json"
-                  value={schemaText}
-                  onChange={(val) => {
-                    setSchemaText(val ?? "{}");
-                  }}
-                  options={{ minimap: { enabled: false }, formatOnType: true }}
-                  height="100%"
-                  theme="vs-dark"
+              <section className="flex flex-col gap-2 w-full min-h-0">
+                <p className="font-medium dark:text-white">
+                  Esquema del formulario (JSON)
+                </p>
+                <div className="flex-1 border rounded overflow-hidden">
+                  <Editor
+                    defaultLanguage="json"
+                    value={schemaText}
+                    onChange={(val) => {
+                      setSchemaText(val ?? "{}");
+                    }}
+                    options={{
+                      minimap: { enabled: false },
+                      formatOnType: true,
+                    }}
+                    height="100%"
+                    theme="vs-dark"
+                  />
+                </div>
+
+                {parseError && (
+                  <div className="text-red-600 text-sm whitespace-pre-wrap">
+                    Error al parsear JSON: {parseError}
+                  </div>
+                )}
+              </section>
+            </div>
+
+            {/* Right: Preview */}
+            <section className="w-1/2 h-full overflow-auto">
+              <h3 className="mb-2 font-semibold dark:text-white">
+                Previsualzación
+              </h3>
+              <div className="bg-white p-4 rounded shadow-sm">
+                <Form
+                  id="new"
+                  tagName={"div"}
+                  schema={liveSchema}
+                  validator={validator}
+                  disabled
+                  uiSchema={{}}
                 />
               </div>
-
-              {parseError && (
-                <div className="text-red-600 text-sm whitespace-pre-wrap">
-                  Error al parsear JSON: {parseError}
-                </div>
-              )}
             </section>
           </div>
-
-          {/* Right: Preview */}
-          <section className="w-1/2 h-full overflow-auto">
-            <h3 className="mb-2 font-semibold dark:text-white">
-              Previsualzación
-            </h3>
-            <div className="bg-white p-4 rounded shadow-sm">
-              <Form
-                id="new"
-                tagName={"div"}
-                schema={liveSchema}
-                validator={validator}
-                disabled
-                uiSchema={{}}
-              />
-            </div>
+          <section className="flex gap-4">
+            <Button
+              className="bg-transparent dark:bg-dark-fourth text-black dark:text-white border dark:border-none border-back"
+              children="Cancelar"
+              onClick={closeModal}
+              type="button"
+              disabled={isSubmitting}
+            />
+            <Button
+              children={isEditing ? "Editar" : "Guardar"}
+              disabled={isSubmitting}
+            />
           </section>
-        </div>
-        <section className="flex gap-4">
-          <Button
-            className="bg-transparent dark:bg-dark-fourth text-black dark:text-white border dark:border-none border-back"
-            children="Cancelar"
-            onClick={closeModal}
-            type="button"
-            disabled={isSubmitting}
-          />
-          <Button
-            children={isEditing ? "Editar" : "Guardar"}
-            disabled={isSubmitting}
-          />
-        </section>
-      </form>
+        </form>
+      ) : (
+        <NoPermission />
+      )}
     </Modal>
   );
 }

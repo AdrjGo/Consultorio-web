@@ -1,6 +1,7 @@
 import Button from "@components/ui/Button";
 import Input from "@components/ui/Input";
 import Modal from "@components/ui/Modal";
+import NoPermission from "@components/ui/NoPermission";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useGet, usePost, useUpdate } from "@hooks";
 import {
@@ -12,7 +13,7 @@ import type {
   RolePermissionsType,
   roleWithPermissions,
 } from "@types";
-import { getError, getUrlParams } from "@utils";
+import { getError, getUrlParams, hasPermission } from "@utils";
 import { useEffect } from "react";
 import { useForm, useWatch, type Control } from "react-hook-form";
 
@@ -103,118 +104,122 @@ function CreateRoleModal({
       setOpenModal={closeModal}
       classNames="p-0 !h-3/4 !w-3/4 overflow-hidden"
     >
-      <form
-        className="grid grid-rows-1 h-full"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <div className="flex gap-2 w-full">
-          <section className="grid gap-4 p-4 w-[30%] h-fit">
-            <span className="border-b border-gray-200 dark:border-dark-fourth pb-3">
-              <h2 className="text-normal font-semibold dark:text-white">
-                {isEditing ? "Editar Rol" : "Crear nuevo Rol"}
-              </h2>
-              <p className="text-small text-gray-500 dark:text-gray-300">
-                Define la información básica del rol
-              </p>
-            </span>
-
-            <Input
-              forInput="roleName"
-              label="Nombre del Rol"
-              placeholder="Ejemplo: Administrador"
-              maxLength={20}
-              errors={getError(errors, "role.name")}
-              {...register("role.name")}
-            />
-            <Input
-              forInput="roleDescription"
-              label="Descripción del Rol"
-              placeholder="Describe las responsabilidades y caracteríasticas de este rol"
-              maxLength={100}
-              errors={errors.role?.description}
-              {...register("role.description")}
-            />
-
-            <div className="bg-[#EDFAF9] dark:bg-dark border dark:border-none border-[#baf9f3] p-4 rounded-lg">
-              <span className="text-small text-gray-500 dark:text-gray-300 font-bold">
-                VISTA PREVIA
+      {hasPermission(isEditing ? "Actualizar Rol" : "Crear Rol") ? (
+        <form
+          className="grid grid-rows-1 h-full"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <div className="flex gap-2 w-full">
+            <section className="grid gap-4 p-4 w-[30%] h-fit">
+              <span className="border-b border-gray-200 dark:border-dark-fourth pb-3">
+                <h2 className="text-normal font-semibold dark:text-white">
+                  {isEditing ? "Editar Rol" : "Crear nuevo Rol"}
+                </h2>
+                <p className="text-small text-gray-500 dark:text-gray-300">
+                  Define la información básica del rol
+                </p>
               </span>
-              <PreviewWatched control={control} />
-            </div>
-          </section>
 
-          <section className="bg-background dark:bg-dark p-4 rounded-md border-l dark:border-none border-gray-100 w-[70%] h-full  grid gap-4 overflow-hidden">
-            <span className="border-b border-gray-300 dark:border-dark-fourth pb-3">
-              <h2 className="text-normal font-semibold dark:text-white">
-                {isEditing ? "Editar" : "Asignar"} Permisos
-              </h2>
-              <p className="text-small text-gray-500 dark:text-gray-300">
-                Define los permisos del rol (pueden ser modificados en el
-                futuro)
-              </p>
-              {/* <Input
+              <Input
+                forInput="roleName"
+                label="Nombre del Rol"
+                placeholder="Ejemplo: Administrador"
+                maxLength={20}
+                errors={getError(errors, "role.name")}
+                {...register("role.name")}
+              />
+              <Input
+                forInput="roleDescription"
+                label="Descripción del Rol"
+                placeholder="Describe las responsabilidades y caracteríasticas de este rol"
+                maxLength={100}
+                errors={errors.role?.description}
+                {...register("role.description")}
+              />
+
+              <div className="bg-[#EDFAF9] dark:bg-dark border dark:border-none border-[#baf9f3] p-4 rounded-lg">
+                <span className="text-small text-gray-500 dark:text-gray-300 font-bold">
+                  VISTA PREVIA
+                </span>
+                <PreviewWatched control={control} />
+              </div>
+            </section>
+
+            <section className="bg-background dark:bg-dark p-4 rounded-md border-l dark:border-none border-gray-100 w-[70%] h-full  grid gap-4 overflow-hidden">
+              <span className="border-b border-gray-300 dark:border-dark-fourth pb-3">
+                <h2 className="text-normal font-semibold dark:text-white">
+                  {isEditing ? "Editar" : "Asignar"} Permisos
+                </h2>
+                <p className="text-small text-gray-500 dark:text-gray-300">
+                  Define los permisos del rol (pueden ser modificados en el
+                  futuro)
+                </p>
+                {/* <Input
                 forInput="searchPermissions"
                 placeholder="Buscar permisos..."
-              /> */}
-            </span>
-            <div className="grid gap-6 size-full overflow-y-scroll pr-1">
-              {errors && (
-                <p className="text-red-500 text-small mt-1">
-                  {errors.permissions?.message}
-                </p>
-              )}
-              {rolePermissions?.map((rolePermission, index) => (
-                <div
-                  className="grid border-b border-gray-200 dark:border-dark-fourth pb-4 transition-colors"
-                  key={index}
-                >
-                  <span className="text-normal font-semibold dark:text-white">
-                    {rolePermission.key}
-                  </span>
-                  <section className="grid grid-cols-3 gap-4 ">
-                    {rolePermission.permissions.map((permission, index) => (
-                      <article
-                        key={index}
-                        className="bg-white dark:bg-dark-tertiary flex items-start gap-3 p-2 rounded-lg border dark:border-none border-gray-200 hover:bg-blue-50 dark:hover:bg-dark-fourth hover:border-blue transition-colors"
-                      >
-                        <input
-                          id={permission.id}
-                          type="checkbox"
-                          value={permission.id}
-                          className="mt-2"
-                          {...register("permissions")}
-                        />
-                        <label
-                          htmlFor={permission.id}
-                          className="flex-1 cursor-pointer text-small font-bold dark:text-white"
+                /> */}
+              </span>
+              <div className="grid gap-6 size-full overflow-y-scroll pr-1">
+                {errors && (
+                  <p className="text-red-500 text-small mt-1">
+                    {errors.permissions?.message}
+                  </p>
+                )}
+                {rolePermissions?.map((rolePermission, index) => (
+                  <div
+                    className="grid border-b border-gray-200 dark:border-dark-fourth pb-4 transition-colors"
+                    key={index}
+                  >
+                    <span className="text-normal font-semibold dark:text-white">
+                      {rolePermission.key}
+                    </span>
+                    <section className="grid grid-cols-3 gap-4 ">
+                      {rolePermission.permissions.map((permission, index) => (
+                        <article
+                          key={index}
+                          className="bg-white dark:bg-dark-tertiary flex items-start gap-3 p-2 rounded-lg border dark:border-none border-gray-200 hover:bg-blue-50 dark:hover:bg-dark-fourth hover:border-blue transition-colors"
                         >
-                          <span className="font-bold text-small">
-                            {permission.name}
-                          </span>
-                          <p className="text-tiny text-gray-600 dark:text-gray-400">
-                            {permission.description}
-                          </p>
-                        </label>
-                      </article>
-                    ))}
-                  </section>
-                </div>
-              ))}
-            </div>
-          </section>
-        </div>
+                          <input
+                            id={permission.id}
+                            type="checkbox"
+                            value={permission.id}
+                            className="mt-2"
+                            {...register("permissions")}
+                          />
+                          <label
+                            htmlFor={permission.id}
+                            className="flex-1 cursor-pointer text-small font-bold dark:text-white"
+                          >
+                            <span className="font-bold text-small">
+                              {permission.name}
+                            </span>
+                            <p className="text-tiny text-gray-600 dark:text-gray-400">
+                              {permission.description}
+                            </p>
+                          </label>
+                        </article>
+                      ))}
+                    </section>
+                  </div>
+                ))}
+              </div>
+            </section>
+          </div>
 
-        <div className="flex gap-4 mt-4">
-          <Button
-            className="bg-transparent dark:bg-dark-tertiary text-black dark:text-white border dark:border-none border-back"
-            children="Cancelar"
-            onClick={() => modalFormRole.close()}
-            type="button"
-            disabled={isSubmitting}
-          />
-          <Button children="Guardar" disabled={isSubmitting} />
-        </div>
-      </form>
+          <div className="flex gap-4 mt-4">
+            <Button
+              className="bg-transparent dark:bg-dark-tertiary text-black dark:text-white border dark:border-none border-back"
+              children="Cancelar"
+              onClick={() => modalFormRole.close()}
+              type="button"
+              disabled={isSubmitting}
+            />
+            <Button children="Guardar" disabled={isSubmitting} />
+          </div>
+        </form>
+      ) : (
+        <NoPermission />
+      )}
     </Modal>
   );
 }

@@ -3,7 +3,7 @@ import Button from "@components/ui/Button";
 import FormModal from "@components/ui/config/FormModal/FormModal";
 import { useGet, useModal } from "@hooks";
 import type { FormType } from "@types";
-import { setUrlParams } from "@utils";
+import { hasPermission, setUrlParams } from "@utils";
 import { FileText, SquarePen } from "lucide-react";
 import { useState } from "react";
 
@@ -51,13 +51,15 @@ function DynamicForm() {
       title="Formularios Clínicos"
       description="Personaliza y crea tus formularios"
       extraComponent={
-        <Button
-          className="text-small text-white! px-5 bg-green"
-          onClick={() => modalForms.open()}
-        >
-          <FileText className="size-4" />
-          Nuevo Formulario
-        </Button>
+        hasPermission("Crear Formularios Dinámicos") && (
+          <Button
+            className="text-small text-white! px-5 bg-green"
+            onClick={() => modalForms.open()}
+          >
+            <FileText className="size-4" />
+            Nuevo Formulario
+          </Button>
+        )
       }
     >
       {forms?.map((form) => (
@@ -74,15 +76,17 @@ function DynamicForm() {
             </p>
           </div>
 
-          <div>
-            <Button
-              className="text-small bg-white dark:bg-dark-tertiary border dark:border-none dark:hover:bg-dark-fourth border-gray-300 rounded-md px-5 py-2 shadow-none"
-              onClick={() => handleEdit(form.id)}
-            >
-              <SquarePen className="size-3" />
-              Editar
-            </Button>
-          </div>
+          {hasPermission("Actualizar Formularios Dinámicos") && (
+            <div>
+              <Button
+                className="text-small bg-white dark:bg-dark-tertiary border dark:border-none dark:hover:bg-dark-fourth border-gray-300 rounded-md px-5 py-2 shadow-none"
+                onClick={() => handleEdit(form.id)}
+              >
+                <SquarePen className="size-3" />
+                Editar
+              </Button>
+            </div>
+          )}
         </section>
       ))}
       {modalForms.isOpen && (
