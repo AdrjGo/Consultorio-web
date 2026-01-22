@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useGet, useModal, usePost, useUpdate } from "@hooks";
 import { userSchema, type UserFormValues } from "@schemas";
 import type { UserType } from "@types";
-import { getUrlParams, isMobile, parseDate } from "@utils";
+import { getUrlParams, hasPermission, isMobile, parseDate } from "@utils";
 import { ShieldUser, UserStar } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -166,13 +166,15 @@ function UserManagement({ tab }: { tab: string }) {
       title="Gestiona los usuarios"
       desc="Administra las cuentas del personal clínico"
       extraComponent={
-        <Button
-          className="text-small text-white! px-5 bg-green"
-          onClick={() => handleNewUser()}
-        >
-          <UserStar className="size-4" />
-          Agregar Usuario
-        </Button>
+        hasPermission("Crear Usuario") && (
+          <Button
+            className="text-small text-white! px-5 bg-green"
+            onClick={() => handleNewUser()}
+          >
+            <UserStar className="size-4" />
+            Agregar Usuario
+          </Button>
+        )
       }
     >
       <section className="bg-white dark:bg-dark-secondary border dark:border-none border-gray-200 rounded-lg p-3 md:p-5 md:w-full w-[93svw] max-md:mb-4">
@@ -188,21 +190,27 @@ function UserManagement({ tab }: { tab: string }) {
           activeRoles
         />
         <TableMemo
-          editButton
+          editButton={hasPermission("Actualizar Usuario")}
           // deleteButton
           columns={userColumns}
           data={users || []}
           className={`[&>thead>tr>th]:nth-last-[1]:text-center`}
           textButton={isMobile ? false : true}
           handleEdit={handleEdit}
-          customButtons={(row) => (
-            <Button
-              className="text-green-600 bg-green-500/10!"
-              onClick={() => handleSecurity(row.id)}
-            >
-              <ShieldUser className="size-5" /> {isMobile ? "" : "Seguridad"}
-            </Button>
-          )}
+          customButtons={
+            hasPermission("Actualizar Roles") ||
+            hasPermission("Actualizar Usuario")
+              ? (row) => (
+                  <Button
+                    className="text-green-600 bg-green-500/10!"
+                    onClick={() => handleSecurity(row.id)}
+                  >
+                    <ShieldUser className="size-5" />{" "}
+                    {isMobile ? "" : "Seguridad"}
+                  </Button>
+                )
+              : undefined
+          }
         />
       </section>
       {modalUser.isOpen && (

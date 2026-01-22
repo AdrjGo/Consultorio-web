@@ -1,10 +1,12 @@
 import { CustomTabs } from "@components/ui/form/CustomTabs";
 import Modal from "@components/ui/Modal";
+import NoPermission from "@components/ui/NoPermission";
 import FormRoles from "@components/ui/user/RolModal/FormRoles";
 import FormState from "@components/ui/user/RolModal/FormState";
 import { useGet } from "@hooks";
-import { type UserRoleFormValues, type StateFormValues } from "@schemas";
+import { type StateFormValues } from "@schemas";
 import type { RoleType, UserRoleType } from "@types";
+import { hasPermission } from "@utils";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
@@ -73,12 +75,16 @@ function UserRoleModal({ modalSecurity, userId }: UserRoleModalProps) {
             label: "Roles",
             content: (
               <FormProvider {...methods} key={userId ?? "newUser"}>
-                <FormRoles
-                  roles={roles}
-                  userId={userId}
-                  modalSecurity={modalSecurity}
-                  userRoles={userRoles}
-                />
+                {hasPermission("Actualizar Roles") ? (
+                  <FormRoles
+                    roles={roles}
+                    userId={userId}
+                    modalSecurity={modalSecurity}
+                    userRoles={userRoles}
+                  />
+                ) : (
+                  <NoPermission />
+                )}
               </FormProvider>
             ),
           },
@@ -87,7 +93,11 @@ function UserRoleModal({ modalSecurity, userId }: UserRoleModalProps) {
             label: "Estado",
             content: (
               <FormProvider {...methods}>
-                <FormState userId={userId} modalSecurity={modalSecurity} />
+                {hasPermission("Actualizar Usuario") ? (
+                  <FormState userId={userId} modalSecurity={modalSecurity} />
+                ) : (
+                  <NoPermission />
+                )}
               </FormProvider>
             ),
           },

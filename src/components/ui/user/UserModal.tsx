@@ -1,9 +1,11 @@
 import Button from "@components/ui/Button";
 import Input from "@components/ui/Input";
 import Modal from "@components/ui/Modal";
+import NoPermission from "@components/ui/NoPermission";
 import FormUserPerson from "@components/ui/user/FormUserPerson";
 import type { UserFormValues } from "@schemas";
 import type { ModalState } from "@types";
+import { hasPermission } from "@utils";
 import { Eye, EyeClosed, Save } from "lucide-react";
 import { useFormState, type Control } from "react-hook-form";
 
@@ -44,55 +46,63 @@ const UserModal = ({
       openModal={modal.isOpen}
       setOpenModal={modal.close}
     >
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        key={userId ?? "newUser"}
-        className="flex flex-col gap-3"
-      >
-        <span className="font-bold text-small dark:text-white">
-          Datos Personales
-        </span>
-        <FormUserPerson register={register} control={control} field="person" />
-        {!isEditing && (
-          <div>
-            <span className="font-bold text-small dark:text-white">
-              Credenciales de Acceso
-            </span>
-            <div className="flex">
-              <Input
-                forInput="password"
-                type={viewPassword ? "text" : "password"}
-                placeholder="Ingresa una contraseña segura"
-                label="Contraseña*"
-                maxLength={16}
-                icon={
-                  <button
-                    type="button"
-                    className="text-small bg-transparent w-fit"
-                    onClick={() => setViewPassword(!viewPassword)}
-                  >
-                    {viewPassword ? (
-                      <Eye className="size-4" />
-                    ) : (
-                      <EyeClosed className="size-4" />
-                    )}
-                  </button>
-                }
-                {...register("password")}
-                errors={errors.password}
-              />
+      {hasPermission("Crear Usuario") ? (
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          key={userId ?? "newUser"}
+          className="flex flex-col gap-3"
+        >
+          <span className="font-bold text-small dark:text-white">
+            Datos Personales
+          </span>
+          <FormUserPerson
+            register={register}
+            control={control}
+            field="person"
+          />
+          {!isEditing && (
+            <div>
+              <span className="font-bold text-small dark:text-white">
+                Credenciales de Acceso
+              </span>
+              <div className="flex">
+                <Input
+                  forInput="password"
+                  type={viewPassword ? "text" : "password"}
+                  placeholder="Ingresa una contraseña segura"
+                  label="Contraseña*"
+                  maxLength={16}
+                  icon={
+                    <button
+                      type="button"
+                      className="text-small bg-transparent w-fit"
+                      onClick={() => setViewPassword(!viewPassword)}
+                    >
+                      {viewPassword ? (
+                        <Eye className="size-4" />
+                      ) : (
+                        <EyeClosed className="size-4" />
+                      )}
+                    </button>
+                  }
+                  {...register("password")}
+                  errors={errors.password}
+                />
+              </div>
+              <span className="text-tiny text-gray-400">
+                Mínimo 8 caracteres con mayusculas, números y caracteres
+                especiales
+              </span>
             </div>
-            <span className="text-tiny text-gray-400">
-              Mínimo 8 caracteres con mayusculas, números y caracteres
-              especiales
-            </span>
-          </div>
-        )}
-        <Button>
-          <Save className="size-4" />{" "}
-          {isEditing ? "Actualizar usuario" : "Crear usuario"}
-        </Button>
-      </form>
+          )}
+          <Button>
+            <Save className="size-4" />{" "}
+            {isEditing ? "Actualizar usuario" : "Crear usuario"}
+          </Button>
+        </form>
+      ) : (
+        <NoPermission />
+      )}
     </Modal>
   );
 };
