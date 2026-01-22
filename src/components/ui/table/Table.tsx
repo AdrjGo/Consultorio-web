@@ -75,7 +75,9 @@ function Table<T>({
                 {col?.label}
               </th>
             ))}
-            <th className="text-small py-2 text-center">Acciones</th>
+            {(viewButton || editButton || deleteButton || customButtons) && (
+              <th className="text-small py-2 text-center">Acciones</th>
+            )}
           </tr>
         </thead>
         <tbody className="[&>tr]:border-b [&>tr]:border-gray-200">
@@ -93,38 +95,43 @@ function Table<T>({
                 ))}
 
                 {/* Acciones */}
-                <td className="[&>button]:w-fit [&>button]:bg-transparent [&>button]:hover:bg-gray-200 flex gap-2 justify-center">
-                  {viewButton && (
-                    <Button
-                      className="text-blue-600 dark:bg-blue-300/10!"
-                      onClick={() => handleProfile((row as any).id)}
-                    >
-                      <Eye className="size-4" /> {textButton ? "Ver" : null}
-                    </Button>
-                  )}
-                  {editButton && (
-                    <Button
-                      className="text-blue-900 dark:bg-blue-300/10! dark:text-white"
-                      onClick={() => handleEdit((row as any).id)}
-                    >
-                      <SquarePen className="size-4" />{" "}
-                      {textButton ? "Editar" : null}
-                    </Button>
-                  )}
-                  {deleteButton && (
-                    <Button
-                      className="text-red-600 dark:text-red-400 dark:bg-red-500/10!"
-                      onClick={() => {
-                        setDeleteId((row as any).id);
-                        modal.open();
-                      }}
-                    >
-                      <Trash className="size-4" />{" "}
-                      {textButton ? "Eliminar" : null}
-                    </Button>
-                  )}
-                  {customButtons && customButtons(row)}
-                </td>
+                {(viewButton ||
+                  editButton ||
+                  deleteButton ||
+                  customButtons) && (
+                  <td className="[&>button]:w-fit [&>button]:bg-transparent [&>button]:hover:bg-gray-200 flex gap-2 justify-center">
+                    {viewButton && (
+                      <Button
+                        className="text-blue-600 dark:bg-blue-300/10!"
+                        onClick={() => handleProfile((row as any).id)}
+                      >
+                        <Eye className="size-4" /> {textButton ? "Ver" : null}
+                      </Button>
+                    )}
+                    {editButton && (
+                      <Button
+                        className="text-blue-900 dark:bg-blue-300/10! dark:text-white"
+                        onClick={() => handleEdit((row as any).id)}
+                      >
+                        <SquarePen className="size-4" />{" "}
+                        {textButton ? "Editar" : null}
+                      </Button>
+                    )}
+                    {deleteButton && (
+                      <Button
+                        className="text-red-600 dark:text-red-400 dark:bg-red-500/10!"
+                        onClick={() => {
+                          setDeleteId((row as any).id);
+                          modal.open();
+                        }}
+                      >
+                        <Trash className="size-4" />{" "}
+                        {textButton ? "Eliminar" : null}
+                      </Button>
+                    )}
+                    {customButtons && customButtons(row)}
+                  </td>
+                )}
               </tr>
             ))
           ) : (
