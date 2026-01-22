@@ -34,7 +34,7 @@ const router = createBrowserRouter([
                 element: <ProtectedRoute permission="Leer Paciente" />,
                 children: [
                   {
-                    index: false,
+                    index: true,
                     element: <PatientProfile />,
                   },
                 ],
