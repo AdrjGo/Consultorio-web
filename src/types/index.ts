@@ -24,6 +24,7 @@ import type {
   TreatmentProcessSummaryType,
 } from "types/TreatmentProcess";
 import type { MonitoringType } from "./MonitoringType";
+import type { FormResSchema } from "types/FormResSchema";
 
 export type {
   PatientType,
@@ -48,4 +49,5 @@ export type {
   TreatmentProcessType,
   TreatmentProcessSummaryType,
   MonitoringType,
+  FormResSchema,
 };

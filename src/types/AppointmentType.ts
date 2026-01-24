@@ -8,6 +8,7 @@ export type AppointmentTypes = {
   endDate: string;
   type: string;
   status: string;
+  lifeStatus: string;
   reason: string;
   observations: string;
   professional: null | unknown;

@@ -1,5 +1,7 @@
-import { useDelete, useGet } from "@hooks";
+import { useDelete, useGet, useUpdate } from "@hooks";
 import {
+  BadgeCheck,
+  CircleUser,
   Clock3,
   FileText,
   Notebook,
@@ -13,14 +15,21 @@ import type { AppointmentTypes } from "types/AppointmentType";
 import Button from "@components/ui/Button";
 import Modal from "@components/ui/Modal";
 import { hasPermission } from "@utils";
+import { useNavigate } from "react-router";
 
 type Props = {
   onClick: (appointmentId: string) => void;
 };
 
+type LifeStatusPayload = {
+  lifeStatus: number;
+};
+
 function TodayAppoinmentCard({ onClick }: Props) {
   const [openModal, setOpenModal] = useState(false);
   const [appointmentId, setAppointmentId] = useState<string | null>(null);
+
+  const navigate = useNavigate();
 
   const startDate = dayjs().format("YYYY-MM-DD");
   const endDate = dayjs().format("YYYY-MM-DD");
@@ -30,6 +39,18 @@ function TodayAppoinmentCard({ onClick }: Props) {
     urlEndpoint: `Appointment/date?initialDate=${startDate} 00:00:01&finalDate=${endDate} 23:59:59`,
     message: "Error al obtener las citas de hoy",
   });
+
+  // console.log(data);
+
+  const { update } = useUpdate<LifeStatusPayload, unknown>({
+    method: "PATCH",
+    url: `Appointment/${appointmentId}/lifeStatus`,
+  });
+
+  const handleChangeLifeStatus = (id: string, lifeStatus: number) => {
+    setAppointmentId(id);
+    update({ lifeStatus });
+  };
 
   const { deleteItem } = useDelete({
     url: `Appointment/${appointmentId}`,
@@ -43,9 +64,9 @@ function TodayAppoinmentCard({ onClick }: Props) {
     deleteItem(id);
   };
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data]);
 
   const statusColors = [
     {
@@ -137,20 +158,49 @@ function TodayAppoinmentCard({ onClick }: Props) {
                     </li>
                   </ol>
 
-                  <div className="flex justify-between gap-3 [&>button]:bg-white [&>button]:text-black [&>button]:border-gray-200 [&>button]:rounded-md [&>button]:p-2 [&>button]:text-small [&>button]:font-semibold [&>button]:hover:bg-gray-200 [&>button]:border [&>button]:focus:bg-gray-100 mt-4">
+                  <div className="flex justify-between gap-2.5 [&>button]:bg-white [&>button]:text-black [&>button]:border-gray-200 [&>button]:rounded-md [&>button]:p-2 [&>button]:text-small [&>button]:font-semibold [&>button]:hover:bg-gray-200 [&>button]:border [&>button]:focus:bg-gray-100 mt-4">
+                    {appointment.lifeStatus === "NoIniciado" &&
+                    appointment.status === "Confirmado" ? (
+                      <Button
+                        className="bg-green-700! border-none text-white!"
+                        onClick={() =>
+                          handleChangeLifeStatus(appointment.id, 1)
+                        }
+                      >
+                        <BadgeCheck className="size-4" />
+                        Iniciar Cita
+                      </Button>
+                    ) : appointment.status === "Confirmado" ? (
+                      <Button
+                        className="bg-blue! border-none text-white!"
+                        onClick={() =>
+                          navigate(
+                            "/odis/patients/patient-profile/" +
+                              appointment.patient.id,
+                          )
+                        }
+                      >
+                        <CircleUser className="size-4" />
+                        Perfil
+                      </Button>
+                    ) : (
+                      <></>
+                    )}
+
                     {hasPermission("Actualizar Cita") && (
                       <Button onClick={() => onClick(appointment.id)}>
-                        <PencilLine className="size-3" />
+                        <PencilLine className="size-4" />
                         Editar
                       </Button>
                     )}
+
                     {hasPermission("Eliminar Cita") && (
                       <Button
-                        className="text-white! bg-red-500!"
+                        className="text-white! bg-red-500! dark:border-none w-14!"
                         onClick={() => setOpenModal(true)}
                       >
-                        <Trash className="size-3" />
-                        Eliminar
+                        <Trash className="size-5" />
+                        {/* Eliminar */}
                       </Button>
                     )}
                   </div>

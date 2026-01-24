@@ -10,10 +10,15 @@ export const AppointmentTypes = [
 ];
 
 export const AppointmentStatus = [
-  { label: "Confirmado", value: 0 },
+  { label: "Pendiente", value: 0 },
   { label: "Programado", value: 1 },
-  { label: "Reprogramado", value: 2 },
-  { label: "Pendiente", value: 3 },
+  { label: "Confirmado", value: 2 },
+  { label: "Reprogramado", value: 3 },
   { label: "Cancelado", value: 4 },
-  { label: "Completado", value: 5 },
+];
+
+export const AppointmentLifeStatus = [
+  { label: "No iniciado", value: 0 },
+  { label: "Iniciado", value: 1 },
+  { label: "Completado", value: 2 },
 ];

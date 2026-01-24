@@ -1,5 +1,9 @@
 import { SideTabsManagement, SideTabsAdmin } from "./SideTabs";
-import { AppointmentTypes, AppointmentStatus } from "./AppointmentType";
+import {
+  AppointmentTypes,
+  AppointmentStatus,
+  AppointmentLifeStatus,
+} from "./AppointmentType";
 import { PatientState } from "./States";
 import { columns } from "./patient/Columns";
 
@@ -10,5 +14,6 @@ export {
   SideTabsAdmin,
   AppointmentTypes,
   AppointmentStatus,
+  AppointmentLifeStatus,
   PatientState,
 };
