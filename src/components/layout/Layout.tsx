@@ -1,6 +1,9 @@
 import { Sidebar, ToggleThemeButton } from "@components/ui";
+import { useGet } from "@hooks";
 import { decodeToken } from "@services";
-import { getToken } from "@utils";
+import type { AppointmentTypes } from "@types";
+import { getToken, Toast } from "@utils";
+import dayjs from "dayjs";
 import { PanelLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router";
@@ -28,6 +31,41 @@ function Layout() {
       navigate("/");
     }
   }, [tokenCookie]);
+
+  const startDate = dayjs().format("YYYY-MM-DD");
+  const endDate = dayjs().format("YYYY-MM-DD");
+
+  const { data } = useGet<AppointmentTypes[]>({
+    key: "today-appointments",
+    urlEndpoint: `Appointment/date?initialDate=${startDate} 00:00:01&finalDate=${endDate} 23:59:59`,
+    message: "Error al obtener las citas de hoy",
+  });
+
+  // const warnedAppointments = new Set<string>();
+
+  useEffect(() => {
+    if (!data || data.length === 0) return;
+
+    const now = dayjs();
+
+    data.forEach((appointment) => {
+      const start = dayjs(appointment.startDate);
+
+      const minutesDiff = start.diff(now, "minute");
+
+      if (
+        minutesDiff > 0 &&
+        minutesDiff <= 15
+        // && !warnedAppointments.has(appointment.id)
+      ) {
+        // warnedAppointments.add(appointment.id);
+
+        Toast.info(
+          `La cita con ${appointment.patient.patientPerson.name} inicia en ${minutesDiff} minutos`,
+        );
+      }
+    });
+  }, [data]);
 
   return (
     <div className="flex h-screen max-md:w-fit bg-background text-black dark:bg-dark dark:text-white">
