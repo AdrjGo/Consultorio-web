@@ -19,10 +19,22 @@ function usePost<T, R>({ setOpenModal, successMessage, url }: Props) {
         },
         body: JSON.stringify(data),
       });
-      const result = await res.json();
-      console.log(result.message);
-      if (!res.ok) throw new Error(result.message || "Error al procesar");
-      return result;
+
+      const contentType = res.headers.get("content-type") || "";
+      const isJson = contentType.includes("application/json");
+
+      const payload = isJson ? await res.json() : await res.text();
+
+      const message =
+        typeof payload === "string"
+          ? payload
+          : (payload?.message ?? "Error al procesar");
+
+      if (!res.ok) throw new Error(message);
+
+      return (
+        typeof payload === "string" ? ({ message: payload } as any) : payload
+      ) as R;
     },
     onSuccess: (data: any) => {
       setOpenModal?.(false);
