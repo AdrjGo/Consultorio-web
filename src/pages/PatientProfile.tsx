@@ -57,9 +57,9 @@ function PatientProfile() {
         patient?.state === "ACTIVE" ? "Activo" : "Inactivo"
       }`}
       extraComponent={
-        <Button className="" onClick={() => navigate("/odis/patients")}>
+        <Button className="" onClick={() => navigate(-1)}>
           <Undo2 />
-          Volver a la lista
+          Volver
         </Button>
       }
     >
@@ -95,7 +95,7 @@ function PatientProfile() {
           {
             value: 6,
             label: "Contratos",
-            content: <Contracts patientId={id ?? ""} />,
+            content: <Contracts />,
           },
           {
             value: 7,
