@@ -138,8 +138,11 @@ export default function FormModal({
       form: formData.form,
     };
 
-    console.log("Payload final a enviar:", payload);
-    isEditing ? update(payload) : post(payload);
+    !isEditing
+      ? post(payload)
+      : form?.numberVersion != watch("numberVersion")
+        ? post(payload)
+        : update(payload);
   };
 
   // const ThemedForm = withTheme(Theme);

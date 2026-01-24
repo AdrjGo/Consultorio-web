@@ -273,7 +273,7 @@ function DentalOffice() {
               }}
             />
           )}
-          {edit && (
+          {(edit || !clinic?.name) && (
             <Button
               children={loading ? "Guardando..." : "Guardar Cambios"}
               disabled={loading}
