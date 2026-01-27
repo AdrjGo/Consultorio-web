@@ -1,17 +1,22 @@
 import { SectionLayout } from "@components/layout";
 import { AccordionCard } from "@components/ui/patient/AccordionCard";
-import { useGet } from "@hooks";
+import { useGet, useModal, usePost } from "@hooks";
 import Form from "@rjsf/antd";
 import validator from "@rjsf/validator-ajv8";
 import type { RJSFSchema } from "@rjsf/utils";
-import type { FormType } from "@types";
+import type { FormResSchema, FormType } from "@types";
 import NoForm from "@components/ui/NoForm";
+import { useParams } from "react-router";
+import { useQueries } from "@tanstack/react-query";
+import { getData } from "@services";
 
-type ContractsProps = {
-  patientId: string;
-};
+// type ContractsProps = {
+//   patientId: string;
+// };
 
-function Contracts({ patientId }: ContractsProps) {
+function Contracts() {
+  const modalForm = useModal();
+
   const CONTRACT_CONFIG = [
     {
       key: "ortodoncia",
@@ -37,13 +42,31 @@ function Contracts({ patientId }: ContractsProps) {
     },
   ];
 
-  const formsQuery = CONTRACT_CONFIG.map((c) =>
-    useGet<FormType>({
-      key: ["form", c.submoduleId, patientId],
-      urlEndpoint: `Form/submodule/${c.submoduleId}/${patientId}`,
-      message: "Error al obtener datos de formulario",
-    }),
-  );
+  const { id: patientId } = useParams<{ id: string }>();
+
+  // const formsQuery = CONTRACT_CONFIG.map((c) =>
+  //   useGet<FormType>({
+  //     key: ["form", c.submoduleId],
+  //     urlEndpoint: `Form/submodule/${c.submoduleId}/${patientId}`,
+  //     message: "Error al obtener datos de formulario",
+  //   }),
+  // );
+
+  const formsQueries = useQueries({
+    queries: CONTRACT_CONFIG.map((c) => ({
+      queryKey: ["form", c.submoduleId, patientId],
+      queryFn: async () =>
+        getData({
+          url: `Form/submodule/${c.submoduleId}/${patientId}`,
+        }),
+      enabled: Boolean(patientId),
+    })),
+  });
+
+  const { post } = usePost<FormResSchema, unknown>({
+    url: "FormRes",
+    setOpenModal: modalForm.close,
+  });
 
   return (
     <SectionLayout
@@ -52,7 +75,19 @@ function Contracts({ patientId }: ContractsProps) {
     >
       <div className="grid gap-4">
         {CONTRACT_CONFIG.map((contract, index) => {
-          const { data: form } = formsQuery[index];
+          // const { data: form } = formsQueries[index];
+          const form = formsQueries[index].data;
+
+          // console.log(form);
+          const handleSubmit = (data: object) => {
+            const payload: FormResSchema = {
+              formVersionId: form?.id ?? "",
+              patientId: patientId ?? "",
+              jsonResponse: data,
+            };
+            console.log(payload);
+            post(payload);
+          };
 
           return (
             <AccordionCard
@@ -71,7 +106,9 @@ function Contracts({ patientId }: ContractsProps) {
                     validator={validator}
                     formData={form.response?.jsonResponse}
                     disabled={Boolean(form.response)}
-                    onSubmit={() => {}}
+                    onSubmit={(data) => {
+                      handleSubmit(data.formData);
+                    }}
                   />
                 </div>
               ) : (
