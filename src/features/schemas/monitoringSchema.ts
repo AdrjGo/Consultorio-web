@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const monitoringSchema = z.object({
+  patientId: z.string().min(1, { message: "El paciente es obligatorio" }),
   nomenclature: z
     .string()
     .min(1, { message: "El nomenclatura es obligatorio" }),
