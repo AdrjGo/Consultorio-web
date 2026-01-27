@@ -50,8 +50,10 @@ function Layout() {
 
     data.forEach((appointment) => {
       const start = dayjs(appointment.startDate);
+      const end = dayjs(appointment.endDate);
 
       const minutesDiff = start.diff(now, "minute");
+      const minutesDiffEnd = end.diff(now, "minute");
 
       if (
         minutesDiff > 0 &&
@@ -62,6 +64,18 @@ function Layout() {
 
         Toast.info(
           `La cita con ${appointment.patient.patientPerson.name} inicia en ${minutesDiff} minutos`,
+        );
+      }
+
+      if (
+        minutesDiffEnd > 0 &&
+        minutesDiffEnd <= 5
+        // && !warnedAppointments.has(appointment.id)
+      ) {
+        // warnedAppointments.add(appointment.id);
+
+        Toast.info(
+          `La cita con ${appointment.patient.patientPerson.name} termina en ${minutesDiffEnd} minutos`,
         );
       }
     });
