@@ -29,7 +29,7 @@ import DentalOffice from "@components/ui/config/DentalOffice";
 import RolePermission from "@components/ui/config/RolePermission";
 import CreateRolModal from "@components/ui/config/RolePersmissonModal/CreateRoleModal";
 
-/* Componentes UI - Patientes */
+/* Componentes UI - Paciente */
 import FormPerson from "@components/ui/patient/person/FormPerson";
 import FormContact from "@components/ui/patient/FormContact";
 import FormResponsable from "@components/ui/patient/FormResponsable";
@@ -48,6 +48,9 @@ import Contracts from "@components/ui/patient/profile/Contracts";
 import { AccordionCard } from "@components/ui/patient/AccordionCard";
 import Monitoring from "@components/ui/patient/profile/Monitoring";
 import MonitoringModal from "@components/ui/patient/MonitoringModal";
+import Files from "@components/ui/patient/profile/Files";
+import FileCard from "@components/ui/patient/FileCard";
+import FileModal from "@components/ui/patient/FileModal";
 
 export {
   Input,
@@ -91,4 +94,7 @@ export {
   AccordionCard,
   Monitoring,
   MonitoringModal,
+  Files,
+  FileCard,
+  FileModal,
 };

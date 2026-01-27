@@ -32,7 +32,8 @@ import {
 import {
   monitoringSchema,
   type MonitoringFormValues,
-} from "./MonitoringSchema";
+} from "./monitoringSchema";
+import { fileSchema, type FileFormValues } from "./fileSchema";
 
 export { userRoleSchema, type UserRoleFormValues };
 export { appointmentSchema, patientSchema, personSchema };
@@ -47,3 +48,4 @@ export { dynamicFormSchema, type DynamicFormValues };
 export { pretreatmentSchema, type PretreatmentFormValues };
 export { treatmentProcessSchema, type TreatmentProcessFormValues };
 export { monitoringSchema, type MonitoringFormValues };
+export { fileSchema, type FileFormValues };
