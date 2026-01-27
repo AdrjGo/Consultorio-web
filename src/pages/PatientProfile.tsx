@@ -4,6 +4,7 @@ import {
   ClinicHistory,
   Contracts,
   CustomTabs,
+  Files,
   GeneralHistory,
   Monitoring,
   Personalata,
@@ -57,7 +58,7 @@ function PatientProfile() {
         patient?.state === "ACTIVE" ? "Activo" : "Inactivo"
       }`}
       extraComponent={
-        <Button className="" onClick={() => navigate(-1)}>
+        <Button className="bg-gray-400" onClick={() => navigate(-1)}>
           <Undo2 />
           Volver
         </Button>
@@ -105,7 +106,7 @@ function PatientProfile() {
           {
             value: 8,
             label: "Imágenes",
-            content: <></>,
+            content: <Files />,
           },
           {
             value: 9,

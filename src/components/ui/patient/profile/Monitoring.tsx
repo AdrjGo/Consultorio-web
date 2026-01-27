@@ -48,7 +48,7 @@ function Monitoring({ patientId }: MonitoringProps) {
           className="text-small text-white! px-5 bg-green"
           onClick={() => modal.open()}
         >
-          <Monitor className="size-4" />
+          <Monitor className="size-5" />
           Registrar Seguimiento
         </Button>
       }
