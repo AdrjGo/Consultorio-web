@@ -51,6 +51,8 @@ import MonitoringModal from "@components/ui/patient/MonitoringModal";
 import Files from "@components/ui/patient/profile/Files";
 import FileCard from "@components/ui/patient/FileCard";
 import FileModal from "@components/ui/patient/FileModal";
+import Payment from "@components/ui/patient/profile/Payment";
+import ContractModal from "@components/ui/config/Contract/ContractModal";
 
 export {
   Input,
@@ -97,4 +99,6 @@ export {
   Files,
   FileCard,
   FileModal,
+  Payment,
+  ContractModal,
 };

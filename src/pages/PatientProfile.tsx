@@ -10,6 +10,7 @@ import {
   Personalata,
   PretreatmentExam,
   TreatmentSummary,
+  Payment,
 } from "@components/ui";
 import { useGet } from "@hooks";
 import type { PatientType } from "@types";
@@ -111,7 +112,7 @@ function PatientProfile() {
           {
             value: 9,
             label: "Pagos",
-            content: <></>,
+            content: <Payment />,
           },
         ]}
       />

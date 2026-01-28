@@ -1,23 +1,22 @@
 import { SectionLayout } from "@components/layout";
 import { AccordionCard } from "@components/ui/patient/AccordionCard";
-import { useGet, useModal, usePost } from "@hooks";
-import Form from "@rjsf/antd";
-import validator from "@rjsf/validator-ajv8";
-import type { RJSFSchema } from "@rjsf/utils";
-import type { FormResSchema, FormType } from "@types";
-import NoForm from "@components/ui/NoForm";
+import { useGet, useModal } from "@hooks";
+import type { FullContractType } from "@types";
 import { useParams } from "react-router";
 import { useQueries } from "@tanstack/react-query";
 import { getData } from "@services";
-
-// type ContractsProps = {
-//   patientId: string;
-// };
+import { TableMemo } from "@components/ui/table/Table";
+import Button from "@components/ui/Button";
+import { Eye, Plus } from "lucide-react";
+import { useState } from "react";
+import ContractModal from "@components/ui/config/Contract/ContractModal";
 
 function Contracts() {
   const modalForm = useModal();
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [view, setView] = useState<boolean>(false);
 
-  const CONTRACT_CONFIG = [
+  const CONTRACT_TABS = [
     {
       key: "ortodoncia",
       title: "Tratamiento de Ortodoncia",
@@ -44,16 +43,8 @@ function Contracts() {
 
   const { id: patientId } = useParams<{ id: string }>();
 
-  // const formsQuery = CONTRACT_CONFIG.map((c) =>
-  //   useGet<FormType>({
-  //     key: ["form", c.submoduleId],
-  //     urlEndpoint: `Form/submodule/${c.submoduleId}/${patientId}`,
-  //     message: "Error al obtener datos de formulario",
-  //   }),
-  // );
-
   const formsQueries = useQueries({
-    queries: CONTRACT_CONFIG.map((c) => ({
+    queries: CONTRACT_TABS.map((c) => ({
       queryKey: ["form", c.submoduleId, patientId],
       queryFn: async () =>
         getData({
@@ -63,10 +54,15 @@ function Contracts() {
     })),
   });
 
-  const { post } = usePost<FormResSchema, unknown>({
-    url: "FormRes",
-    setOpenModal: modalForm.close,
+  const { data } = useGet<FullContractType>({
+    key: ["contract", patientId ? patientId : ""],
+    urlEndpoint: `Contract/${patientId}`,
+    message: "Error al obtener datos de contrato",
+    enabled: Boolean(patientId),
   });
+
+  const contractData: FullContractType[] = [];
+  if (data) contractData.push(data);
 
   return (
     <SectionLayout
@@ -74,20 +70,13 @@ function Contracts() {
       description="Contratos de tratamientos especializados del paciente"
     >
       <div className="grid gap-4">
-        {CONTRACT_CONFIG.map((contract, index) => {
-          // const { data: form } = formsQueries[index];
-          const form = formsQueries[index].data;
+        {CONTRACT_TABS.map((contract, index) => {
+          const form = formsQueries[index].data as any;
 
-          // console.log(form);
-          const handleSubmit = (data: object) => {
-            const payload: FormResSchema = {
-              formVersionId: form?.id ?? "",
-              patientId: patientId ?? "",
-              jsonResponse: data,
-            };
-            console.log(payload);
-            post(payload);
-          };
+          const contractForTab = contractData.filter(
+            (c) => c.contract.submodID === contract.submoduleId,
+          );
+          const hasContract = contractForTab.length > 0;
 
           return (
             <AccordionCard
@@ -98,26 +87,66 @@ function Contracts() {
               color={contract.color}
               textColor={contract.textColor}
             >
-              {form ? (
-                <div className="p-3 rounded-md bg-[#e7e8e9]">
-                  <Form
-                    id={`contract-${contract.submoduleId}`}
-                    schema={form.jsonSchema as RJSFSchema}
-                    validator={validator}
-                    formData={form.response?.jsonResponse}
-                    disabled={Boolean(form.response)}
-                    onSubmit={(data) => {
-                      handleSubmit(data.formData);
-                    }}
-                  />
-                </div>
-              ) : (
-                <NoForm text="No hay formularios registrados para este contrato" />
-              )}
+              <Button
+                className="text-small text-white! px-5 my-3 bg-green"
+                onClick={() => {
+                  setSelectedIndex(index);
+                  modalForm.open();
+                  setView(hasContract);
+                }}
+              >
+                {hasContract ? (
+                  <Eye className="size-4" />
+                ) : (
+                  <Plus className="size-4" />
+                )}
+                {hasContract ? "Ver Contrato" : "Crear Contrato"}
+              </Button>
+
+              <TableMemo
+                handleEdit={() => {}}
+                columns={[
+                  {
+                    key: "date",
+                    label: "Fecha de Contrato",
+                    render: (contract: FullContractType) =>
+                      contract.contract.date,
+                  },
+                  {
+                    key: "cost",
+                    label: "Costo Total",
+                    render: (contract: FullContractType) =>
+                      contract.contract.totalCost,
+                  },
+                  {
+                    key: "months",
+                    label: "Meses de Tratamiento",
+                    render: (contract: FullContractType) =>
+                      contract.contract.monthsDuration,
+                  },
+                  {
+                    key: "payer",
+                    label: "Responsable de Pagos",
+                    render: (contract: FullContractType) =>
+                      contract.paymentManagerName,
+                  },
+                ]}
+                data={contractForTab || []}
+              />
             </AccordionCard>
           );
         })}
       </div>
+
+      {modalForm.isOpen && (
+        <ContractModal
+          modalForm={modalForm}
+          contractTabs={CONTRACT_TABS}
+          formsQueries={formsQueries}
+          selectedIndex={selectedIndex}
+          view={view}
+        />
+      )}
     </SectionLayout>
   );
 }
