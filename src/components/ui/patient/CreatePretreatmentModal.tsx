@@ -127,7 +127,7 @@ function CreatePretreatmentModal({
         />
         <Input
           forInput="interconsultation"
-          label="Interconsultación"
+          label="Interconsulta"
           placeholder="Especifica si se necesita consultar con otro especialista"
           maxLength={200}
           {...register("interconsultation")}

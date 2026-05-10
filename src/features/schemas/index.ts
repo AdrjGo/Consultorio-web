@@ -40,6 +40,10 @@ import {
   type PaymentManagerFormValues,
 } from "./paymentManager";
 import { contractSchema, type ContractFormValues } from "./contractSchema";
+import {
+  paymentTreatmentSchema,
+  type PaymentTreatmentFormValues,
+} from "./paymentTreatment";
 
 export { userRoleSchema, type UserRoleFormValues };
 export { appointmentSchema, patientSchema, personSchema };
@@ -58,3 +62,4 @@ export { fileSchema, type FileFormValues };
 export { formResSchema, type FormResValues };
 export { paymentManagerSchema, type PaymentManagerFormValues };
 export { contractSchema, type ContractFormValues };
+export { paymentTreatmentSchema, type PaymentTreatmentFormValues };

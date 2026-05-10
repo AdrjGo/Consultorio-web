@@ -40,6 +40,8 @@ function Sidebar({
     message: "Error al obtener datos de usuario",
   });
 
+  console.log(import.meta.env.VITE_LOGO_SYS_URL);
+
   return (
     <nav
       className={`flex flex-col bg-white dark:bg-dark-secondary md:max-w-64 h-screen border-r dark:border-none border-gray-200 transition-all duration-400 ease-in-out
@@ -50,7 +52,7 @@ function Sidebar({
     }`}
     >
       <section className="flex items-center w-full top-0 h-14 gap-1.5 ">
-        {!import.meta.env.VITE_LOGO_SYS_URL ? (
+        {import.meta.env.VITE_LOGO_SYS_URL === null ? (
           <Icons.Logo className="size-14" />
         ) : (
           <Icons.LogoUser className="size-14" />

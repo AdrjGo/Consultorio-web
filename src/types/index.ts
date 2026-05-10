@@ -27,6 +27,10 @@ import type { MonitoringType } from "./MonitoringType";
 import type { FormResSchema } from "types/FormResSchema";
 import type { FileType } from "types/FileType";
 import type { FullContractType } from "types/FullContractType";
+import type {
+  PaymentTreatment,
+  PaymentTreatmentProgress,
+} from "types/PaymentTreatment";
 
 export type {
   PatientType,
@@ -54,4 +58,6 @@ export type {
   FormResSchema,
   FileType,
   FullContractType,
+  PaymentTreatment,
+  PaymentTreatmentProgress,
 };
