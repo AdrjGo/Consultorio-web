@@ -1,3 +1,8 @@
+import { Mars, Undo2, Venus, FileText } from "lucide-react";
+import { useNavigate } from "react-router";
+import { useParams, useSearchParams } from "react-router";
+import { getToken } from "../utils/getToken";
+import { Toast } from "../utils/toastNotify";
 import { PageWrapper } from "@components/layout/PageWrapper";
 import {
   Button,
@@ -15,9 +20,6 @@ import {
 import { useGet } from "@hooks";
 import type { PatientType } from "@types";
 import { calculateAge } from "@utils";
-import { Mars, Undo2, Venus } from "lucide-react";
-import { useParams, useSearchParams } from "react-router";
-import { useNavigate } from "react-router";
 
 function PatientProfile() {
   const { id } = useParams<{ id: string }>();
@@ -30,14 +32,46 @@ function PatientProfile() {
     enabled: id ? true : false,
   });
 
-  //   console.log(patient);
-
   const [searchParams, setSearchParams] = useSearchParams();
 
   const tabFromUrl = Number(searchParams.get("tab") || "1");
 
   const handleTabChange = (newTab: number) => {
     setSearchParams({ tab: String(newTab) });
+  };
+
+  const handleExportPDF = async () => {
+    if (!id) return;
+
+    try {
+      const token = getToken();
+      const response = await fetch(
+        `http://localhost:5252/api/report/clinical/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Error al generar el reporte");
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `Reporte_Clinico_${patient?.patientPerson.name}_${patient?.patientPerson.lastName}_${new Date().toISOString().split("T")[0]}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+      Toast.success("Reporte clínico generado exitosamente");
+    } catch (error) {
+      Toast.error("Error al generar el reporte clínico");
+    }
   };
 
   return (
@@ -59,10 +93,16 @@ function PatientProfile() {
         patient?.state === "ACTIVE" ? "Activo" : "Inactivo"
       }`}
       extraComponent={
-        <Button className="bg-gray-400" onClick={() => navigate(-1)}>
-          <Undo2 />
-          Volver
-        </Button>
+        <>
+          <Button className="bg-blue-600" onClick={handleExportPDF}>
+            <FileText />
+            Exportar PDF
+          </Button>
+          <Button className="bg-gray-400" onClick={() => navigate(-1)}>
+            <Undo2 />
+            Volver
+          </Button>
+        </>
       }
     >
       <CustomTabs
