@@ -64,8 +64,7 @@ function DentalOffice() {
       cellPhone: "",
       email: "",
       logoRef: "",
-      logoUrl:
-        "https://oxbezrteqsgdufcohcjl.supabase.co/storage/v1/object/public/logo/Logo",
+      logoUrl: "",
       managerId: "",
     },
   });
@@ -82,6 +81,11 @@ function DentalOffice() {
       logoUrl: clinic.logoUrl,
       managerId: clinic.managerId ?? "",
     });
+
+    // Settear preview si ya hay logo y no hay preview manual
+    if (clinic.logoUrl && !previewUrl) {
+      setPreviewUrl(clinic.logoUrl);
+    }
   }, [users, clinic, reset]);
 
   const { post } = usePost<DentalOfficeFormValues, unknown>({
@@ -99,35 +103,55 @@ function DentalOffice() {
   const onSubmit = async (formData: DentalOfficeFormValues) => {
     try {
       setLoading(true);
-      setEdit(false);
 
+      // 1. Si hay archivo seleccionado, subir a Supabase Storage
       if (selectedFile) {
-        const fileName = "Logo";
+        // Crear nombre único: logo_{timestamp}.{extension}
+        const timestamp = Date.now();
+        const ext = selectedFile.name.split(".").pop();
+        const fileName = `logo_${timestamp}.${ext}`;
+        const storagePath = `logo/${fileName}`; // path en el bucket
 
         const { error: uploadError } = await supabase.storage
-          .from("logo")
-          .upload(fileName, selectedFile, { upsert: true });
+          .from("logos") // nombre del bucket en Supabase
+          .upload(storagePath, selectedFile, {
+            upsert: true, // sobreescribir si existe
+            cacheControl: "3600",
+          });
 
         if (uploadError) {
-          const { error: updateError } = await supabase.storage
-            .from("logo")
-            .update(fileName, selectedFile, { upsert: true });
-
-          if (updateError) throw updateError;
+          Toast.error("Error al subir el logo: " + uploadError.message);
+          setLoading(false);
+          return;
         }
-        const { data: publicUrl } = supabase.storage
-          .from("logo")
-          .getPublicUrl(fileName);
 
-        if (publicUrl?.publicUrl) {
-          formData.logoUrl = publicUrl.publicUrl;
-        } else {
-          Toast.error("No se pudo obtener el enlace del logo");
+        // 2. Obtener URL pública
+        const { data: urlData } = supabase.storage
+          .from("logos")
+          .getPublicUrl(storagePath);
+
+        if (!urlData?.publicUrl) {
+          Toast.error("No se pudo obtener la URL del logo");
+          setLoading(false);
+          return;
         }
+
+        // 3. Asignar al formData para enviar al backend
+        formData.logoUrl = urlData.publicUrl;
+        formData.logoRef = storagePath; // guardar la referencia del path
       }
-      edit ? update(formData) : post(formData);
+
+      // 4. Enviar al backend (create o update según corresponda)
+      if (clinic?.id) {
+        await update(formData);
+      } else {
+        await post(formData);
+      }
+
+      setEdit(false);
+      Toast.success("Datos guardados correctamente");
     } catch (err) {
-      // console.error(err);
+      console.error(err);
       Toast.error("Error al guardar los datos");
     } finally {
       setLoading(false);
