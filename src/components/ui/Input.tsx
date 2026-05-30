@@ -29,11 +29,10 @@ function Input({
         {label}
       </label>
       <div
-        className={`flex gap-1 items-center w-full${
-          icon
-            ? "bg-white dark:bg-dark text-black dark:text-white h-10 border dark:border-none border-gray-300 rounded-md py-2 px-2 placeholder-gray-400 dark:placeholder-gray-200 focus:border-primary focus:outline-none w-full text-small"
-            : ""
-        }`}
+        className={`flex gap-1 items-center w-full ${icon
+          ? "bg-white dark:bg-dark text-black dark:text-white h-10 border dark:border-none border-gray-300 rounded-md py-2 px-2 placeholder-gray-400 dark:placeholder-gray-200 focus:border-primary focus:outline-none w-full text-small"
+          : ""
+          }`}
       >
         {icon}
         <input
@@ -42,8 +41,7 @@ function Input({
           {...props}
           placeholder={placeholder}
           className={twMerge(
-            `bg-white dark:bg-dark text-black dark:text-white ${
-              icon ? "" : "h-10 border dark:border-none border-gray-300 "
+            `bg-white dark:bg-dark text-black dark:text-white dark:placeholder:text-gray-400 ${icon ? "" : "h-10 border dark:border-none border-gray-300 "
             }  rounded-md py-2 px-2 placeholder-gray-400 dark:placeholder-gray-200 focus:border-primary focus:outline-none w-full text-small`,
             className,
           )}
