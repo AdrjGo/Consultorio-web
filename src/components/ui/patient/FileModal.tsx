@@ -21,7 +21,7 @@ function FileModal({ modal }: FileModalProps) {
   const {
     register,
     handleSubmit,
-    watch,
+    // watch,
     formState: { errors },
   } = useForm<FileFormValues>({
     resolver: zodResolver(fileSchema),
