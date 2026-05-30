@@ -55,7 +55,9 @@ function PatientProfile() {
       );
 
       if (!response.ok) {
-        throw new Error("Error al generar el reporte");
+        const errorData = await response.json().catch(() => ({}));
+        const errorMessage = errorData.message || "Error al generar el reporte";
+        throw new Error(errorMessage);
       }
 
       const blob = await response.blob();
@@ -70,7 +72,7 @@ function PatientProfile() {
 
       Toast.success("Reporte clínico generado exitosamente");
     } catch (error) {
-      Toast.error("Error al generar el reporte clínico");
+      Toast.error(error instanceof Error ? error.message : "Error al generar el reporte clínico");
     }
   };
 
