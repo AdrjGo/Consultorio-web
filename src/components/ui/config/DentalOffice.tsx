@@ -81,8 +81,6 @@ function DentalOffice() {
       logoUrl: clinic.logoUrl,
       managerId: clinic.managerId ?? "",
     });
-
-    // Settear preview si ya hay logo y no hay preview manual
     if (clinic.logoUrl && !previewUrl) {
       setPreviewUrl(clinic.logoUrl);
     }
@@ -103,56 +101,46 @@ function DentalOffice() {
   const onSubmit = async (formData: DentalOfficeFormValues) => {
     try {
       setLoading(true);
+      setEdit(false);
 
-      // 1. Si hay archivo seleccionado, subir a Supabase Storage
       if (selectedFile) {
-        // Crear nombre único: logo_{timestamp}.{extension}
-        const timestamp = Date.now();
-        const ext = selectedFile.name.split(".").pop();
-        const fileName = `logo_${timestamp}.${ext}`;
-        const storagePath = `logo/${fileName}`; // path en el bucket
+        const storagePath = `logo_consultorio`;
+        const fullUrl = `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/logo/${storagePath}`;
 
         const { error: uploadError } = await supabase.storage
-          .from("logos") // nombre del bucket en Supabase
+          .from("logo")
           .upload(storagePath, selectedFile, {
-            upsert: true, // sobreescribir si existe
-            cacheControl: "3600",
+            upsert: true
           });
-
         if (uploadError) {
           Toast.error("Error al subir el logo: " + uploadError.message);
           setLoading(false);
           return;
         }
 
-        // 2. Obtener URL pública
-        const { data: urlData } = supabase.storage
-          .from("logos")
+        const { data: publicUrl } = supabase.storage
+          .from("logo")
           .getPublicUrl(storagePath);
 
-        if (!urlData?.publicUrl) {
+        if (!publicUrl?.publicUrl) {
           Toast.error("No se pudo obtener la URL del logo");
           setLoading(false);
           return;
         }
-
-        // 3. Asignar al formData para enviar al backend
-        formData.logoUrl = urlData.publicUrl;
-        formData.logoRef = storagePath; // guardar la referencia del path
+        formData.logoUrl = fullUrl;
+        formData.logoRef = storagePath;
       }
-
-      // 4. Enviar al backend (create o update según corresponda)
       if (clinic?.id) {
         await update(formData);
       } else {
         await post(formData);
+        console.log("DATOS: ", formData)
       }
-
-      setEdit(false);
       Toast.success("Datos guardados correctamente");
     } catch (err) {
-      console.error(err);
+      // console.error(err);
       Toast.error("Error al guardar los datos");
+      // console.log("DATOS:", formData)
     } finally {
       setLoading(false);
     }

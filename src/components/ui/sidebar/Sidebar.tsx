@@ -2,10 +2,10 @@ import { Ellipsis } from "lucide-react";
 
 import { Icons } from "../../Icons/Icons";
 import SideButton from "./SideButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useGet, useGetUser } from "@hooks";
-import { useTabStore } from "@store";
+import { supabase, useTabStore } from "@store";
 import { SideTabsAdmin, SideTabsManagement } from "@constants";
 import type { clinicType } from "@types";
 import { isMobile } from "@utils";
@@ -18,6 +18,7 @@ function Sidebar({
   OnClick?: () => void;
 }) {
   const [open, setOpen] = useState(false);
+  const [userLogo, setUserLogo] = useState(false);
 
   const navigate = useNavigate();
 
@@ -40,19 +41,33 @@ function Sidebar({
     message: "Error al obtener datos de usuario",
   });
 
-  console.log(import.meta.env.VITE_LOGO_SYS_URL);
+  useEffect(() => {
+    const loadFiles = async () => {
+      const { data, error } = await supabase.storage
+        .from('logo')
+        .list();
+
+      if (error) {
+        console.error(error);
+        return;
+      }
+      setUserLogo(data.length > 0);
+      // console.log(data.length > 0)
+    };
+
+    loadFiles();
+  }, []);
 
   return (
     <nav
       className={`flex flex-col bg-white dark:bg-dark-secondary md:max-w-64 h-screen border-r dark:border-none border-gray-200 transition-all duration-400 ease-in-out
-    ${
-      panelOpen
-        ? "md:w-full w-72 p-3 opacity-100"
-        : "w-0 p-0 opacity-0 overflow-hidden"
-    }`}
+    ${panelOpen
+          ? "md:w-full w-72 p-3 opacity-100"
+          : "w-0 p-0 opacity-0 overflow-hidden"
+        }`}
     >
       <section className="flex items-center w-full top-0 h-14 gap-1.5 ">
-        {import.meta.env.VITE_LOGO_SYS_URL === null ? (
+        {!userLogo ? (
           <Icons.Logo className="size-14" />
         ) : (
           <Icons.LogoUser className="size-14" />
@@ -75,7 +90,7 @@ function Sidebar({
                 icon={tab.icon}
                 text={tab.text}
                 to={tab.to}
-                OnClick={!isMobile ? () => {} : OnClick}
+                OnClick={!isMobile ? () => { } : OnClick}
               />
             ))}
           </div>
@@ -90,7 +105,7 @@ function Sidebar({
                 icon={tab.icon}
                 text={tab.text}
                 to={tab.to}
-                OnClick={!isMobile ? () => {} : OnClick}
+                OnClick={!isMobile ? () => { } : OnClick}
               />
             ))}
           </div>
