@@ -1,20 +1,24 @@
 import { SectionLayout } from "@components/layout";
 import { AccordionCard } from "@components/ui/patient/AccordionCard";
 import { useGet, useModal } from "@hooks";
-import type { FullContractType } from "@types";
+import type { FullContractType, OrthodonticsContractData } from "@types";
 import { useParams } from "react-router";
 import { useQueries } from "@tanstack/react-query";
 import { getData } from "@services";
 import { TableMemo } from "@components/ui/table/Table";
 import Button from "@components/ui/Button";
-import { Eye, Plus } from "lucide-react";
+import { Toast, getToken } from "@utils";
+import { Eye, FileDown, Plus } from "lucide-react";
 import { useState } from "react";
+import { pdf } from "@react-pdf/renderer";
+import { OrthodonticsContractPDF } from "@components/pdf/OrthodonticsContractPDF";
 import ContractModal from "@components/ui/config/Contract/ContractModal";
 
 function Contracts() {
   const modalForm = useModal();
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [view, setView] = useState<boolean>(false);
+  const [exportingId, setExportingId] = useState<number | null>(null);
 
   const CONTRACT_TABS = [
     {
@@ -64,6 +68,54 @@ function Contracts() {
   const contractData: FullContractType[] = [];
   if (data) contractData.push(data);
 
+  const handleExportPDF = async (contract: FullContractType, index: number) => {
+    setExportingId(index);
+    try {
+      const token = getToken();
+      const res = await fetch(
+        `http://localhost:5252/api/report/contract-data/${contract.contract.contractId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      if (res.status === 404) {
+        Toast.error("Contrato no encontrado");
+        return;
+      }
+      if (res.status === 401) {
+        Toast.error("Sesión expirada");
+        return;
+      }
+      if (!res.ok) {
+        Toast.error("Error al generar el PDF");
+        return;
+      }
+
+      const reportData: OrthodonticsContractData = await res.json();
+      const blob = await pdf(
+        <OrthodonticsContractPDF data={reportData} />,
+      ).toBlob();
+
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `Contrato_Ortodoncia_${reportData.patient.lastName}_${new Date().toISOString().slice(0, 10)}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      Toast.success("PDF descargado correctamente");
+    } catch {
+      Toast.error("Error al generar el PDF");
+    } finally {
+      setExportingId(null);
+    }
+  };
+
   return (
     <SectionLayout
       title="Gestión de contratos"
@@ -102,6 +154,17 @@ function Contracts() {
                 )}
                 {hasContract ? "Ver Contrato" : "Crear Contrato"}
               </Button>
+
+              {contract.submoduleId === 4 && hasContract && (
+                <Button
+                  className="text-small px-5 my-3 bg-blue-500 text-white!"
+                  onClick={() => handleExportPDF(contractForTab[0], index)}
+                  disabled={exportingId === index}
+                >
+                  <FileDown className="size-4" />
+                  {exportingId === index ? "Exportando..." : "Exportar PDF"}
+                </Button>
+              )}
 
               <TableMemo
                 handleEdit={() => {}}
