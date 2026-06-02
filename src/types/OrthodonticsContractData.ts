@@ -16,6 +16,7 @@ export interface OrthodonticsContractData {
     age: number;
   };
   formResponse: Record<string, unknown>;
+  contractDate: string;
   totalCost: number;
   monthsDuration: number;
   budgetRows?: BudgetRow[];
