@@ -24,8 +24,8 @@ const CONDICIONES = [
   `Las cuotas mensuales son una modalidad de pago acordada en este contrato y deben pagarse mensualmente hasta completar la última cuota. No están relacionadas con la frecuencia de las citas de control en el tratamiento, las mismas que se establecen de acuerdo a la técnica de tratamiento y la colaboración del paciente.`,
 ];
 
-const BORDER = 1;
-const BORDER_COLOR = "#000000";
+const B = 1;
+const C = "#000000";
 
 const s = StyleSheet.create({
   page: {
@@ -93,48 +93,45 @@ const s = StyleSheet.create({
     marginRight: 6,
   },
   fechaBox: {
-    borderBottomWidth: BORDER,
-    borderBottomColor: BORDER_COLOR,
+    borderBottomWidth: B,
+    borderBottomColor: C,
     width: 100,
   },
 
-  /* ── Section titles ── */
+  /* ── Section titles — sin borde ── */
   sectionTitle: {
     fontFamily: "Helvetica-Bold",
     fontSize: 10,
     textTransform: "uppercase",
     marginTop: 10,
     marginBottom: 4,
-    borderBottomWidth: BORDER,
-    borderBottomColor: BORDER_COLOR,
-    paddingBottom: 2,
   },
 
-  /* ── Table base ── */
+  /* ── Table ── */
   table: {
-    borderWidth: BORDER,
-    borderColor: BORDER_COLOR,
+    borderWidth: B,
+    borderColor: C,
   },
   tableRow: {
     flexDirection: "row",
   },
+  rowDivider: {
+    borderBottomWidth: B,
+    borderBottomColor: C,
+  },
+
+  /* ── Celdas — sin borde individual ── */
   cell: {
-    borderWidth: BORDER,
-    borderColor: BORDER_COLOR,
     padding: 3,
     fontFamily: "Helvetica",
     fontSize: 9,
   },
   cellBold: {
-    borderWidth: BORDER,
-    borderColor: BORDER_COLOR,
     padding: 3,
     fontFamily: "Helvetica-Bold",
     fontSize: 9,
   },
   cellHeader: {
-    borderWidth: BORDER,
-    borderColor: BORDER_COLOR,
     padding: 3,
     fontFamily: "Helvetica-Bold",
     fontSize: 9,
@@ -146,16 +143,12 @@ const s = StyleSheet.create({
     flexDirection: "row",
   },
   patientLabel: {
-    borderWidth: BORDER,
-    borderColor: BORDER_COLOR,
     padding: 3,
     fontFamily: "Helvetica-Bold",
     fontSize: 9,
     backgroundColor: "#f0f0f0",
   },
   patientValue: {
-    borderWidth: BORDER,
-    borderColor: BORDER_COLOR,
     padding: 3,
     fontFamily: "Helvetica",
     fontSize: 9,
@@ -173,14 +166,12 @@ const s = StyleSheet.create({
     padding: 3,
     flexDirection: "row",
     alignItems: "center",
-    borderWidth: BORDER,
-    borderColor: BORDER_COLOR,
   },
   checkbox: {
     width: 12,
     height: 12,
-    borderWidth: BORDER,
-    borderColor: BORDER_COLOR,
+    borderWidth: B,
+    borderColor: C,
     marginRight: 4,
     justifyContent: "center",
     alignItems: "center",
@@ -192,8 +183,8 @@ const s = StyleSheet.create({
 
   /* ── Aparatologia ── */
   aparatologiaBox: {
-    borderWidth: BORDER,
-    borderColor: BORDER_COLOR,
+    borderWidth: B,
+    borderColor: C,
     minHeight: 60,
     padding: 6,
     fontFamily: "Helvetica",
@@ -212,16 +203,12 @@ const s = StyleSheet.create({
     fontFamily: "Helvetica-Bold",
     fontSize: 9,
     padding: 3,
-    borderWidth: BORDER,
-    borderColor: BORDER_COLOR,
     width: "50%",
   },
   tiempoValue: {
     fontFamily: "Helvetica",
     fontSize: 9,
     padding: 3,
-    borderWidth: BORDER,
-    borderColor: BORDER_COLOR,
     width: "50%",
     flexDirection: "row",
     alignItems: "center",
@@ -230,19 +217,12 @@ const s = StyleSheet.create({
     fontFamily: "Helvetica-Bold",
     fontSize: 9,
     textAlign: "center",
-    borderWidth: BORDER,
-    borderColor: BORDER_COLOR,
     padding: 3,
-  },
-  totalRow: {
-    flexDirection: "row",
   },
   totalLabel: {
     fontFamily: "Helvetica-Bold",
     fontSize: 9,
     padding: 3,
-    borderWidth: BORDER,
-    borderColor: BORDER_COLOR,
     width: "60%",
     textAlign: "right",
   },
@@ -250,16 +230,12 @@ const s = StyleSheet.create({
     fontFamily: "Helvetica-Bold",
     fontSize: 9,
     padding: 3,
-    borderWidth: BORDER,
-    borderColor: BORDER_COLOR,
     width: "40%",
     textAlign: "right",
   },
   controlText: {
     fontFamily: "Helvetica",
     fontSize: 8,
-    borderWidth: BORDER,
-    borderColor: BORDER_COLOR,
     padding: 3,
   },
 
@@ -268,16 +244,12 @@ const s = StyleSheet.create({
     flexDirection: "row",
   },
   paymentLabel: {
-    borderWidth: BORDER,
-    borderColor: BORDER_COLOR,
     padding: 3,
     fontFamily: "Helvetica-Bold",
     fontSize: 9,
     backgroundColor: "#f0f0f0",
   },
   paymentValue: {
-    borderWidth: BORDER,
-    borderColor: BORDER_COLOR,
     padding: 3,
     fontFamily: "Helvetica",
     fontSize: 9,
@@ -311,8 +283,8 @@ const s = StyleSheet.create({
     width: "45%",
   },
   signatureLine: {
-    borderBottomWidth: BORDER,
-    borderBottomColor: BORDER_COLOR,
+    borderBottomWidth: B,
+    borderBottomColor: C,
     marginBottom: 4,
   },
   signatureLabel: {
@@ -328,8 +300,8 @@ const s = StyleSheet.create({
   /* ── Footer ── */
   footer: {
     marginTop: 20,
-    borderTopWidth: BORDER,
-    borderTopColor: BORDER_COLOR,
+    borderTopWidth: B,
+    borderTopColor: C,
     paddingTop: 6,
     fontFamily: "Helvetica",
     fontSize: 8,
@@ -392,7 +364,7 @@ export function OrthodonticsContractPDF({ data }: Props) {
         {/* ═══════════ DATOS DEL PACIENTE ═══════════ */}
         <Text style={s.sectionTitle}>Datos del Paciente</Text>
         <View style={s.table}>
-          <View style={s.patientRow}>
+          <View style={[s.patientRow, s.rowDivider]}>
             <Text style={[s.patientLabel, { width: "15%" }]}>Nombre</Text>
             <Text style={[s.patientValue, { width: "55%" }]}>
               {data.patient.firstName} {data.patient.lastName}
@@ -449,7 +421,7 @@ export function OrthodonticsContractPDF({ data }: Props) {
         <Text style={s.sectionTitle}>Tiempo y Presupuesto</Text>
         <View style={s.table}>
           {/* Tiempo */}
-          <View style={s.tiempoRow}>
+          <View style={[s.tiempoRow, s.rowDivider]}>
             <Text style={s.tiempoLabel}>
               Tiempo estimado de tratamiento
             </Text>
@@ -460,10 +432,12 @@ export function OrthodonticsContractPDF({ data }: Props) {
           </View>
 
           {/* Presupuesto header */}
-          <Text style={s.presupuestoHeader}>PRESUPUESTO</Text>
+          <View style={s.rowDivider}>
+            <Text style={s.presupuestoHeader}>PRESUPUESTO</Text>
+          </View>
 
           {/* Table header */}
-          <View style={s.tableRow}>
+          <View style={[s.tableRow, s.rowDivider]}>
             <Text style={[s.cellHeader, { width: "30%" }]}>Concepto</Text>
             <Text style={[s.cellHeader, { width: "15%" }]}>Costo</Text>
             <Text style={[s.cellHeader, { width: "15%" }]}>Cantidad</Text>
@@ -474,7 +448,10 @@ export function OrthodonticsContractPDF({ data }: Props) {
           {/* Budget rows */}
           {hasBudgetRows ? (
             data.budgetRows!.map((row, i) => (
-              <View key={i} style={s.tableRow}>
+              <View
+                key={i}
+                style={[s.tableRow, s.rowDivider]}
+              >
                 <Text style={[s.cell, { width: "30%" }]}>{row.concepto}</Text>
                 <Text style={[s.cell, { width: "15%" }]}>
                   {row.costo.toLocaleString()}
@@ -492,7 +469,7 @@ export function OrthodonticsContractPDF({ data }: Props) {
             ))
           ) : (
             <>
-              <View style={s.tableRow}>
+              <View style={[s.tableRow, s.rowDivider]}>
                 <Text style={[s.cell, { width: "30%" }]}>
                   Cuota Inicial $us.
                 </Text>
@@ -501,7 +478,7 @@ export function OrthodonticsContractPDF({ data }: Props) {
                 <Text style={[s.cell, { width: "15%" }]}>&nbsp;</Text>
                 <Text style={[s.cell, { width: "25%" }]}>&nbsp;</Text>
               </View>
-              <View style={s.tableRow}>
+              <View style={[s.tableRow, s.rowDivider]}>
                 <Text style={[s.cell, { width: "30%" }]}>
                   Cuotas Mensuales $us.
                 </Text>
@@ -510,7 +487,7 @@ export function OrthodonticsContractPDF({ data }: Props) {
                 <Text style={[s.cell, { width: "15%" }]}>&nbsp;</Text>
                 <Text style={[s.cell, { width: "25%" }]}>&nbsp;</Text>
               </View>
-              <View style={s.tableRow}>
+              <View style={[s.tableRow, s.rowDivider]}>
                 <Text style={[s.cell, { width: "30%" }]}>Otro $us.</Text>
                 <Text style={[s.cell, { width: "15%" }]}>&nbsp;</Text>
                 <Text style={[s.cell, { width: "15%" }]}>&nbsp;</Text>
@@ -522,26 +499,19 @@ export function OrthodonticsContractPDF({ data }: Props) {
 
           {/* Total row */}
           <View style={s.tableRow}>
-            <Text
-              style={[
-                s.totalLabel,
-                { width: "60%", textAlign: "right", borderWidth: BORDER },
-              ]}
-            >
-              TOTAL
-            </Text>
-            <Text
-              style={[s.totalValue, { width: "40%", borderWidth: BORDER }]}
-            >
+            <Text style={[s.totalLabel, { width: "60%" }]}>TOTAL</Text>
+            <Text style={[s.totalValue, { width: "40%" }]}>
               Bs. {data.totalCost.toLocaleString()}
             </Text>
           </View>
 
           {/* Control post-tratamiento */}
-          <Text style={s.controlText}>
-            Control post-tratamiento sin costo, salvo reposición de
-            retenedores
-          </Text>
+          <View style={s.rowDivider}>
+            <Text style={s.controlText}>
+              Control post-tratamiento sin costo, salvo reposición de
+              retenedores
+            </Text>
+          </View>
 
           {/* Observaciones */}
           <View style={s.tableRow}>
@@ -557,7 +527,7 @@ export function OrthodonticsContractPDF({ data }: Props) {
         {/* ═══════════ RESPONSABILIDAD DE PAGOS ═══════════ */}
         <Text style={s.sectionTitle}>Responsabilidad de Pagos</Text>
         <View style={s.table}>
-          <View style={s.paymentRow}>
+          <View style={[s.paymentRow, s.rowDivider]}>
             <Text style={[s.paymentLabel, { width: "15%" }]}>Nombre</Text>
             <Text style={[s.paymentValue, { width: "40%" }]}>
               {data.paymentManager.nombre || ""}
