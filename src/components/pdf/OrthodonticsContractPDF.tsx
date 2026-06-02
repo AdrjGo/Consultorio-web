@@ -1,5 +1,8 @@
-import { Document, Page, View, Text, StyleSheet } from "@react-pdf/renderer";
+import { Document, Page, View, Text, Image, StyleSheet } from "@react-pdf/renderer";
 import type { OrthodonticsContractData } from "@types";
+
+const LOGO_BASE64 =
+  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAasAAAGrAQMAAABE3youAAAAAXNSR0IB2cksfwAAAAZQTFRFnc74////EdbysgAAAAJ0Uk5TAP9bkSK1AAAE1UlEQVR4nO2cTZLUMAyFaaAKdnAD5iZwM+BmcBPmBrCDKmAYx3+SLdvSC6XCVLJg0tAfsaUnp6djvduTwfEQ/ri/G/zrbUaNuQH2/kM6+fzOgL36Wq76VI89+1nPf7xUY2++rN4h/eXtN3317bUSYxcb/M+ri8mXE7AaxnhIwRSwkrN8CLnrsXaM4ih7rB2jOMoe68YojbLD+jFKo+ywfozSKDtMGKMwyhaTxiiMssVefJewX88XWKPH4aCa1+LU+sk1mDy1fnINJk+tn1yDDabWj4q/HEytmxzHRlPrJsex0dS6yXFsOLVuWOzVcGrt5Dj2MKSauwHD6GrcHnx1ZphUa2UgrOYYNolI8072YhKRJiYMm0SkiQnFZhFpYkKxsUbCwXRCsWlE+Fvp+dtPU+zjBxmbBpKHkmDjqokHrR2CzQPJQ0mwmbTCQeVFsEUg+YTq6SKQLJQEWwSShbJiq0CyUFZsFUgWyorNFRkOosqKreLPMlCxZfxZIMrZMpA0AxWblnY87u86bB1/moGCreNPM1CwdfxpBgq2jj/NQMEU8aeRyCdL/YejZKBgirSRGiiYIm0kcRnTpI0kLmOatJHEZUyTNpK4jGnSRhKXMVXaSCjST1XaauIypkpbTVzGVGmriUuYLm01cQnTpa0mLmG6tNXEJUyXtpq4c5gy2zWE8Ycy2yXfCVNmu+Q7Ycpsl3xHTJvtku9TmFYkRSYR04qkyCRi2myXfEdMne0SjDOYWiRZJhFTiyTLJGJqkWSZnMH0IskyOTC9SLJMDkwvkiyTM5heW1ldB2YQSQ7iCcygraSuAzNoK6nrDGbQVlLXCcwiySTKgFkkmUR5ArNIMonyBGZRctJywEySTMHHMZOSo5ZPYCYlRy2fwExKjlrGMVsBxBLAMVsBxBLAMVsBxBK4WQsgloA7ZqybmDQYM9bNUTk4Zqybo3JwzFg3R+V4Y9ZyOwoOxqzldhScN2Yt7qO8YcxapUedemPm4g617Y2Z14SwKnhj5qUkLCabYOYVKKxBzph94QpL1x6Yfb0LK94emH11DevrHph9UQ7L8n+NAbeAx5vAhfUYcJ96vFNdWI8Bd8XH++KFbYoBny8eP2Fc2IVd2IVd2IVd2IX9M9gWn7ku7G9hW/xGtQW2xW/5W2BbfPPki23x/SSIbfG9Moht8TwAxLZ4jrPHEzEQ2+JJ5hbPhLd4uu674WCLPRi+21K22KnjvHnJd2OW76Yz3w114GZBEPPdCOm7ydN3A6vz5lzfjce+m6rBnd++29N9t96D/QG+TQzODRpgF4lvqwvYj+PbNAR2NoF9VL7NXmhHGtj/5tukB3YSgn2LYJekbysn2G+KdreCvbRg565vezHYAw12XIP93WA3Odq7DnbKg335oAsA6DkAOhyAfgqgewPqFQE6U4A+GKDrBujxATqKgP4loFsK6s0COsGAvjOgyw3oqQM6+IB+Qag7EeiFtAolNbEiGOjzBLpKgR5WqGMW6M8FuoGB3mOg0xnqqwa6uIGecaBDHeiHh7rvgV5/oLMg6GMIuiaiHo2gIyToPwm6XaLemqCTJ+gbKi9fdNGSMdATFXRgBf1eUXdZ0MsWdM5FfXpBV2DQgxh1PAb9ldnlxIvJGOgdTeqg0/4UA32xVy7cfwDK0Q455LkqTQAAAABJRU5ErkJggg==";
 
 const PHASES = [
   { key: "preventivo", label: "Preventivo" },
@@ -21,10 +24,13 @@ const CONDICIONES = [
   `Las cuotas mensuales son una modalidad de pago acordada en este contrato y deben pagarse mensualmente hasta completar la última cuota. No están relacionadas con la frecuencia de las citas de control en el tratamiento, las mismas que se establecen de acuerdo a la técnica de tratamiento y la colaboración del paciente.`,
 ];
 
+const BORDER = 1;
+const BORDER_COLOR = "#000000";
+
 const s = StyleSheet.create({
   page: {
     padding: 35,
-    fontFamily: "Times-Roman",
+    fontFamily: "Helvetica",
     fontSize: 10,
     lineHeight: 1.4,
   },
@@ -33,50 +39,34 @@ const s = StyleSheet.create({
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "flex-start",
-    marginBottom: 6,
+    alignItems: "center",
+    marginBottom: 8,
   },
   headerLeft: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 6,
   },
-  logoCircle: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    border: "1.5pt solid #1a3a5c",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  logoText: {
-    fontFamily: "Times-Bold",
-    fontSize: 11,
-    color: "#1a3a5c",
-  },
-  logoSubText: {
-    fontFamily: "Times-Roman",
-    fontSize: 7,
-    color: "#1a3a5c",
-    marginTop: 1,
+  logo: {
+    width: 50,
+    height: 50,
   },
   headerRight: {
     alignItems: "flex-end",
   },
   formNumber: {
-    fontFamily: "Times-Roman",
+    fontFamily: "Helvetica",
     fontSize: 8,
     color: "#555",
   },
   doctorNameHeader: {
-    fontFamily: "Times-Bold",
+    fontFamily: "Helvetica-Bold",
     fontSize: 9,
     marginTop: 2,
   },
 
   /* ── Title ── */
   title: {
-    fontFamily: "Times-Bold",
+    fontFamily: "Helvetica-Bold",
     fontSize: 13,
     textAlign: "center",
     textTransform: "uppercase",
@@ -84,7 +74,7 @@ const s = StyleSheet.create({
     marginBottom: 4,
   },
   subtitle: {
-    fontFamily: "Times-Bold",
+    fontFamily: "Helvetica-Bold",
     fontSize: 11,
     textAlign: "center",
     textTransform: "uppercase",
@@ -98,51 +88,55 @@ const s = StyleSheet.create({
     marginBottom: 10,
   },
   fechaLabel: {
-    fontFamily: "Times-Bold",
+    fontFamily: "Helvetica-Bold",
     fontSize: 10,
     marginRight: 6,
   },
-  fechaValue: {
-    fontFamily: "Times-Roman",
-    fontSize: 10,
-    borderBottom: "0.5pt solid #000",
+  fechaBox: {
+    borderBottomWidth: BORDER,
+    borderBottomColor: BORDER_COLOR,
     width: 100,
   },
 
   /* ── Section titles ── */
   sectionTitle: {
-    fontFamily: "Times-Bold",
+    fontFamily: "Helvetica-Bold",
     fontSize: 10,
     textTransform: "uppercase",
     marginTop: 10,
     marginBottom: 4,
-    borderBottom: "0.5pt solid #000",
+    borderBottomWidth: BORDER,
+    borderBottomColor: BORDER_COLOR,
     paddingBottom: 2,
   },
 
   /* ── Table base ── */
   table: {
-    border: "0.5pt solid #000",
+    borderWidth: BORDER,
+    borderColor: BORDER_COLOR,
   },
   tableRow: {
     flexDirection: "row",
   },
   cell: {
-    border: "0.5pt solid #000",
+    borderWidth: BORDER,
+    borderColor: BORDER_COLOR,
     padding: 3,
-    fontFamily: "Times-Roman",
+    fontFamily: "Helvetica",
     fontSize: 9,
   },
   cellBold: {
-    border: "0.5pt solid #000",
+    borderWidth: BORDER,
+    borderColor: BORDER_COLOR,
     padding: 3,
-    fontFamily: "Times-Bold",
+    fontFamily: "Helvetica-Bold",
     fontSize: 9,
   },
   cellHeader: {
-    border: "0.5pt solid #000",
+    borderWidth: BORDER,
+    borderColor: BORDER_COLOR,
     padding: 3,
-    fontFamily: "Times-Bold",
+    fontFamily: "Helvetica-Bold",
     fontSize: 9,
     backgroundColor: "#e8e8e8",
   },
@@ -152,16 +146,18 @@ const s = StyleSheet.create({
     flexDirection: "row",
   },
   patientLabel: {
-    border: "0.5pt solid #000",
+    borderWidth: BORDER,
+    borderColor: BORDER_COLOR,
     padding: 3,
-    fontFamily: "Times-Bold",
+    fontFamily: "Helvetica-Bold",
     fontSize: 9,
     backgroundColor: "#f0f0f0",
   },
   patientValue: {
-    border: "0.5pt solid #000",
+    borderWidth: BORDER,
+    borderColor: BORDER_COLOR,
     padding: 3,
-    fontFamily: "Times-Roman",
+    fontFamily: "Helvetica",
     fontSize: 9,
   },
 
@@ -172,24 +168,35 @@ const s = StyleSheet.create({
   },
   phaseItem: {
     width: "50%",
-    fontFamily: "Times-Roman",
+    fontFamily: "Helvetica",
     fontSize: 9,
-    padding: 2,
+    padding: 3,
     flexDirection: "row",
     alignItems: "center",
-    gap: 4,
+    borderWidth: BORDER,
+    borderColor: BORDER_COLOR,
   },
   checkbox: {
-    fontFamily: "Times-Roman",
-    fontSize: 10,
+    width: 12,
+    height: 12,
+    borderWidth: BORDER,
+    borderColor: BORDER_COLOR,
+    marginRight: 4,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  checkboxMark: {
+    fontSize: 8,
+    fontFamily: "Helvetica-Bold",
   },
 
   /* ── Aparatologia ── */
   aparatologiaBox: {
-    border: "0.5pt solid #000",
+    borderWidth: BORDER,
+    borderColor: BORDER_COLOR,
     minHeight: 60,
     padding: 6,
-    fontFamily: "Times-Roman",
+    fontFamily: "Helvetica",
     fontSize: 9,
   },
   aparatologiaItem: {
@@ -200,53 +207,59 @@ const s = StyleSheet.create({
   /* ── Budget ── */
   tiempoRow: {
     flexDirection: "row",
-    border: "0.5pt solid #000",
   },
   tiempoLabel: {
-    fontFamily: "Times-Bold",
+    fontFamily: "Helvetica-Bold",
     fontSize: 9,
     padding: 3,
-    border: "0.5pt solid #000",
+    borderWidth: BORDER,
+    borderColor: BORDER_COLOR,
     width: "50%",
   },
   tiempoValue: {
-    fontFamily: "Times-Roman",
+    fontFamily: "Helvetica",
     fontSize: 9,
     padding: 3,
-    border: "0.5pt solid #000",
+    borderWidth: BORDER,
+    borderColor: BORDER_COLOR,
     width: "50%",
     flexDirection: "row",
     alignItems: "center",
   },
   presupuestoHeader: {
-    fontFamily: "Times-Bold",
+    fontFamily: "Helvetica-Bold",
     fontSize: 9,
     textAlign: "center",
-    border: "0.5pt solid #000",
+    borderWidth: BORDER,
+    borderColor: BORDER_COLOR,
     padding: 3,
   },
   totalRow: {
     flexDirection: "row",
-    border: "0.5pt solid #000",
   },
   totalLabel: {
-    fontFamily: "Times-Bold",
+    fontFamily: "Helvetica-Bold",
     fontSize: 9,
     padding: 3,
-    borderRight: "0.5pt solid #000",
+    borderWidth: BORDER,
+    borderColor: BORDER_COLOR,
     width: "60%",
+    textAlign: "right",
   },
   totalValue: {
-    fontFamily: "Times-Bold",
+    fontFamily: "Helvetica-Bold",
     fontSize: 9,
     padding: 3,
+    borderWidth: BORDER,
+    borderColor: BORDER_COLOR,
     width: "40%",
     textAlign: "right",
   },
   controlText: {
-    fontFamily: "Times-Roman",
+    fontFamily: "Helvetica",
     fontSize: 8,
-    border: "0.5pt solid #000",
+    borderWidth: BORDER,
+    borderColor: BORDER_COLOR,
     padding: 3,
   },
 
@@ -255,16 +268,18 @@ const s = StyleSheet.create({
     flexDirection: "row",
   },
   paymentLabel: {
-    border: "0.5pt solid #000",
+    borderWidth: BORDER,
+    borderColor: BORDER_COLOR,
     padding: 3,
-    fontFamily: "Times-Bold",
+    fontFamily: "Helvetica-Bold",
     fontSize: 9,
     backgroundColor: "#f0f0f0",
   },
   paymentValue: {
-    border: "0.5pt solid #000",
+    borderWidth: BORDER,
+    borderColor: BORDER_COLOR,
     padding: 3,
-    fontFamily: "Times-Roman",
+    fontFamily: "Helvetica",
     fontSize: 9,
   },
 
@@ -272,21 +287,15 @@ const s = StyleSheet.create({
   conditionsSection: {
     marginTop: 10,
   },
-  conditionsTitle: {
-    fontFamily: "Times-Bold",
-    fontSize: 9,
-    textTransform: "uppercase",
-    marginBottom: 4,
-  },
   conditionsItem: {
-    fontFamily: "Times-Roman",
+    fontFamily: "Helvetica",
     fontSize: 8.5,
     lineHeight: 1.5,
     marginBottom: 6,
     paddingLeft: 8,
   },
   conditionsSubItem: {
-    fontFamily: "Times-Roman",
+    fontFamily: "Helvetica",
     fontSize: 8.5,
     lineHeight: 1.5,
     paddingLeft: 16,
@@ -302,20 +311,16 @@ const s = StyleSheet.create({
     width: "45%",
   },
   signatureLine: {
-    borderBottom: "0.5pt solid #000",
+    borderBottomWidth: BORDER,
+    borderBottomColor: BORDER_COLOR,
     marginBottom: 4,
   },
   signatureLabel: {
-    fontFamily: "Times-Roman",
+    fontFamily: "Helvetica",
     fontSize: 9,
-  },
-  signatureName: {
-    fontFamily: "Times-Bold",
-    fontSize: 9,
-    marginTop: 2,
   },
   doctorSignature: {
-    fontFamily: "Times-Bold",
+    fontFamily: "Helvetica-Bold",
     fontSize: 9,
     textAlign: "center",
   },
@@ -323,9 +328,10 @@ const s = StyleSheet.create({
   /* ── Footer ── */
   footer: {
     marginTop: 20,
-    borderTop: "0.5pt solid #000",
+    borderTopWidth: BORDER,
+    borderTopColor: BORDER_COLOR,
     paddingTop: 6,
-    fontFamily: "Times-Roman",
+    fontFamily: "Helvetica",
     fontSize: 8,
     textAlign: "center",
     color: "#444",
@@ -335,6 +341,14 @@ const s = StyleSheet.create({
 type Props = {
   data: OrthodonticsContractData;
 };
+
+function Checkbox({ checked }: { checked: boolean }) {
+  return (
+    <View style={s.checkbox}>
+      {checked && <Text style={s.checkboxMark}>X</Text>}
+    </View>
+  );
+}
 
 export function OrthodonticsContractPDF({ data }: Props) {
   const formResponse = data.formResponse as Record<string, unknown>;
@@ -347,8 +361,7 @@ export function OrthodonticsContractPDF({ data }: Props) {
   >;
   const observaciones = formResponse?.observaciones as string | undefined;
 
-  const hasBudgetRows =
-    data.budgetRows && data.budgetRows.length > 0;
+  const hasBudgetRows = data.budgetRows && data.budgetRows.length > 0;
 
   return (
     <Document>
@@ -356,10 +369,7 @@ export function OrthodonticsContractPDF({ data }: Props) {
         {/* ═══════════ HEADER ═══════════ */}
         <View style={s.header}>
           <View style={s.headerLeft}>
-            <View style={s.logoCircle}>
-              <Text style={s.logoText}>LCV</Text>
-              <Text style={s.logoSubText}>dental</Text>
-            </View>
+            <Image src={LOGO_BASE64} style={s.logo} />
           </View>
           <View style={s.headerRight}>
             <Text style={s.formNumber}>FORM N° FT-ORT-32</Text>
@@ -376,7 +386,7 @@ export function OrthodonticsContractPDF({ data }: Props) {
         {/* ═══════════ FECHA ═══════════ */}
         <View style={s.fechaRow}>
           <Text style={s.fechaLabel}>Fecha</Text>
-          <View style={s.fechaValue} />
+          <View style={s.fechaBox} />
         </View>
 
         {/* ═══════════ DATOS DEL PACIENTE ═══════════ */}
@@ -410,9 +420,7 @@ export function OrthodonticsContractPDF({ data }: Props) {
           <View style={s.phasesGrid}>
             {PHASES.map((phase) => (
               <View key={phase.key} style={s.phaseItem}>
-                <Text style={s.checkbox}>
-                  {faseTratamiento[phase.key] ? "☑" : "☐"}
-                </Text>
+                <Checkbox checked={!!faseTratamiento[phase.key]} />
                 <Text>{phase.label}</Text>
               </View>
             ))}
@@ -484,9 +492,10 @@ export function OrthodonticsContractPDF({ data }: Props) {
             ))
           ) : (
             <>
-              {/* Fallback rows when no budget detail */}
               <View style={s.tableRow}>
-                <Text style={[s.cell, { width: "30%" }]}>Cuota Inicial $us.</Text>
+                <Text style={[s.cell, { width: "30%" }]}>
+                  Cuota Inicial $us.
+                </Text>
                 <Text style={[s.cell, { width: "15%" }]}>&nbsp;</Text>
                 <Text style={[s.cell, { width: "15%" }]}>&nbsp;</Text>
                 <Text style={[s.cell, { width: "15%" }]}>&nbsp;</Text>
@@ -512,11 +521,18 @@ export function OrthodonticsContractPDF({ data }: Props) {
           )}
 
           {/* Total row */}
-          <View style={s.totalRow}>
-            <Text style={[s.totalLabel, { width: "60%", textAlign: "right" }]}>
+          <View style={s.tableRow}>
+            <Text
+              style={[
+                s.totalLabel,
+                { width: "60%", textAlign: "right", borderWidth: BORDER },
+              ]}
+            >
               TOTAL
             </Text>
-            <Text style={[s.totalValue, { width: "40%" }]}>
+            <Text
+              style={[s.totalValue, { width: "40%", borderWidth: BORDER }]}
+            >
               Bs. {data.totalCost.toLocaleString()}
             </Text>
           </View>
@@ -530,7 +546,7 @@ export function OrthodonticsContractPDF({ data }: Props) {
           {/* Observaciones */}
           <View style={s.tableRow}>
             <Text style={[s.cell, { width: "100%" }]}>
-              <Text style={{ fontFamily: "Times-Bold" }}>
+              <Text style={{ fontFamily: "Helvetica-Bold" }}>
                 Observaciones generales:{" "}
               </Text>
               {observaciones || ""}
