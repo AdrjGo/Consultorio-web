@@ -28,6 +28,10 @@ import type { FormResSchema } from "types/FormResSchema";
 import type { FileType } from "types/FileType";
 import type { FullContractType } from "types/FullContractType";
 import type {
+  OrthodonticsContractData,
+  BudgetRow,
+} from "types/OrthodonticsContractData";
+import type {
   PaymentTreatment,
   PaymentTreatmentProgress,
 } from "types/PaymentTreatment";
@@ -58,6 +62,8 @@ export type {
   FormResSchema,
   FileType,
   FullContractType,
+  OrthodonticsContractData,
+  BudgetRow,
   PaymentTreatment,
   PaymentTreatmentProgress,
 };
