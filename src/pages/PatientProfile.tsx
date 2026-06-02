@@ -1,8 +1,6 @@
-import { Mars, Undo2, Venus, FileText } from "lucide-react";
+import { Mars, Undo2, Venus } from "lucide-react";
 import { useNavigate } from "react-router";
 import { useParams, useSearchParams } from "react-router";
-import { getToken } from "../utils/getToken";
-import { Toast } from "../utils/toastNotify";
 import { PageWrapper } from "@components/layout/PageWrapper";
 import {
   Button,
@@ -40,42 +38,6 @@ function PatientProfile() {
     setSearchParams({ tab: String(newTab) });
   };
 
-  const handleExportPDF = async () => {
-    if (!id) return;
-
-    try {
-      const token = getToken();
-      const response = await fetch(
-        `http://localhost:5252/api/report/clinical/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        const errorMessage = errorData.message || "Error al generar el reporte";
-        throw new Error(errorMessage);
-      }
-
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `Reporte_Clinico_${patient?.patientPerson.name}_${patient?.patientPerson.lastName}_${new Date().toISOString().split("T")[0]}.pdf`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-
-      Toast.success("Reporte clínico generado exitosamente");
-    } catch (error) {
-      Toast.error(error instanceof Error ? error.message : "Error al generar el reporte clínico");
-    }
-  };
-
   return (
     <PageWrapper
       tab={`${patient?.patientPerson.name} ${patient?.patientPerson.lastName}`}
@@ -96,10 +58,6 @@ function PatientProfile() {
       }`}
       extraComponent={
         <>
-          <Button className="bg-blue-600" onClick={handleExportPDF}>
-            <FileText />
-            Exportar PDF
-          </Button>
           <Button className="bg-gray-400" onClick={() => navigate(-1)}>
             <Undo2 />
             Volver
