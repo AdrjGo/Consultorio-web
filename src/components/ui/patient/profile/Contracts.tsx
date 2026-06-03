@@ -8,6 +8,8 @@ import { getData } from "@services";
 import { TableMemo } from "@components/ui/table/Table";
 import Button from "@components/ui/Button";
 import { Toast, getToken } from "@utils";
+import { getClinicLogo } from "@utils/svgToBase64Png";
+import { supabase } from "@store";
 import { Eye, FileDown, Plus } from "lucide-react";
 import { useState } from "react";
 import { pdf } from "@react-pdf/renderer";
@@ -95,8 +97,18 @@ function Contracts() {
       }
 
       const reportData: OrthodonticsContractData = await res.json();
+
+      const { data: logoData } = supabase.storage
+        .from("logo")
+        .getPublicUrl("logo_consultorio");
+      const logoBase64 = await getClinicLogo(logoData?.publicUrl);
+
       const blob = await pdf(
-        <OrthodonticsContractPDF data={reportData} />,
+        <OrthodonticsContractPDF
+          data={reportData}
+          contractDate={contract.contract.date}
+          logo={logoBase64}
+        />,
       ).toBlob();
 
       const url = URL.createObjectURL(blob);

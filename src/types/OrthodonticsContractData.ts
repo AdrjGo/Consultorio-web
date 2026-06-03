@@ -16,7 +16,6 @@ export interface OrthodonticsContractData {
     age: number;
   };
   formResponse: Record<string, unknown>;
-  contractDate: string;
   totalCost: number;
   monthsDuration: number;
   budgetRows?: BudgetRow[];
@@ -32,5 +31,7 @@ export interface OrthodonticsContractData {
     doctorCI: string;
     clinicName: string;
     clinicAddress: string;
+    clinicPhone: string;
+    clinicEmail: string;
   };
 }
