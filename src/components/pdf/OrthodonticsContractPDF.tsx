@@ -80,7 +80,7 @@ const s = StyleSheet.create({
     fontFamily: "Helvetica-Bold",
     fontSize: 8.5,
     textTransform: "uppercase",
-    marginTop: 7,
+    marginTop: 5,
     marginBottom: 3,
   },
 
@@ -107,7 +107,7 @@ const s = StyleSheet.create({
   checkboxMark: { fontSize: 7, fontFamily: "Helvetica-Bold" },
 
   /* ── Aparatologia ── */
-  aparatologiaBox: { borderWidth: B, borderColor: C, height: 80, padding: 4, fontFamily: "Helvetica", fontSize: 8 },
+  aparatologiaBox: { borderWidth: B, borderColor: C, height: 55, padding: 4, fontFamily: "Helvetica", fontSize: 8 },
   aparatologiaItem: { fontSize: 8, marginBottom: 1 },
 
   /* ── Budget ── */
@@ -129,8 +129,8 @@ const s = StyleSheet.create({
   conditionsSubItem: { fontFamily: "Helvetica", fontSize: 7.5, lineHeight: 1.4, paddingLeft: 14 },
 
   /* ── Signatures ── */
-  signatureSection: { flexDirection: "row", justifyContent: "space-between", marginTop: 20 },
-  signatureBlock: { width: "45%" },
+  signatureSection: { flexDirection: "row", justifyContent: "space-between", marginTop: 60 },
+  signatureBlock: { width: "40%" },
   signatureLine: { borderBottomWidth: B, borderBottomColor: C, marginBottom: 3 },
   signatureLabel: { fontFamily: "Helvetica", fontSize: 8 },
   doctorSignature: { fontFamily: "Helvetica-Bold", fontSize: 8, textAlign: "center" },
@@ -296,13 +296,6 @@ export function OrthodonticsContractPDF({ data, contractDate, logo }: Props) {
                   <Text style={[s.cell, { width: "15%" }]}>&nbsp;</Text>
                   <Text style={[s.cellLast, { width: "25%" }]}>&nbsp;</Text>
                 </View>
-                <View style={[s.tableRow, s.rowDivider]}>
-                  <Text style={[s.cell, { width: "30%" }]}>Otro $us.</Text>
-                  <Text style={[s.cell, { width: "15%" }]}>&nbsp;</Text>
-                  <Text style={[s.cell, { width: "15%" }]}>&nbsp;</Text>
-                  <Text style={[s.cell, { width: "15%" }]}>&nbsp;</Text>
-                  <Text style={[s.cellLast, { width: "25%" }]}>&nbsp;</Text>
-                </View>
               </>
             )}
 
@@ -371,7 +364,7 @@ export function OrthodonticsContractPDF({ data, contractDate, logo }: Props) {
             <View style={s.signatureBlock}>
               <View style={s.signatureLine} />
               <Text style={s.doctorSignature}>
-                {data.doctor.doctorName || "Dra. Lipcia Catacora Vargas"}
+                {`Dr/a. ${data.doctor.doctorName}` || "Dra. Lipcia Catacora Vargas"}
               </Text>
             </View>
           </View>
@@ -379,9 +372,14 @@ export function OrthodonticsContractPDF({ data, contractDate, logo }: Props) {
 
         {/* ═══════════ FOOTER — siempre abajo ═══════════ */}
         <Text style={s.footer}>
-          {data.doctor.clinicAddress
-            ? `${data.doctor.clinicAddress}, Tel. 4662622, e-mail: LCVdental@gmail.com, Cbba - Bolivia`
-            : "Calle Ecuador N - 871, Edif. CEMPRO, Piso 2. Consultorio. Tel. 4662622, e-mail: LCVdental@gmail.com, Cbba - Bolivia"}
+          {[
+            data.doctor.clinicAddress,
+            data.doctor.clinicPhone && `Tel. ${data.doctor.clinicPhone}`,
+            data.doctor.clinicEmail && `e-mail: ${data.doctor.clinicEmail}`,
+            "Cbba - Bolivia",
+          ]
+            .filter(Boolean)
+            .join(", ")}
         </Text>
       </Page>
     </Document>
