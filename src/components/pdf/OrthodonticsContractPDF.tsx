@@ -145,6 +145,11 @@ const s = StyleSheet.create({
     textAlign: "center",
     color: "#444",
   },
+  checkedInner: {
+    width: 6,
+    height: 6,
+    backgroundColor: '#000000',
+  },
 });
 
 type Props = {
@@ -156,7 +161,7 @@ type Props = {
 function Checkbox({ checked }: { checked: boolean }) {
   return (
     <View style={s.checkbox}>
-      {checked && <Text style={s.checkboxMark}>X</Text>}
+      {checked && <View style={s.checkedInner} />}
     </View>
   );
 }
@@ -165,6 +170,8 @@ export function OrthodonticsContractPDF({ data, contractDate, logo }: Props) {
   const formResponse = data.formResponse as Record<string, unknown>;
   const faseTratamiento = (formResponse?.faseTratamiento ?? {}) as Record<string, boolean>;
   const aparatologia = (formResponse?.aparatologia ?? []) as Array<Record<string, unknown>>;
+
+  // DEBUG: remove after testing
   const observaciones = formResponse?.observaciones as string | undefined;
   const hasBudgetRows = data.budgetRows && data.budgetRows.length > 0;
 
@@ -224,12 +231,15 @@ export function OrthodonticsContractPDF({ data, contractDate, logo }: Props) {
           <Text style={s.sectionTitle}>Fase del Tratamiento</Text>
           <View style={s.table}>
             <View style={s.phasesGrid}>
-              {PHASES.map((phase) => (
-                <View key={phase.key} style={s.phaseItem}>
-                  <Checkbox checked={!!faseTratamiento[phase.key]} />
-                  <Text>{phase.label}</Text>
-                </View>
-              ))}
+              {PHASES.map((phase) => {
+                const isChecked = !!faseTratamiento[phase.key];
+                return (
+                  <View key={phase.key} style={s.phaseItem}>
+                    <Checkbox checked={isChecked} />
+                    <Text>{phase.label}</Text>
+                  </View>
+                );
+              })}
             </View>
           </View>
 
