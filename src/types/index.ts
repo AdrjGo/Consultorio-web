@@ -35,6 +35,7 @@ import type {
   PaymentTreatment,
   PaymentTreatmentProgress,
 } from "types/PaymentTreatment";
+import type { ClinicalReportData } from "types/ClinicalReportData";
 
 export type {
   PatientType,
@@ -66,4 +67,5 @@ export type {
   BudgetRow,
   PaymentTreatment,
   PaymentTreatmentProgress,
+  ClinicalReportData,
 };

@@ -13,6 +13,14 @@ export default defineConfig({
     }),
     tailwindcss(),
   ],
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:5252",
+        changeOrigin: true,
+      },
+    },
+  },
   resolve: {
     alias: {
       "@assets": path.resolve(__dirname, "./src/assets"),

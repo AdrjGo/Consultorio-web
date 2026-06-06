@@ -87,12 +87,24 @@ function PatientProfile() {
           {
             value: 4,
             label: "Historia de ortodoncia",
-            content: <ClinicHistory patientId={id ?? ""} />,
+            content: (
+              <ClinicHistory
+                patientId={id ?? ""}
+                patientName={`${patient?.patientPerson.name ?? ""} ${patient?.patientPerson.lastName ?? ""}`}
+                patientCi={patient?.patientPerson.ci ?? ""}
+              />
+            ),
           },
           {
             value: 5,
             label: "Resumen de Tratamiento",
-            content: <TreatmentSummary patientId={id ?? ""} />,
+            content: (
+              <TreatmentSummary
+                patientId={id ?? ""}
+                patientName={`${patient?.patientPerson.name ?? ""} ${patient?.patientPerson.lastName ?? ""}`}
+                patientCi={patient?.patientPerson.ci ?? ""}
+              />
+            ),
           },
           {
             value: 6,
@@ -102,7 +114,13 @@ function PatientProfile() {
           {
             value: 7,
             label: "Seguimiento",
-            content: <Monitoring patientId={id ?? ""} />,
+            content: (
+              <Monitoring
+                patientId={id ?? ""}
+                patientName={`${patient?.patientPerson.name ?? ""} ${patient?.patientPerson.lastName ?? ""}`}
+                patientCi={patient?.patientPerson.ci ?? ""}
+              />
+            ),
           },
           {
             value: 8,

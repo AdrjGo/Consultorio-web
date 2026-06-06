@@ -6,15 +6,19 @@ import { TableMemo } from "@components/ui/table/Table";
 import { useGet, useModal } from "@hooks";
 import type { MonitoringType } from "@types";
 import { setUrlParams } from "@utils";
-import { Monitor } from "lucide-react";
+import { Monitor, FileDown } from "lucide-react";
 import { useState } from "react";
+import { exportMonitoringPDF } from "@components/pdf/clinical/exportMonitoringPDF";
 
 type MonitoringProps = {
   patientId: string;
+  patientName: string;
+  patientCi: string;
 };
 
-function Monitoring({ patientId }: MonitoringProps) {
+function Monitoring({ patientId, patientName, patientCi }: MonitoringProps) {
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [exporting, setExporting] = useState<boolean>(false);
 
   const { data } = useGet<MonitoringType[]>({
     key: ["monitoring", patientId],
@@ -39,18 +43,36 @@ function Monitoring({ patientId }: MonitoringProps) {
     modal.open();
   };
 
+  const handleExportPDF = async () => {
+    setExporting(true);
+    await exportMonitoringPDF(patientId, patientName, patientCi);
+    setExporting(false);
+  };
+
   return (
     <SectionLayout
       title="Seguimiento Clínico"
       description="Historial de ctas y tratamienos realizados"
       extraComponent={
-        <Button
-          className="text-small text-white! px-5 bg-green"
-          onClick={() => modal.open()}
-        >
-          <Monitor className="size-5" />
-          Registrar Seguimiento
-        </Button>
+        <div className="grid gap-2">
+          <Button
+            className="text-small text-white! px-5 bg-green"
+            onClick={() => modal.open()}
+          >
+            <Monitor className="size-5" />
+            Registrar Seguimiento
+          </Button>
+          {(data && data.length > 0) && (
+            <Button
+              className="text-small px-5 bg-blue-500 text-white!"
+              onClick={handleExportPDF}
+              disabled={exporting}
+            >
+              <FileDown className="size-4" />
+              {exporting ? "Exportando..." : "Exportar PDF"}
+            </Button>
+          )}
+        </div>
       }
     >
       <TableMemo
