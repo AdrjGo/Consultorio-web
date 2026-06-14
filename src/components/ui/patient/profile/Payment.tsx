@@ -199,7 +199,15 @@ function Payment() {
           {
             key: "method",
             label: "Método",
-            render: (payment: PaymentTreatmentProgress) => payment.method,
+            render: (payment: PaymentTreatmentProgress) => {
+              const methodMap: Record<string, string> = {
+                "0": "Efectivo",
+                "1": "Transferencia",
+                "2": "Qr",
+                "3": "Otro",
+              };
+              return methodMap[String(payment.method)] ?? String(payment.method);
+            },
           },
           {
             key: "received_by",
