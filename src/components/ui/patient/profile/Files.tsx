@@ -51,14 +51,14 @@ function Files() {
         openModal={modalPreview.isOpen}
         setOpenModal={modalPreview.close}
         title={selectedFile?.description ?? "Vista previa"}
-        classNames="md:w-3/5 md:max-h-[90vh] overflow-y-auto"
+        classNames="md:w-3/4! md:max-h-full overflow-y-auto"
       >
         {selectedFile && (
           <div className="mt-4 flex flex-col items-center gap-3">
             <img
               src={selectedFile.externalReference}
               alt={selectedFile.description}
-              className="max-w-full max-h-[70vh] rounded object-contain"
+              className="max-w-full max-h-1/2 rounded object-contain"
             />
             <p className="text-small text-gray-500 dark:text-gray-400">
               {selectedFile.monitoringNomenclature} —{" "}
