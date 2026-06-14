@@ -41,7 +41,7 @@ function PaymentModal({ modal }: PaymentModalProps) {
 
   const onSubmit = (data: PaymentTreatmentFormValues) => {
     post(data);
-    window.location.reload();
+    //window.location.reload();
     // console.log(data);
   };
 

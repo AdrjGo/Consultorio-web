@@ -47,7 +47,7 @@ function FileModal({ modal }: FileModalProps) {
   });
 
   const { data: patient } = usePatient(patientId ?? "");
-  console.log(patient);
+  //console.log(patient);
 
   const onSubmit = async (data: FileFormValues) => {
     const file = data.file[0];
