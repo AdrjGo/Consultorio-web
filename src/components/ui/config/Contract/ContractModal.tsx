@@ -58,12 +58,12 @@ function ContractModal({
 
   const payerOptions = hasResponsible
     ? [
-        `${patient.data?.responsible.person.name} ${patient.data?.responsible.person.lastName} (Responsable)`,
-        `${patient.data?.patientPerson.name} ${patient.data?.patientPerson.lastName} (Paciente)`,
-      ]
+      `${patient.data?.responsible.person.name} ${patient.data?.responsible.person.lastName} (Responsable)`,
+      `${patient.data?.patientPerson.name} ${patient.data?.patientPerson.lastName} (Paciente)`,
+    ]
     : [
-        `${patient.data?.patientPerson.name} ${patient.data?.patientPerson.lastName} (Paciente)`,
-      ];
+      `${patient.data?.patientPerson.name} ${patient.data?.patientPerson.lastName} (Paciente)`,
+    ];
 
   const payerValues = hasResponsible
     ? [patient.data?.responsible.person.id, patient.data?.patientPerson.id]
@@ -105,12 +105,12 @@ function ContractModal({
     <Modal
       openModal={modalForm.isOpen}
       setOpenModal={modalForm.close}
-      classNames="p-0 !h-3/4 !w-3/4 overflow-hidden"
+      classNames="p-0 !h-3/4 !w-3/4 max-md:!w-full overflow-hidden"
     >
-      <div className="flex gap-2 size-full">
+      <div className="flex max-md:grid gap-2 size-full">
         {!view && (
           <form
-            className="grid gap-4 p-4 w-[30%] h-fit"
+            className="grid gap-4 p-4 w-[30%] max-md:w-full h-fit"
             action="submit"
             onSubmit={handleSubmit(onSubmit)}
           >
@@ -155,7 +155,7 @@ function ContractModal({
         )}
 
         <section
-          className={`bg-background dark:bg-dark p-2 rounded-md border-l dark:border-none border-gray-100 ${view ? "w-full" : "w-[70%]"}  h-full  grid gap-4 overflow-hidden`}
+          className={`bg-background dark:bg-dark p-2 rounded-md border-l dark:border-none border-gray-100 max-md:w-full ${view ? "w-full" : "w-[70%]"}  h-full  grid gap-4 overflow-hidden`}
         >
           {selectedForm && selectedContract ? (
             <div className="flex-1 min-h-0 overflow-y-auto pr-1">

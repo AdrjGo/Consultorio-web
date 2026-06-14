@@ -122,13 +122,13 @@ function Payment() {
         </Button>
       }
     >
-      <section className="flex justify-between gap-5">
+      <section className="flex justify-between gap-5 max-md:gap-3">
         {paymentCards.map((payment, index) => (
           <article
             key={index}
             className="bg-[#e7e8e9] dark:bg-dark w-full p-6 rounded-md dark:text-white font-semibold"
           >
-            <h3 className="text-xl font-bold mb-4">{payment.title}</h3>
+            <h3 className="text-xl max-md:text-small font-bold mb-4">{payment.title}</h3>
             <span className={`text-subtitle ${payment.color} font-bold`}>
               {payment.value}
             </span>
@@ -181,7 +181,7 @@ function Payment() {
       <h2 className="text-title font-bold mt-3">Historial de Pagos</h2>
       <TableMemo
         // editButton
-        handleEdit={() => {}}
+        handleEdit={() => { }}
         deleteButton
         handleDelete={(id: string) => handleDelete(id)}
         columns={[
