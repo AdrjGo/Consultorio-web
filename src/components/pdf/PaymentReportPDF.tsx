@@ -258,7 +258,7 @@ export function PaymentReportPDF({ data, logo }: Props) {
           <View style={s.totalRow}>
             <Text style={s.totalLabel}>Total pagado:</Text>
             <Text style={s.totalValue}>
-              $us{" "}
+              Bs{" "}
               {data.payments
                 .reduce((sum, p) => sum + p.amount, 0)
                 .toLocaleString()}

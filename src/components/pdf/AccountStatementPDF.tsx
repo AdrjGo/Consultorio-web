@@ -176,7 +176,7 @@ export function AccountStatementPDF({ data, logo }: Props) {
         <View style={s.totalDebtBanner}>
           <Text style={s.totalDebtLabel}>Deuda Total</Text>
           <Text style={s.totalDebtValue}>
-            $us {data.totalDebt.toLocaleString()}
+            Bs {data.totalDebt.toLocaleString()}
           </Text>
         </View>
 
