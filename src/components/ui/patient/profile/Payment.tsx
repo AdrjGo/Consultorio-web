@@ -151,18 +151,18 @@ function Payment() {
           Exportar Pagos
         </Button>
 
-        <Button
-          className="text-small text-white! px-4 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
-          onClick={handleExportCuotas}
-          disabled={loadingCuotas || !firstContractId}
-        >
-          {loadingCuotas ? (
-            <span className="animate-spin mr-1">⏳</span>
-          ) : (
-            <Receipt className="size-4" />
-          )}
-          Exportar Cuotas
-        </Button>
+        {/* <Button */}
+        {/*   className="text-small text-white! px-4 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed" */}
+        {/*   onClick={handleExportCuotas} */}
+        {/*   disabled={loadingCuotas || !firstContractId} */}
+        {/* > */}
+        {/*   {loadingCuotas ? ( */}
+        {/*     <span className="animate-spin mr-1">⏳</span> */}
+        {/*   ) : ( */}
+        {/*     <Receipt className="size-4" /> */}
+        {/*   )} */}
+        {/*   Exportar Cuotas */}
+        {/* </Button> */}
 
         <Button
           className="text-small text-white! px-4 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
