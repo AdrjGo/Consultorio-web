@@ -293,14 +293,14 @@ export function OrthodonticsContractPDF({ data, contractDate, logo }: Props) {
             ) : (
               <>
                 <View style={[s.tableRow, s.rowDivider]}>
-                  <Text style={[s.cell, { width: "30%" }]}>Cuota Inicial $us.</Text>
+                  <Text style={[s.cell, { width: "30%" }]}>Cuota Inicial Bs.</Text>
                   <Text style={[s.cell, { width: "15%" }]}>&nbsp;</Text>
                   <Text style={[s.cell, { width: "15%" }]}>&nbsp;</Text>
                   <Text style={[s.cell, { width: "15%" }]}>&nbsp;</Text>
                   <Text style={[s.cellLast, { width: "25%" }]}>&nbsp;</Text>
                 </View>
                 <View style={[s.tableRow, s.rowDivider]}>
-                  <Text style={[s.cell, { width: "30%" }]}>Cuotas Mensuales $us.</Text>
+                  <Text style={[s.cell, { width: "30%" }]}>Cuotas Mensuales Bs.</Text>
                   <Text style={[s.cell, { width: "15%" }]}>&nbsp;</Text>
                   <Text style={[s.cell, { width: "15%" }]}>&nbsp;</Text>
                   <Text style={[s.cell, { width: "15%" }]}>&nbsp;</Text>
