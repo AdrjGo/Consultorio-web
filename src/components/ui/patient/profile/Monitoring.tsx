@@ -52,7 +52,7 @@ function Monitoring({ patientId, patientName, patientCi }: MonitoringProps) {
   return (
     <SectionLayout
       title="Seguimiento Clínico"
-      description="Historial de ctas y tratamienos realizados"
+      description="Historial de citas y tratamienos realizados"
       extraComponent={
         <div className="grid gap-2">
           <Button
