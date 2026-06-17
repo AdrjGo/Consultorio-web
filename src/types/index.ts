@@ -35,7 +35,12 @@ import type {
   PaymentTreatment,
   PaymentTreatmentProgress,
 } from "types/PaymentTreatment";
-import type { ClinicalReportData } from "types/ClinicalReportData";
+import type {
+  ClinicalReportData,
+  PatientInfo,
+  MonitoringRecordData,
+  ClinicInfo,
+} from "types/ClinicalReportData";
 import type {
   PaymentReportDataDto,
   QuotaReportDataDto,
@@ -78,6 +83,9 @@ export type {
   PaymentTreatment,
   PaymentTreatmentProgress,
   ClinicalReportData,
+  PatientInfo,
+  MonitoringRecordData,
+  ClinicInfo,
   PaymentReportDataDto,
   QuotaReportDataDto,
   AccountStatementDataDto,

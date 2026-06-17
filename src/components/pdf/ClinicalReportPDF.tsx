@@ -114,7 +114,7 @@ export function ClinicalReportPDF({ data, logo }: Props) {
             </View>
             <View style={s.headerRight}>
               <Text style={s.formNumber}>FORM N° FT-CLINIC-01</Text>
-              <Text style={s.doctorNameHeader}>DRA. LIPCIA CATACORA VARGAS</Text>
+              <Text style={s.doctorNameHeader}>{data.doctor.name}</Text>
             </View>
           </View>
 

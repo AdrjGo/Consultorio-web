@@ -25,8 +25,16 @@ export interface PretreatmentExamData {
   treatment?: string;
 }
 
+export interface DoctorInfo {
+  name: string;
+  clinicAddress: string;
+  clinicPhone: string;
+  clinicEmail: string;
+}
+
 export interface ClinicalReportData {
   patient: PatientInfo;
+  doctor: DoctorInfo;
   generalHistory: Record<string, unknown> | null;
   pretreatmentExams: PretreatmentExamData[];
   treatmentSummary: Record<string, unknown> | null;
@@ -36,6 +44,7 @@ export interface ClinicalReportData {
 }
 
 export interface ClinicInfo {
+  name: string;
   address: string;
   phone: string;
   email: string;
