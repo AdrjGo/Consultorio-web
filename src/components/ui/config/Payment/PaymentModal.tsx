@@ -37,6 +37,7 @@ function PaymentModal({ modal }: PaymentModalProps) {
   const { post } = usePost<PaymentTreatmentFormValues, unknown>({
     url: "PaymentTreatment/create",
     setOpenModal: modal.close,
+    queryKeyToInvalidate: [["paymentTreatment"]],
   });
 
   const onSubmit = (data: PaymentTreatmentFormValues) => {

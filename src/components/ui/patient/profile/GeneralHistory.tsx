@@ -21,6 +21,7 @@ function GeneralHistory() {
 
   const { post } = usePost<FormResType, unknown>({
     url: "FormRes",
+    queryKeyToInvalidate: [["form"]],
   });
 
   const onSubmit = (data: any) => {

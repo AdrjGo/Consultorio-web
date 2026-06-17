@@ -71,6 +71,7 @@ function ContractModal({
 
   const { post } = usePost<ContractFormValues, unknown>({
     url: "Contract",
+    queryKeyToInvalidate: [["contract"]],
   });
 
   const onSubmit = (values: ContractFormValues) => {

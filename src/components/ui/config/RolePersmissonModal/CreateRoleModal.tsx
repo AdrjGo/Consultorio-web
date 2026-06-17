@@ -82,6 +82,7 @@ function CreateRoleModal({
   const { post } = usePost<RoleWithPermissionsFormValues, unknown>({
     url: "Role/createWithPermissions",
     setOpenModal: modalFormRole.close,
+    queryKeyToInvalidate: [["role"]],
   });
 
   const { update } = useUpdate<RoleWithPermissionsFormValues, unknown>({
@@ -89,6 +90,7 @@ function CreateRoleModal({
     url: `Role/${idRole}/updateWithPermissions`,
     successMessage: "Role actualizado con éxito",
     setOpenModal: modalFormRole.close,
+    queryKeyToInvalidate: [["role"]],
   });
 
   const onSubmit = (data: RoleWithPermissionsFormValues) => {

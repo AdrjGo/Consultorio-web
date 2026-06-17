@@ -70,12 +70,14 @@ function CreatePretreatmentModal({
   const { post } = usePost<PretreatmentFormValues, unknown>({
     url: "pretreatmentExam",
     setOpenModal: modalFormPretreatment.close,
+    queryKeyToInvalidate: [["pretreatmentExam"]],
   });
 
   const { update } = useUpdate<PretreatmentFormValues, unknown>({
     method: "PATCH",
     url: `pretreatmentExam/${examId}`,
     setOpenModal: modalFormPretreatment.close,
+    queryKeyToInvalidate: [["pretreatmentExam"]],
   });
 
   //   console.log(errors);

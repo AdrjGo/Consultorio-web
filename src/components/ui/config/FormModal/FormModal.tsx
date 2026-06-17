@@ -88,12 +88,14 @@ export default function FormModal({
   const { post } = usePost<DynamicFormValues, unknown>({
     url: "Form",
     setOpenModal: modalForm.close,
+    queryKeyToInvalidate: [["form"]],
   });
 
   const { update } = useUpdate<DynamicFormValues, unknown>({
     method: "PATCH",
     url: `Form/${idForm}`,
     setOpenModal: modalForm.close,
+    queryKeyToInvalidate: [["form"]],
   });
 
   console.log(watch());

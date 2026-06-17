@@ -36,6 +36,7 @@ function MonitoringModal({ modal, closeModal }: MonitoringModalProps) {
   const { post } = usePost<MonitoringFormValues, unknown>({
     url: "Monitoring/create",
     setOpenModal: modalForm.close,
+    queryKeyToInvalidate: [["monitoring"]],
   });
 
   const onSubmit = (data: MonitoringFormValues) => {

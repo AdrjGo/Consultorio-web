@@ -44,6 +44,7 @@ function FileModal({ modal }: FileModalProps) {
   const { post } = usePost<FileFormValues, unknown>({
     url: "EvidenceFile/create",
     setOpenModal: modal.close,
+    queryKeyToInvalidate: [["monitoring"]],
   });
 
   const { data: patient } = usePatient(patientId ?? "");

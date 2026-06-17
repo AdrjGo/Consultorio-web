@@ -29,6 +29,7 @@ function FormRoles({
     method: "PATCH",
     url: `UserRole`,
     setOpenModal: modalSecurity.close,
+    queryKeyToInvalidate: [["users"], ["userRoles"]],
   });
 
   const onSubmit = (data: UserRoleFormValues) => {

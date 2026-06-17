@@ -36,6 +36,7 @@ function TreatmentProcessModal({
   const { post } = usePost<TreatmentProcessFormValues, unknown>({
     url: "treatmentProcess",
     setOpenModal: modalTreatmentProcess.close,
+    queryKeyToInvalidate: [["treatmentProcess"], ["pretreatmentExam"]],
   });
 
   const onSubmit = (data: TreatmentProcessFormValues) => {

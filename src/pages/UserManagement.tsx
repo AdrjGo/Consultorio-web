@@ -118,6 +118,7 @@ function UserManagement({ tab }: { tab: string }) {
   const { post } = usePost<UserFormValues, unknown>({
     url: "User/create",
     setOpenModal: modalUser.close,
+    queryKeyToInvalidate: ["users"],
   });
 
   const { update } = useUpdate<UserFormValues, unknown>({
@@ -125,6 +126,7 @@ function UserManagement({ tab }: { tab: string }) {
     url: `User/${userId}`,
     successMessage: "Cita actualizada con éxito",
     setOpenModal: modalUser.close,
+    queryKeyToInvalidate: ["users"],
   });
 
   const onSubmit = (data: UserFormValues) => {

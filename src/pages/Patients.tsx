@@ -69,6 +69,7 @@ function Patients({ tab }: { tab: string }) {
   const { post } = usePost<PatientFormValues, unknown>({
     url: `Patient`,
     setOpenModal: modal.close,
+    queryKeyToInvalidate: ["patient"],
   });
 
   const { update } = useUpdate<PatientFormValues, unknown>({
@@ -76,6 +77,7 @@ function Patients({ tab }: { tab: string }) {
     url: `Patient/${patientId}`,
     successMessage: "Cita actualizada con éxito",
     setOpenModal: modal.close,
+    queryKeyToInvalidate: ["patient"],
   });
 
   const onSubmit = (data: PatientFormValues) => {

@@ -21,6 +21,7 @@ function RolePermission() {
 
   const { deleteItem } = useDelete({
     url: `Role/${idRole}`,
+    queryKeyToInvalidate: [["role"]],
   });
 
   const handleDeteleRole = (id: string) => {

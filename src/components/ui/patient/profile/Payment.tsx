@@ -100,6 +100,7 @@ function Payment() {
   const { deleteItem } = useDelete({
     url: `PaymentTreatment/${idPayment}`,
     setOpenModal: modal.close,
+    queryKeyToInvalidate: [["paymentTreatment"]],
   });
 
   const handleDelete = (id: string) => {

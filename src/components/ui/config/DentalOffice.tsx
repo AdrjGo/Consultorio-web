@@ -89,6 +89,7 @@ function DentalOffice() {
   const { post } = usePost<DentalOfficeFormValues, unknown>({
     url: "Clinic/create",
     setOpenModal: modal.close,
+    queryKeyToInvalidate: [["clinic"]],
   });
 
   const { update } = useUpdate<DentalOfficeFormValues, unknown>({
@@ -96,6 +97,7 @@ function DentalOffice() {
     url: `Clinic/${clinic?.id}`,
     successMessage: "Cita actualizada con éxito",
     setOpenModal: modal.close,
+    queryKeyToInvalidate: [["clinic"]],
   });
 
   const onSubmit = async (formData: DentalOfficeFormValues) => {

@@ -34,11 +34,13 @@ function PretreatmentExam() {
   const { deleteItem } = useDelete({
     url: `pretreatmentExam/${examId}`,
     setOpenModal: modalFormPretreatment.close,
+    queryKeyToInvalidate: [["pretreatmentExam"]],
   });
 
   const { deleteItem: deletePayment } = useDelete({
     url: `treatmentProcess/${paymentId}`,
     setOpenModal: modalFormPretreatment.close,
+    queryKeyToInvalidate: [["treatmentProcess"], ["pretreatmentExam"]],
   });
 
   const { data: pretreatmentExam } = useGet<PretreatmentSummaryType>({

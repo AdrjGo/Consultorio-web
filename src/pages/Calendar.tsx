@@ -65,7 +65,7 @@ function Calendar({ tab }: { tab: string }) {
 
   // Obtención de datos de citas
   const { data: appointments } = useGet<AppTypes[]>({
-    key: ["appointments", range.start, range.end].join("-"),
+    key: ["appointments", range.start, range.end],
     urlEndpoint: `Appointment/date?initialDate=${range.start}T00:00:01.013Z&finalDate=${range.end}T23:59:59.013Z`,
     message: "Error al obtener las citas del mes",
   });
@@ -103,6 +103,7 @@ function Calendar({ tab }: { tab: string }) {
     url: "Appointment/create",
     successMessage: "Cita programada con éxito",
     setOpenModal: modal.close,
+    queryKeyToInvalidate: [["appointments"], ["today-appointments"]],
   });
 
   const { update } = useUpdate<AppointmentPayload, unknown>({
@@ -110,6 +111,7 @@ function Calendar({ tab }: { tab: string }) {
     url: `Appointment/${appointmentId}`,
     successMessage: "Cita actualizada con éxito",
     setOpenModal: modal.close,
+    queryKeyToInvalidate: [["appointments"], ["today-appointments"]],
   });
 
   // Función para enviar los datos al backend

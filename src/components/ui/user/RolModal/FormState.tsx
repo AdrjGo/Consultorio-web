@@ -22,6 +22,7 @@ function FormState({ userId, modalSecurity }: FormStateProps) {
         method: "PATCH",
         url: `User/${userId}/state`,
         setOpenModal: modalSecurity.close,
+        queryKeyToInvalidate: ["users"],
     });
 
     // console.log(userId)
