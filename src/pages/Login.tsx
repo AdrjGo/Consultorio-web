@@ -6,6 +6,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { Icons } from "@components/Icons/Icons";
 import { Button, Input, ToggleThemeButton } from "@components/ui";
+import { API_URL } from "@config";
 import { Toast } from "@utils";
 
 const loginSchema = z.object({
@@ -32,9 +33,12 @@ function Login() {
 
   const mutation = useMutation({
     mutationFn: async (data: LoginFormValues) => {
-      const res = await fetch("http://localhost:5252/login", {
+      const res = await fetch(`${API_URL}/login`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "true",
+        },
         body: JSON.stringify(data),
       });
 

@@ -1,4 +1,5 @@
 import { getToken } from "@utils";
+import { API_URL } from "@config";
 
 type Data = {
   message?: string;
@@ -7,11 +8,12 @@ type Data = {
 
 export const getData = async ({ message, url }: Data) => {
   const token = getToken();
-  const res = await fetch(`http://localhost:5252/api/${url}`, {
+  const res = await fetch(`${API_URL}/api/${url}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
+      "ngrok-skip-browser-warning": "true",
     },
   });
 

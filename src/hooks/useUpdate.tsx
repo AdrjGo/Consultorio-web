@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRef } from "react";
 import { getToken, Toast } from "@utils";
+import { API_URL } from "@config";
 
 type Props = {
   setOpenModal?: (open: boolean) => void;
@@ -24,11 +25,12 @@ function useUpdate<T, R>({
   const mutation = useMutation<R, Error, T>({
     mutationFn: async (data: T) => {
       const token = getToken();
-      const res = await fetch(`http://localhost:5252/api/${url}`, {
+      const res = await fetch(`${API_URL}/api/${url}`, {
         method: method,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "true",
         },
         body: JSON.stringify(data),
       });
