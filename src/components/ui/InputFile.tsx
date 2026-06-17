@@ -1,0 +1,38 @@
+import { Plus } from "lucide-react";
+
+interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
+  title: string;
+  description: string;
+  id: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+function InputFile({ title, description, id, onChange, ...props }: Props) {
+  return (
+    <label
+      htmlFor={id}
+      className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-blue-300 dark:border-dark-fourth rounded-lg cursor-pointer bg-blue-50 dark:bg-dark hover:bg-blue-100 dark:hover:bg-dark-tertiary transition"
+    >
+      <div className="flex flex-col items-center justify-center pt-5 pb-6">
+        <Plus className="text-blue-500 dark:text-white size-10" />
+        <p className="text-sm text-blue-600 dark:text-white font-medium">
+          {title}
+        </p>
+        <p className="text-xs text-blue-500 dark:text-gray-400">
+          {description}
+        </p>
+      </div>
+      <input
+        id={id}
+        name={id}
+        onChange={onChange}
+        type="file"
+        className="hidden"
+        accept="image/svg+xml"
+        {...props}
+      />
+    </label>
+  );
+}
+
+export default InputFile;

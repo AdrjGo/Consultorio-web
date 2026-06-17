@@ -1,0 +1,120 @@
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
+import { Icons } from "@components/Icons/Icons";
+import { Button, Input, ToggleThemeButton } from "@components/ui";
+import { API_URL } from "@config";
+import { Toast } from "@utils";
+
+const loginSchema = z.object({
+  email: z.email({ pattern: z.regexes.email, error: "El email no es válido" }),
+  password: z
+    .string()
+    .min(5, { error: "La contraseña debe tener al menos 5 caracteres" })
+    .max(16, { error: "La contraseña debe tener menos de 16 caracteres" }),
+});
+
+type LoginFormValues = z.infer<typeof loginSchema>;
+
+function Login() {
+  const [onLoad, setOnLoad] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
+  });
+  const navigate = useNavigate();
+
+  const mutation = useMutation({
+    mutationFn: async (data: LoginFormValues) => {
+      const res = await fetch(`${API_URL}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "true",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await res.json();
+
+      if (!res.ok) {
+        throw new Error(result.message || "Error al iniciar sesión");
+      }
+
+      document.cookie = "token=" + result.token;
+
+      return result;
+    },
+    onSuccess: () => {
+      setOnLoad(false);
+      Toast.success("Sesión iniciada con éxito");
+      navigate("/odis/calendar");
+      localStorage.setItem("sidebar", "true");
+    },
+    onError: (error: any) => {
+      Toast.error(error.message);
+      setOnLoad(false);
+    },
+  });
+
+  const onSubmit = (data: LoginFormValues) => {
+    setOnLoad(true);
+    mutation.mutate(data);
+  };
+
+  return (
+    <main className="w-full flex justify-center items-center h-screen bg-[#efedea] dark:bg-dark">
+      <section className="bg-white relative dark:bg-dark-secondary grid place-items-center rounded-lg p-4 border dark:border-none border-gray-200">
+        <div className="absolute top-2 right-2">
+          <ToggleThemeButton />
+        </div>
+        <div className="mb-6 grid place-items-center">
+          <Icons.Logo className="size-36" />
+          <h1 className="text-title font-extrabold text-primary dark:text-white">
+            OdontoDIS
+          </h1>
+          <p className="font-extralight text-body text-blue dark:text-secondary">
+            Tu consultorio, más inteligente
+          </p>
+        </div>
+        <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4">
+          <Input
+            forInput="email"
+            type="email"
+            label="Email"
+            placeholder="correo@email.com"
+            maxLength={35}
+            {...register("email")}
+            errors={errors.email}
+          />
+          <Input
+            forInput="password"
+            type="password"
+            label="Contraseña"
+            placeholder="••••••••"
+            {...register("password")}
+            maxLength={16}
+            errors={errors.password}
+          />
+          <Button
+            type="submit"
+            children={onLoad ? "Iniciando sesión..." : "Iniciar sesión"}
+            disabled={onLoad}
+          />
+          <div className="text-sm text-gray-400 dark:text-gray-300 mt-6">
+            <p>Si olvidó su Contraseña, no se preocupe, puede recuperarla</p>
+            <p>Contacte a soporte@odontodis.com para más información</p>
+          </div>
+        </form>
+      </section>
+    </main>
+  );
+}
+export default Login;

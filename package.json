@@ -12,13 +12,26 @@
   "dependencies": {
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.1",
+    "@fullcalendar/core": "6.1.19",
+    "@fullcalendar/daygrid": "6.1.19",
+    "@fullcalendar/list": "6.1.19",
+    "@fullcalendar/react": "6.1.19",
+    "@fullcalendar/timegrid": "6.1.19",
+    "@hookform/resolvers": "5.2.2",
+    "@monaco-editor/react": "4.7.0",
     "@mui/material": "7.3.4",
+    "@mui/x-data-grid": "^8.21.0",
+    "@react-pdf/renderer": "^4.5.1",
+    "@rjsf/antd": "5.24.13",
     "@rjsf/core": "5.24.13",
     "@rjsf/utils": "5.24.13",
     "@rjsf/validator-ajv8": "5.24.13",
+    "@supabase/supabase-js": "2.87.1",
     "@tailwindcss/vite": "4.1.15",
     "@tanstack/react-query": "5.90.5",
-    "lucide": "0.546.0",
+    "dayjs": "1.11.19",
+    "jwt-decode": "4.0.0",
+    "lucide-react": "0.548.0",
     "react": "19.1.1",
     "react-dom": "19.1.1",
     "react-hook-form": "7.65.0",
@@ -27,6 +40,7 @@
     "react-toastify": "11.0.5",
     "tailwind-merge": "3.3.1",
     "tailwindcss": "4.1.15",
+    "use-debounce": "^10.0.6",
     "zod": "4.1.12",
     "zustand": "5.0.8"
   },
@@ -47,7 +61,8 @@
   },
   "pnpm": {
     "overrides": {
-      "vite": "npm:rolldown-vite@7.1.14"
+      "vite": "npm:rolldown-vite@7.1.14",
+      "react-is": "19.1.1"
     }
   }
 }
