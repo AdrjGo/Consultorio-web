@@ -45,6 +45,7 @@ function TodayAppoinmentCard({ onClick }: Props) {
   const { update } = useUpdate<LifeStatusPayload, unknown>({
     method: "PATCH",
     url: `Appointment/${appointmentId}/lifeStatus`,
+    queryKeyToInvalidate: [["appointments"], ["today-appointments"]],
   });
 
   const handleChangeLifeStatus = (id: string, lifeStatus: number) => {
@@ -56,6 +57,7 @@ function TodayAppoinmentCard({ onClick }: Props) {
     url: `Appointment/${appointmentId}`,
     successMessage: "Cita eliminada con éxito",
     setOpenModal: setOpenModal,
+    queryKeyToInvalidate: [["appointments"], ["today-appointments"]],
   });
 
   const onClickHandler = (id: string) => {
@@ -118,6 +120,8 @@ function TodayAppoinmentCard({ onClick }: Props) {
                   s.status.toLowerCase() === appointment.status.toLowerCase(),
               );
 
+              console.log(appointment.endDate > dayjs().hour().toString())
+
               return (
                 <section
                   className="dark:bg-dark-tertiary border dark:border-none border-gray-200 rounded-md p-3 grid"
@@ -125,7 +129,7 @@ function TodayAppoinmentCard({ onClick }: Props) {
                 >
                   <div className="flex justify-between items-center mb-3">
                     <span className="font-bold text-normal">
-                      {dayjs(appointment.startDate).format("HH:mm")}
+                      {dayjs(appointment.startDate).format("HH:mm") + " - " + dayjs(appointment.endDate).format("HH:mm")}
                     </span>
                     <span
                       className={`text-small font-semibold px-2 py-1 rounded-md ${color?.color} ${color?.textColor}`}
@@ -160,7 +164,7 @@ function TodayAppoinmentCard({ onClick }: Props) {
 
                   <div className="flex justify-between gap-2.5 [&>button]:bg-white [&>button]:text-black [&>button]:border-gray-200 [&>button]:rounded-md [&>button]:p-2 [&>button]:text-small [&>button]:font-semibold [&>button]:hover:bg-gray-200 [&>button]:border [&>button]:focus:bg-gray-100 mt-4">
                     {appointment.lifeStatus === "NoIniciado" &&
-                    appointment.status === "Confirmado" ? (
+                      appointment.status === "Confirmado" ? (
                       <Button
                         className="bg-green-700! border-none text-white!"
                         onClick={() =>
@@ -170,13 +174,24 @@ function TodayAppoinmentCard({ onClick }: Props) {
                         <BadgeCheck className="size-4" />
                         Iniciar Cita
                       </Button>
+                    ) : appointment.lifeStatus === "EnCurso" &&
+                      appointment.status === "Confirmado" && appointment.endDate > dayjs().hour().toString() ? (
+                      <Button
+                        className="bg-blue-600! border-none text-white!"
+                        onClick={() =>
+                          handleChangeLifeStatus(appointment.id, 2)
+                        }
+                      >
+                        <BadgeCheck className="size-4" />
+                        Finalizar
+                      </Button>
                     ) : appointment.status === "Confirmado" ? (
                       <Button
                         className="bg-blue! border-none text-white!"
                         onClick={() =>
                           navigate(
                             "/odis/patients/patient-profile/" +
-                              appointment.patient.id,
+                            appointment.patient.id,
                           )
                         }
                       >
@@ -229,10 +244,10 @@ function TodayAppoinmentCard({ onClick }: Props) {
                 </section>
               );
             }) ?? (
-            <div className="text-center text-gray-400 font-semibold">
-              No hay citas para hoy
-            </div>
-          )}
+              <div className="text-center text-gray-400 font-semibold">
+                No hay citas para hoy
+              </div>
+            )}
         </div>
       </section>
     </div>
