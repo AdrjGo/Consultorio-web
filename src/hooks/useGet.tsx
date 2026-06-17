@@ -10,8 +10,11 @@ type getProps = {
 };
 
 function useGet<T>({ key, urlEndpoint, message, enabled, retry }: getProps) {
+  // Unwrap array keys: if key is already an array, use it directly; otherwise wrap in array
+  const queryKey = Array.isArray(key) ? key : [key];
+
   const { isPending, isError, data, error } = useQuery<T>({
-    queryKey: [key],
+    queryKey,
     queryFn: async () =>
       getData({
         url: urlEndpoint,
