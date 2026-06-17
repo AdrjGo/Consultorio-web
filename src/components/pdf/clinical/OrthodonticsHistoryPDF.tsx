@@ -177,7 +177,7 @@ export function OrthodonticsHistoryPDF({ patient, clinicHistory, generatedAt, lo
             <View style={s.headerRight}>
               <Text style={s.formNumber}>FORM N° FT-CLINIC-02</Text>
               <Text style={s.doctorNameHeader}>
-                {clinic?.name || "DRA. LIPCIA CATACORA VARGAS"}
+                {clinic?.name ?? ""}
               </Text>
             </View>
           </View>

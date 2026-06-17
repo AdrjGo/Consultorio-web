@@ -187,7 +187,7 @@ export function OrthodonticsContractPDF({ data, contractDate, logo }: Props) {
             <View style={s.headerRight}>
               <Text style={s.formNumber}>FORM N° FT-ORT-32</Text>
               <Text style={s.doctorNameHeader}>
-                {data.doctor.doctorName || "DRA. LIPCIA CATACORA VARGAS"}
+                {data.doctor.doctorName}
               </Text>
             </View>
           </View>

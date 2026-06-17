@@ -106,7 +106,7 @@ export function MonitoringPDF({ patient, monitoring, generatedAt, logo, clinic }
             <View style={s.headerRight}>
               <Text style={s.formNumber}>FORM N° FT-CLINIC-01</Text>
               <Text style={s.doctorNameHeader}>
-                {clinic?.name || "DRA. LIPCIA CATACORA VARGAS"}
+                {clinic?.name ?? ""}
               </Text>
             </View>
           </View>

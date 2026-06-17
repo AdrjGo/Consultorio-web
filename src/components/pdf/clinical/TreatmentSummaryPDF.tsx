@@ -181,7 +181,7 @@ export function TreatmentSummaryPDF({ patient, treatmentSummary, generatedAt, lo
             <View style={s.headerRight}>
               <Text style={s.formNumber}>FORM N° FT-CLINIC-03</Text>
               <Text style={s.doctorNameHeader}>
-                {clinic?.name || "DRA. LIPCIA CATACORA VARGAS"}
+                {clinic?.name ?? ""}
               </Text>
             </View>
           </View>

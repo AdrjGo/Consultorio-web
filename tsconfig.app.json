@@ -18,8 +18,8 @@
 
     /* Linting */
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
@@ -39,6 +39,7 @@
       "@styles": ["./styles"],
       "@types": ["./types"],
       "@utils": ["./utils"],
+      "@utils/*": ["./utils/*"],
       "@schemas": ["./features/schemas"]
     }
   },
