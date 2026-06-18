@@ -97,7 +97,7 @@ function Payment() {
     },
   ];
 
-  const { deleteItem, isPending: isDeleting } = useDelete({
+  const { deleteItem, isDeleting } = useDelete({
     url: `PaymentTreatment/${idPayment}`,
     setOpenModal: modal.close,
     queryKeyToInvalidate: [["paymentTreatment"]],
