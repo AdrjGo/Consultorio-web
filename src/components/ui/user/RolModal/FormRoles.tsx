@@ -25,7 +25,7 @@ function FormRoles({
     formState: { errors },
   } = useFormContext<UserRoleFormValues>();
 
-  const { update } = useUpdate<any, unknown>({
+  const { update, isPending } = useUpdate<any, unknown>({
     method: "PATCH",
     url: `UserRole`,
     setOpenModal: modalSecurity.close,
@@ -74,8 +74,8 @@ function FormRoles({
       {errors.roleIds && (
         <p className="text-red-500 text-small mt-1">{errors.roleIds.message}</p>
       )}
-      <Button>
-        <Save className="size-4" /> Guardar Roles
+      <Button disabled={isPending}>
+        <Save className="size-4" /> {isPending ? "Guardando..." : "Guardar Roles"}
       </Button>
     </form>
   );

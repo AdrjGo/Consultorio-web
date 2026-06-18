@@ -39,7 +39,7 @@ function Patients({ tab }: { tab: string }) {
   );
   const [activeTab, setActiveTab] = useState(1);
   const [isEditing, setIsEditing] = useState(false);
-  const [patientToDelete, setPatientToDelete] = useState<string | null>(null);
+
   const modal = useModal();
   const { responsible, setResponsible } = useResponsibleStore();
 
@@ -66,13 +66,13 @@ function Patients({ tab }: { tab: string }) {
     },
   );
 
-  const { post } = usePost<PatientFormValues, unknown>({
+  const { post, isPending: isPosting } = usePost<PatientFormValues, unknown>({
     url: `Patient`,
     setOpenModal: modal.close,
     queryKeyToInvalidate: ["patient"],
   });
 
-  const { update } = useUpdate<PatientFormValues, unknown>({
+  const { update, isPending: isUpdating } = useUpdate<PatientFormValues, unknown>({
     method: "PATCH",
     url: `Patient/${patientId}`,
     successMessage: "Cita actualizada con éxito",
@@ -80,9 +80,10 @@ function Patients({ tab }: { tab: string }) {
     queryKeyToInvalidate: ["patient"],
   });
 
+  const isSaving = isPosting || isUpdating;
+
   const onSubmit = (data: PatientFormValues) => {
     isEditing ? update(data) : post(data);
-    console.log(data);
   };
 
   const tabs = useMemo(
@@ -180,15 +181,12 @@ function Patients({ tab }: { tab: string }) {
 
   const { id } = useParams<{ id: string }>();
 
-  const { deleteItem } = useDelete({
-    url: `Patient/${patientToDelete}`,
+  const { deleteItem, isDeleting } = useDelete({
+    url: (id: string) => `Patient/${id}`,
   });
 
   const handleDelete = (id: string) => {
-    setPatientToDelete(id);
-    deleteItem(patientToDelete);
-    // console.log(id);
-    modal.close();
+    deleteItem(id);
   };
 
   const closeModal = () => {
@@ -232,6 +230,7 @@ function Patients({ tab }: { tab: string }) {
               deleteButton={hasPermission("Eliminar Paciente")}
               textButton={!isMobile}
               handleDelete={(id: string) => handleDelete(id)}
+              isDeleting={isDeleting}
               deleteTitle="Eliminar Paciente"
               deleteDesc="El paciente cambiará de estado a Inactivo"
               columns={columns}
@@ -259,6 +258,7 @@ function Patients({ tab }: { tab: string }) {
             ) ? (
               <PatientFormMemo
                 key={patientId ?? "new"}
+                isSaving={isSaving}
                 activeTab={activeTab}
                 setActiveTab={setActiveTab}
                 handleSubmit={handleSubmit}

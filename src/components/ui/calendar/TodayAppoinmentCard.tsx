@@ -42,7 +42,7 @@ function TodayAppoinmentCard({ onClick }: Props) {
 
   // console.log(data);
 
-  const { update } = useUpdate<LifeStatusPayload, unknown>({
+  const { update, isPending: isUpdating } = useUpdate<LifeStatusPayload, unknown>({
     method: "PATCH",
     url: `Appointment/${appointmentId}/lifeStatus`,
     queryKeyToInvalidate: [["appointments"], ["today-appointments"]],
@@ -53,12 +53,14 @@ function TodayAppoinmentCard({ onClick }: Props) {
     update({ lifeStatus });
   };
 
-  const { deleteItem } = useDelete({
+  const { deleteItem, isPending: isDeleting } = useDelete({
     url: `Appointment/${appointmentId}`,
     successMessage: "Cita eliminada con éxito",
     setOpenModal: setOpenModal,
     queryKeyToInvalidate: [["appointments"], ["today-appointments"]],
   });
+
+  const isSaving = isUpdating || isDeleting;
 
   const onClickHandler = (id: string) => {
     setAppointmentId(id);
@@ -167,23 +169,25 @@ function TodayAppoinmentCard({ onClick }: Props) {
                       appointment.status === "Confirmado" ? (
                       <Button
                         className="bg-green-700! border-none text-white!"
+                        disabled={isSaving}
                         onClick={() =>
                           handleChangeLifeStatus(appointment.id, 1)
                         }
                       >
                         <BadgeCheck className="size-4" />
-                        Iniciar Cita
+                        {isUpdating ? "Iniciando..." : "Iniciar Cita"}
                       </Button>
                     ) : appointment.lifeStatus === "EnCurso" &&
                       appointment.status === "Confirmado" && appointment.endDate > dayjs().hour().toString() ? (
                       <Button
                         className="bg-blue-600! border-none text-white!"
+                        disabled={isSaving}
                         onClick={() =>
                           handleChangeLifeStatus(appointment.id, 2)
                         }
                       >
                         <BadgeCheck className="size-4" />
-                        Finalizar
+                        {isUpdating ? "Finalizando..." : "Finalizar"}
                       </Button>
                     ) : appointment.status === "Confirmado" ? (
                       <Button
@@ -235,9 +239,10 @@ function TodayAppoinmentCard({ onClick }: Props) {
                       </Button>
                       <Button
                         className="text-white! bg-red-500!"
+                        disabled={isSaving}
                         onClick={() => onClickHandler(appointment.id)}
                       >
-                        Confirmar
+                        {isDeleting ? "Eliminando..." : "Confirmar"}
                       </Button>
                     </div>
                   </Modal>

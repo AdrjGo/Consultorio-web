@@ -31,13 +31,13 @@ function PretreatmentExam() {
   const modalTreatmentProcess = useModal();
   const modalDeleteTreatmentProcess = useModal();
 
-  const { deleteItem } = useDelete({
+  const { deleteItem, isPending: isDeleting } = useDelete({
     url: `pretreatmentExam/${examId}`,
     setOpenModal: modalFormPretreatment.close,
     queryKeyToInvalidate: [["pretreatmentExam"]],
   });
 
-  const { deleteItem: deletePayment } = useDelete({
+  const { deleteItem: deletePayment, isPending: isDeletingPayment } = useDelete({
     url: `treatmentProcess/${paymentId}`,
     setOpenModal: modalFormPretreatment.close,
     queryKeyToInvalidate: [["treatmentProcess"], ["pretreatmentExam"]],
@@ -135,6 +135,7 @@ function PretreatmentExam() {
             handleEdit={handleEdit}
             deleteButton
             handleDelete={(id: string) => handleDelete(id)}
+            isDeleting={isDeleting}
             textButton={isMobile ? false : true}
             data={pretreatmentExam?.exams || []}
             columns={[
@@ -254,6 +255,7 @@ function PretreatmentExam() {
           deleteTitle="Eliminar pago"
           deleteDesc="Está seguro que desea eliminar este pago?"
           deleteId={id}
+          isDeleting={isDeletingPayment}
         />
       )}
     </SectionLayout>

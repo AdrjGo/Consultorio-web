@@ -67,18 +67,20 @@ function CreatePretreatmentModal({
     }
   }, [reset, pretreatment, isEditing]);
 
-  const { post } = usePost<PretreatmentFormValues, unknown>({
+  const { post, isPending: isPosting } = usePost<PretreatmentFormValues, unknown>({
     url: "pretreatmentExam",
     setOpenModal: modalFormPretreatment.close,
     queryKeyToInvalidate: [["pretreatmentExam"]],
   });
 
-  const { update } = useUpdate<PretreatmentFormValues, unknown>({
+  const { update, isPending: isUpdating } = useUpdate<PretreatmentFormValues, unknown>({
     method: "PATCH",
     url: `pretreatmentExam/${examId}`,
     setOpenModal: modalFormPretreatment.close,
     queryKeyToInvalidate: [["pretreatmentExam"]],
   });
+
+  const isSaving = isPosting || isUpdating;
 
   //   console.log(errors);
 
@@ -151,7 +153,7 @@ function CreatePretreatmentModal({
           {...register("cost", { valueAsNumber: true })}
           errors={errors.cost}
         />
-        <Button children={isEditing ? "Editar" : "Guardar"} />
+        <Button disabled={isSaving} children={isSaving ? "Guardando..." : isEditing ? "Editar" : "Guardar"} />
       </form>
     </Modal>
   );

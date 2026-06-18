@@ -26,6 +26,7 @@ type TableProps<T> = {
   editButton?: boolean;
   deleteButton?: boolean;
   handleDelete?: (id: string) => void;
+  isDeleting?: boolean;
   deleteTitle?: string;
   deleteDesc?: string;
   customButtons?: (row: T) => React.ReactNode;
@@ -44,6 +45,7 @@ function Table<T>({
   editButton,
   deleteButton,
   handleDelete,
+  isDeleting,
   deleteDesc,
   deleteTitle,
   customButtons,
@@ -99,39 +101,39 @@ function Table<T>({
                   editButton ||
                   deleteButton ||
                   customButtons) && (
-                  <td className="[&>button]:bg-transparent [&>button]:hover:bg-gray-200 flex gap-2 justify-center">
-                    {viewButton && (
-                      <Button
-                        className="text-blue-600 dark:text-blue-400 dark:bg-blue-300/10!"
-                        onClick={() => handleProfile((row as any).id)}
-                      >
-                        <Eye className="size-4" /> {textButton ? "Ver" : null}
-                      </Button>
-                    )}
-                    {editButton && (
-                      <Button
-                        className="text-blue-900 dark:bg-blue-300/10! dark:text-white"
-                        onClick={() => handleEdit((row as any).id)}
-                      >
-                        <SquarePen className="size-4" />{" "}
-                        {textButton ? "Editar" : null}
-                      </Button>
-                    )}
-                    {deleteButton && (
-                      <Button
-                        className="text-red-600 dark:text-red-400 dark:bg-red-500/10!"
-                        onClick={() => {
-                          setDeleteId((row as any).id);
-                          modal.open();
-                        }}
-                      >
-                        <Trash className="size-4" />{" "}
-                        {textButton ? "Eliminar" : null}
-                      </Button>
-                    )}
-                    {customButtons && customButtons(row)}
-                  </td>
-                )}
+                    <td className="[&>button]:bg-transparent [&>button]:hover:bg-gray-200 flex gap-2 justify-center">
+                      {viewButton && (
+                        <Button
+                          className="text-blue-600 dark:text-blue-400 dark:bg-blue-300/10!"
+                          onClick={() => handleProfile((row as any).id)}
+                        >
+                          <Eye className="size-4" /> {textButton ? "Ver" : null}
+                        </Button>
+                      )}
+                      {editButton && (
+                        <Button
+                          className="text-blue-900 dark:bg-blue-300/10! dark:text-white"
+                          onClick={() => handleEdit((row as any).id)}
+                        >
+                          <SquarePen className="size-4" />{" "}
+                          {textButton ? "Editar" : null}
+                        </Button>
+                      )}
+                      {deleteButton && (
+                        <Button
+                          className="text-red-600 dark:text-red-400 dark:bg-red-500/10!"
+                          onClick={() => {
+                            setDeleteId((row as any).id);
+                            modal.open();
+                          }}
+                        >
+                          <Trash className="size-4" />{" "}
+                          {textButton ? "Eliminar" : null}
+                        </Button>
+                      )}
+                      {customButtons && customButtons(row)}
+                    </td>
+                  )}
               </tr>
             ))
           ) : (
@@ -151,7 +153,8 @@ function Table<T>({
 
       <DeleteModal
         modal={modal}
-        handleDelete={handleDelete ?? (() => {})}
+        handleDelete={handleDelete ?? (() => { })}
+        isDeleting={isDeleting}
         deleteTitle={deleteTitle}
         deleteDesc={deleteDesc}
         deleteId={deleteId ?? ""}

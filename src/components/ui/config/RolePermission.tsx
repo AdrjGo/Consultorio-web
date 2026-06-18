@@ -19,7 +19,7 @@ function RolePermission() {
     message: "Error al obtener datos de rol",
   });
 
-  const { deleteItem } = useDelete({
+  const { deleteItem, isPending: isDeleting } = useDelete({
     url: `Role/${idRole}`,
     queryKeyToInvalidate: [["role"]],
   });
@@ -68,6 +68,7 @@ function RolePermission() {
           handleEdit={handleEdit}
           deleteButton={hasPermission("Eliminar Rol")}
           handleDelete={(id: string) => handleDeteleRole(id)}
+          isDeleting={isDeleting}
           columns={[
             {
               key: "name",

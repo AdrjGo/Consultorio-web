@@ -41,7 +41,7 @@ function FileModal({ modal }: FileModalProps) {
     (m) => m.nomenclature + " - " + m.treatment + " - " + m.date,
   );
 
-  const { post } = usePost<FileFormValues, unknown>({
+  const { post, isPending } = usePost<FileFormValues, unknown>({
     url: "EvidenceFile/create",
     setOpenModal: modal.close,
     queryKeyToInvalidate: [["monitoring"]],
@@ -118,7 +118,7 @@ function FileModal({ modal }: FileModalProps) {
             className="bg-white text-black border border-gray-300"
             onClick={modal.close}
           />
-          <Button children="Subír imagen" className="bg-blue" />
+          <Button disabled={isPending} children={isPending ? "Subiendo..." : "Subir imagen"} className="bg-blue" />
         </div>
       </form>
     </Modal>

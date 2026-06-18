@@ -97,7 +97,7 @@ function Payment() {
     },
   ];
 
-  const { deleteItem } = useDelete({
+  const { deleteItem, isPending: isDeleting } = useDelete({
     url: `PaymentTreatment/${idPayment}`,
     setOpenModal: modal.close,
     queryKeyToInvalidate: [["paymentTreatment"]],
@@ -185,6 +185,7 @@ function Payment() {
         handleEdit={() => { }}
         deleteButton
         handleDelete={(id: string) => handleDelete(id)}
+        isDeleting={isDeleting}
         columns={[
           {
             key: "month",

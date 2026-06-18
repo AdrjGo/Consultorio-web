@@ -85,18 +85,20 @@ export default function FormModal({
     }
   }, [reset, form, idForm]);
 
-  const { post } = usePost<DynamicFormValues, unknown>({
+  const { post, isPending: isPosting } = usePost<DynamicFormValues, unknown>({
     url: "Form",
     setOpenModal: modalForm.close,
     queryKeyToInvalidate: [["form"]],
   });
 
-  const { update } = useUpdate<DynamicFormValues, unknown>({
+  const { update, isPending: isUpdating } = useUpdate<DynamicFormValues, unknown>({
     method: "PATCH",
     url: `Form/${idForm}`,
     setOpenModal: modalForm.close,
     queryKeyToInvalidate: [["form"]],
   });
+
+  const isSaving = isPosting || isUpdating;
 
   console.log(watch());
 
@@ -251,11 +253,11 @@ export default function FormModal({
               children="Cancelar"
               onClick={closeModal}
               type="button"
-              disabled={isSubmitting}
+              disabled={isSubmitting || isSaving}
             />
             <Button
-              children={isEditing ? "Editar" : "Guardar"}
-              disabled={isSubmitting}
+              children={isSaving ? "Guardando..." : isEditing ? "Editar" : "Guardar"}
+              disabled={isSubmitting || isSaving}
             />
           </section>
         </form>

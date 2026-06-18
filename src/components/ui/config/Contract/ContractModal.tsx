@@ -69,7 +69,7 @@ function ContractModal({
     ? [patient.data?.responsible.person.id, patient.data?.patientPerson.id]
     : [patient.data?.patientPerson.id];
 
-  const { post } = usePost<ContractFormValues, unknown>({
+  const { post, isPending } = usePost<ContractFormValues, unknown>({
     url: "Contract",
     queryKeyToInvalidate: [["contract"]],
   });
@@ -148,8 +148,8 @@ function ContractModal({
               errors={errors.paymentManager?.personId}
               {...register("paymentManager.personId")}
             />
-            <Button className="bg-blue-500 text-white" type="submit">
-              Guardar Contrato
+            <Button className="bg-blue-500 text-white" type="submit" disabled={isPending}>
+              {isPending ? "Guardando..." : "Guardar Contrato"}
             </Button>
             {/* </section> */}
           </form>
