@@ -13,7 +13,10 @@ import {
 import { columns } from "@constants";
 import { defaultValuesPatient } from "@features";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import { useDelete, useGet, useModal, usePost, useUpdate } from "@hooks";
+import { getToken, Toast } from "@utils";
+import { API_URL } from "@config";
 import { patientSchema, type PatientFormValues } from "@schemas";
 import { useResponsibleStore } from "@store";
 import type { Pagination, PatientType } from "@types";
@@ -24,7 +27,7 @@ import {
   parseDate,
   setUrlParams,
 } from "@utils";
-import { UserRoundPlus } from "lucide-react";
+import { RotateCcw, UserRoundPlus } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Outlet, useParams } from "react-router";
@@ -189,6 +192,31 @@ function Patients({ tab }: { tab: string }) {
     deleteItem(id);
   };
 
+  const queryClient = useQueryClient();
+  const [isRestoring, setIsRestoring] = useState(false);
+  const handleRestore = async (id: string) => {
+    setIsRestoring(true);
+    try {
+      const token = getToken();
+      const res = await fetch(`${API_URL}/api/Patient/${id}/restore`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "true",
+        },
+      });
+      const result = await res.json();
+      if (!res.ok) throw new Error(result.message);
+      Toast.success("Paciente restaurado");
+      queryClient.invalidateQueries({ queryKey: ["patient"] });
+    } catch (err: any) {
+      Toast.error(err.message);
+    } finally {
+      setIsRestoring(false);
+    }
+  };
+
   const closeModal = () => {
     setUrlParams({ name: "patientId", value: "" });
     modal.close();
@@ -227,7 +255,9 @@ function Patients({ tab }: { tab: string }) {
             <TableMemo
               viewButton={hasPermission("Leer Paciente")}
               editButton={hasPermission("Actualizar Paciente")}
-              deleteButton={hasPermission("Eliminar Paciente")}
+              deleteButton={(row: PatientType) =>
+                row.state === "ACTIVE" && hasPermission("Eliminar Paciente")
+              }
               textButton={!isMobile}
               handleDelete={(id: string) => handleDelete(id)}
               isDeleting={isDeleting}
@@ -240,6 +270,18 @@ function Patients({ tab }: { tab: string }) {
               pagination={data}
               handleEdit={handleEdit}
               urlPageEdit={`/odis/patients/patient-profile`}
+              customButtons={(row: PatientType) =>
+                row.state !== "ACTIVE" && hasPermission("Actualizar Paciente") ? (
+                  <Button
+                    className="text-green-600! dark:text-green-400! dark:bg-green-500/10!"
+                    disabled={isRestoring}
+                    onClick={() => handleRestore(row.id)}
+                  >
+                    <RotateCcw className="size-4" />
+                    {isMobile ? "" : "Restaurar"}
+                  </Button>
+                ) : undefined
+              }
             />
           </section>
 

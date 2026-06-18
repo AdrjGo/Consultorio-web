@@ -24,7 +24,7 @@ type TableProps<T> = {
   urlPageEdit?: string;
   viewButton?: boolean;
   editButton?: boolean;
-  deleteButton?: boolean;
+  deleteButton?: boolean | ((row: T) => boolean);
   handleDelete?: (id: string) => void;
   isDeleting?: boolean;
   deleteTitle?: string;
@@ -77,7 +77,7 @@ function Table<T>({
                 {col?.label}
               </th>
             ))}
-            {(viewButton || editButton || deleteButton || customButtons) && (
+            {(viewButton || editButton || !!deleteButton || customButtons) && (
               <th className="text-small py-2 text-center">Acciones</th>
             )}
           </tr>
@@ -119,7 +119,9 @@ function Table<T>({
                           {textButton ? "Editar" : null}
                         </Button>
                       )}
-                      {deleteButton && (
+                      {(typeof deleteButton === "function"
+                        ? deleteButton(row)
+                        : deleteButton) && (
                         <Button
                           className="text-red-600 dark:text-red-400 dark:bg-red-500/10!"
                           onClick={() => {
