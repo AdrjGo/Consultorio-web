@@ -39,7 +39,7 @@ function Patients({ tab }: { tab: string }) {
   );
   const [activeTab, setActiveTab] = useState(1);
   const [isEditing, setIsEditing] = useState(false);
-  const [patientToDelete, setPatientToDelete] = useState<string | null>(null);
+
   const modal = useModal();
   const { responsible, setResponsible } = useResponsibleStore();
 
@@ -181,14 +181,11 @@ function Patients({ tab }: { tab: string }) {
   const { id } = useParams<{ id: string }>();
 
   const { deleteItem } = useDelete({
-    url: `Patient/${patientToDelete}`,
+    url: (id: string) => `Patient/${id}`,
   });
 
   const handleDelete = (id: string) => {
-    setPatientToDelete(id);
-    deleteItem(patientToDelete);
-    // console.log(id);
-    modal.close();
+    deleteItem(id);
   };
 
   const closeModal = () => {

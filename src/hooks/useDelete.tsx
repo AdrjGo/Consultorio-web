@@ -6,7 +6,7 @@ import { API_URL } from "@config";
 type Props = {
   setOpenModal?: (open: boolean) => void;
   successMessage?: string;
-  url: string;
+  url: string | ((id: string) => string);
   queryKeyToInvalidate?: (string | number)[] | (string | number)[][];
 };
 
@@ -23,7 +23,8 @@ function useDelete<T, R>({
   const mutation = useMutation<R, Error, T>({
     mutationFn: async (data: T) => {
       const token = getToken();
-      const res = await fetch(`${API_URL}/api/${url}`, {
+      const resolvedUrl = typeof url === "function" ? url(data as string) : url;
+      const res = await fetch(`${API_URL}/api/${resolvedUrl}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

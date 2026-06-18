@@ -33,7 +33,10 @@ function DeleteModal({
         </Button>
         <Button
           className="text-white! bg-red-500!"
-          onClick={() => handleDelete?.(deleteId ?? "")}
+          onClick={() => {
+            handleDelete?.(deleteId ?? "");
+            modal.close();
+          }}
         >
           Confirmar
         </Button>
