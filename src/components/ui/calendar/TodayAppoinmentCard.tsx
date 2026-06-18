@@ -9,7 +9,7 @@ import {
   Trash,
   User,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import dayjs from "dayjs";
 import type { AppointmentTypes } from "types/AppointmentType";
 import Button from "@components/ui/Button";
@@ -22,12 +22,12 @@ type Props = {
 };
 
 type LifeStatusPayload = {
+  id: string;
   lifeStatus: number;
 };
 
 function TodayAppoinmentCard({ onClick }: Props) {
   const [openModal, setOpenModal] = useState(false);
-  const [appointmentId, setAppointmentId] = useState<string | null>(null);
 
   const navigate = useNavigate();
 
@@ -44,17 +44,16 @@ function TodayAppoinmentCard({ onClick }: Props) {
 
   const { update, isPending: isUpdating } = useUpdate<LifeStatusPayload, unknown>({
     method: "PATCH",
-    url: `Appointment/${appointmentId}/lifeStatus`,
+    url: (data: LifeStatusPayload) => `Appointment/${data.id}/lifeStatus`,
     queryKeyToInvalidate: [["appointments"], ["today-appointments"]],
   });
 
   const handleChangeLifeStatus = (id: string, lifeStatus: number) => {
-    setAppointmentId(id);
-    update({ lifeStatus });
+    update({ id, lifeStatus });
   };
 
   const { deleteItem, isDeleting } = useDelete({
-    url: `Appointment/${appointmentId}`,
+    url: (id: string) => `Appointment/${id}`,
     successMessage: "Cita eliminada con éxito",
     setOpenModal: setOpenModal,
     queryKeyToInvalidate: [["appointments"], ["today-appointments"]],
@@ -63,14 +62,9 @@ function TodayAppoinmentCard({ onClick }: Props) {
   const isSaving = isUpdating || isDeleting;
 
   const onClickHandler = (id: string) => {
-    setAppointmentId(id);
     setOpenModal(true);
     deleteItem(id);
   };
-
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
 
   const statusColors = [
     {

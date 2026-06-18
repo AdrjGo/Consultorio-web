@@ -6,7 +6,7 @@ import { API_URL } from "@config";
 type Props = {
   setOpenModal?: (open: boolean) => void;
   successMessage?: string;
-  url: string;
+  url: string | ((data: any) => string);
   method: "PUT" | "PATCH";
   queryKeyToInvalidate?: (string | number)[] | (string | number)[][];
 };
@@ -25,7 +25,8 @@ function useUpdate<T, R>({
   const mutation = useMutation<R, Error, T>({
     mutationFn: async (data: T) => {
       const token = getToken();
-      const res = await fetch(`${API_URL}/api/${url}`, {
+      const resolvedUrl = typeof url === "function" ? url(data) : url;
+      const res = await fetch(`${API_URL}/api/${resolvedUrl}`, {
         method: method,
         headers: {
           "Content-Type": "application/json",
