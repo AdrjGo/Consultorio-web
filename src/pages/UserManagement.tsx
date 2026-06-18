@@ -115,19 +115,21 @@ function UserManagement({ tab }: { tab: string }) {
     defaultValues: defaultValuesUser(isEditing),
   });
 
-  const { post } = usePost<UserFormValues, unknown>({
+  const { post, isPending: isPosting } = usePost<UserFormValues, unknown>({
     url: "User/create",
     setOpenModal: modalUser.close,
     queryKeyToInvalidate: ["users"],
   });
 
-  const { update } = useUpdate<UserFormValues, unknown>({
+  const { update, isPending: isUpdating } = useUpdate<UserFormValues, unknown>({
     method: "PATCH",
     url: `User/${userId}`,
     successMessage: "Cita actualizada con éxito",
     setOpenModal: modalUser.close,
     queryKeyToInvalidate: ["users"],
   });
+
+  const isSaving = isPosting || isUpdating;
 
   const onSubmit = (data: UserFormValues) => {
     isEditing ? update(data) : post(data);
@@ -218,6 +220,7 @@ function UserManagement({ tab }: { tab: string }) {
       {modalUser.isOpen && (
         <UserModal
           isEditing={isEditing}
+          isSaving={isSaving}
           setIsEditing={setIsEditing}
           userId={userId}
           setUserId={setUserId}

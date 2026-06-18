@@ -33,7 +33,7 @@ function TreatmentProcessModal({
     },
   });
 
-  const { post } = usePost<TreatmentProcessFormValues, unknown>({
+  const { post, isPending } = usePost<TreatmentProcessFormValues, unknown>({
     url: "treatmentProcess",
     setOpenModal: modalTreatmentProcess.close,
     queryKeyToInvalidate: [["treatmentProcess"], ["pretreatmentExam"]],
@@ -73,7 +73,7 @@ function TreatmentProcessModal({
               className="bg-white text-black border border-gray-300"
               onClick={modalTreatmentProcess.close}
             />
-            <Button children="Registrar Pago" className="bg-green" />
+            <Button disabled={isPending} children={isPending ? "Guardando..." : "Registrar Pago"} className="bg-green" />
           </div>
         </form>
       </section>

@@ -5,6 +5,7 @@ import type { ModalState } from "@types";
 type DeleteModalProps = {
   modal: ModalState;
   handleDelete: (id: string) => void;
+  isDeleting?: boolean;
   deleteTitle?: string;
   deleteDesc?: string;
   deleteId?: string;
@@ -13,6 +14,7 @@ type DeleteModalProps = {
 function DeleteModal({
   modal,
   handleDelete,
+  isDeleting,
   deleteTitle,
   deleteDesc,
   deleteId,
@@ -33,12 +35,13 @@ function DeleteModal({
         </Button>
         <Button
           className="text-white! bg-red-500!"
+          disabled={isDeleting}
           onClick={() => {
             handleDelete?.(deleteId ?? "");
             modal.close();
           }}
         >
-          Confirmar
+          {isDeleting ? "Eliminando..." : "Confirmar"}
         </Button>
       </div>
     </Modal>

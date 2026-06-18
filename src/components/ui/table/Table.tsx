@@ -26,6 +26,7 @@ type TableProps<T> = {
   editButton?: boolean;
   deleteButton?: boolean;
   handleDelete?: (id: string) => void;
+  isDeleting?: boolean;
   deleteTitle?: string;
   deleteDesc?: string;
   customButtons?: (row: T) => React.ReactNode;
@@ -44,6 +45,7 @@ function Table<T>({
   editButton,
   deleteButton,
   handleDelete,
+  isDeleting,
   deleteDesc,
   deleteTitle,
   customButtons,
@@ -152,6 +154,7 @@ function Table<T>({
       <DeleteModal
         modal={modal}
         handleDelete={handleDelete ?? (() => { })}
+        isDeleting={isDeleting}
         deleteTitle={deleteTitle}
         deleteDesc={deleteDesc}
         deleteId={deleteId ?? ""}

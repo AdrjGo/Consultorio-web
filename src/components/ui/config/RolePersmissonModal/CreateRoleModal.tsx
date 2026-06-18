@@ -79,19 +79,21 @@ function CreateRoleModal({
 
   // console.log(roleWithPermission);
 
-  const { post } = usePost<RoleWithPermissionsFormValues, unknown>({
+  const { post, isPending: isPosting } = usePost<RoleWithPermissionsFormValues, unknown>({
     url: "Role/createWithPermissions",
     setOpenModal: modalFormRole.close,
     queryKeyToInvalidate: [["role"]],
   });
 
-  const { update } = useUpdate<RoleWithPermissionsFormValues, unknown>({
+  const { update, isPending: isUpdating } = useUpdate<RoleWithPermissionsFormValues, unknown>({
     method: "PATCH",
     url: `Role/${idRole}/updateWithPermissions`,
     successMessage: "Role actualizado con éxito",
     setOpenModal: modalFormRole.close,
     queryKeyToInvalidate: [["role"]],
   });
+
+  const isSaving = isPosting || isUpdating;
 
   const onSubmit = (data: RoleWithPermissionsFormValues) => {
     isEditing ? update(data) : post(data);
@@ -214,9 +216,9 @@ function CreateRoleModal({
               children="Cancelar"
               onClick={() => modalFormRole.close()}
               type="button"
-              disabled={isSubmitting}
+              disabled={isSubmitting || isSaving}
             />
-            <Button children="Guardar" disabled={isSubmitting} />
+            <Button children={isSaving ? "Guardando..." : "Guardar"} disabled={isSubmitting || isSaving} />
           </div>
         </form>
       ) : (

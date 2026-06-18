@@ -17,6 +17,7 @@ type AppointmentFormProps = {
   // errors: FieldErrors<AppointmentFormValues>;
   control: Control<AppointmentFormValues>;
   isEditing: boolean;
+  isSaving?: boolean;
   data?: PatientType[];
   professional: { id: string; name: string }[];
   appointmentTypes: { label: string; value: number }[];
@@ -31,6 +32,7 @@ function AppointmentForm({
   // errors,
   control,
   isEditing,
+  isSaving,
   data,
   professional,
   appointmentTypes,
@@ -129,9 +131,9 @@ function AppointmentForm({
         maxLength={100}
       />
 
-      <Button>
+      <Button disabled={isSaving}>
         <Save className="size-4" />
-        {isEditing ? "Actualizar cita" : "Crear cita"}
+        {isSaving ? "Guardando..." : isEditing ? "Actualizar cita" : "Crear cita"}
       </Button>
     </form>
   );

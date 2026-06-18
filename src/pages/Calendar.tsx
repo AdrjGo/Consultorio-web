@@ -99,20 +99,22 @@ function Calendar({ tab }: { tab: string }) {
   });
 
   // Envio de datos a la API POST
-  const { post } = usePost<AppointmentPayload, unknown>({
+  const { post, isPending: isPosting } = usePost<AppointmentPayload, unknown>({
     url: "Appointment/create",
     successMessage: "Cita programada con éxito",
     setOpenModal: modal.close,
     queryKeyToInvalidate: [["appointments"], ["today-appointments"]],
   });
 
-  const { update } = useUpdate<AppointmentPayload, unknown>({
+  const { update, isPending: isUpdating } = useUpdate<AppointmentPayload, unknown>({
     method: "PATCH",
     url: `Appointment/${appointmentId}`,
     successMessage: "Cita actualizada con éxito",
     setOpenModal: modal.close,
     queryKeyToInvalidate: [["appointments"], ["today-appointments"]],
   });
+
+  const isSaving = isPosting || isUpdating;
 
   // Función para enviar los datos al backend
   const onSubmit = (data: AppointmentFormValues) => {
@@ -283,6 +285,7 @@ function Calendar({ tab }: { tab: string }) {
             register={register}
             control={control}
             isEditing={isEditing}
+            isSaving={isSaving}
             data={data}
             professional={professional}
             appointmentTypes={AppointmentTypes}

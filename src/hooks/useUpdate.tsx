@@ -59,6 +59,7 @@ function useUpdate<T, R>({
 
   return {
     update: mutation.mutate,
+    isPending: mutation.isPending,
   };
 }
 

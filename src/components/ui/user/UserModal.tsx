@@ -11,6 +11,7 @@ import { useFormState, type Control } from "react-hook-form";
 
 type UserModalProps = {
   isEditing: boolean;
+  isSaving?: boolean;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
   userId: string | null;
   setUserId: React.Dispatch<React.SetStateAction<string | null>>;
@@ -25,6 +26,7 @@ type UserModalProps = {
 
 const UserModal = ({
   isEditing,
+  isSaving,
   userId,
   modal,
   handleSubmit,
@@ -95,9 +97,9 @@ const UserModal = ({
               </span>
             </div>
           )}
-          <Button>
+          <Button disabled={isSaving}>
             <Save className="size-4" />{" "}
-            {isEditing ? "Actualizar usuario" : "Crear usuario"}
+            {isSaving ? "Guardando..." : isEditing ? "Actualizar usuario" : "Crear usuario"}
           </Button>
         </form>
       ) : (

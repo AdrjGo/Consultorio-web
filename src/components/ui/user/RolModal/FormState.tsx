@@ -18,7 +18,7 @@ function FormState({ userId, modalSecurity }: FormStateProps) {
         formState: { errors },
     } = useFormContext<StateFormValues>();
 
-    const { update } = useUpdate<StateFormValues, unknown>({
+    const { update, isPending } = useUpdate<StateFormValues, unknown>({
         method: "PATCH",
         url: `User/${userId}/state`,
         setOpenModal: modalSecurity.close,
@@ -46,8 +46,8 @@ function FormState({ userId, modalSecurity }: FormStateProps) {
             {errors.state && (
                 <p className="text-red-500 text-small mt-1">{errors.state.message}</p>
             )}
-            <Button>
-                <Save className="size-4" /> Cambiar Estado
+            <Button disabled={isPending}>
+                <Save className="size-4" /> {isPending ? "Guardando..." : "Cambiar Estado"}
             </Button>
         </form>
     )

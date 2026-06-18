@@ -33,7 +33,7 @@ function MonitoringModal({ modal, closeModal }: MonitoringModalProps) {
     },
   });
 
-  const { post } = usePost<MonitoringFormValues, unknown>({
+  const { post, isPending } = usePost<MonitoringFormValues, unknown>({
     url: "Monitoring/create",
     setOpenModal: modalForm.close,
     queryKeyToInvalidate: [["monitoring"]],
@@ -80,7 +80,7 @@ function MonitoringModal({ modal, closeModal }: MonitoringModalProps) {
             onClick={modal.close}
             children="Cancelar"
           />
-          <Button children="Registrar Seguimiento" className="bg-blue" />
+          <Button disabled={isPending} children={isPending ? "Guardando..." : "Registrar Seguimiento"} className="bg-blue" />
         </div>
       </form>
     </Modal>

@@ -34,7 +34,7 @@ function PaymentModal({ modal }: PaymentModalProps) {
 
   console.log(errors);
 
-  const { post } = usePost<PaymentTreatmentFormValues, unknown>({
+  const { post, isPending } = usePost<PaymentTreatmentFormValues, unknown>({
     url: "PaymentTreatment/create",
     setOpenModal: modal.close,
     queryKeyToInvalidate: [["paymentTreatment"]],
@@ -77,7 +77,7 @@ function PaymentModal({ modal }: PaymentModalProps) {
           {...register("observations")}
         />
 
-        <Button className="text-white mt-3">Registrar pago</Button>
+        <Button className="text-white mt-3" disabled={isPending}>{isPending ? "Guardando..." : "Registrar pago"}</Button>
       </form>
     </Modal>
   );

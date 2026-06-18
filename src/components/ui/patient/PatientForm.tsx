@@ -15,6 +15,7 @@ type Tab = {
 type PatientFormProps = {
   handleSubmit: UseFormHandleSubmit<PatientFormValues>;
   onSubmit: (data: PatientFormValues) => void;
+  isSaving?: boolean;
   formKey?: string;
   tabs: Tab[];
   activeTab: number;
@@ -26,6 +27,7 @@ type PatientFormProps = {
 function PatientForm({
   handleSubmit,
   onSubmit,
+  isSaving,
   tabs,
   activeTab,
   setActiveTab,
@@ -46,12 +48,13 @@ PatientFormProps) {
         {activeTab === tabs[tabs.length - 1].value && (
           <Button
             type="submit"
+            disabled={isSaving}
             className={`text-small text-white! mt-3 px-5 ${
               activeTab == 3 ? "w-full!" : ""
             }`}
           >
             <Save className="size-4" />
-            Guardar
+            {isSaving ? "Guardando..." : "Guardar"}
           </Button>
         )}
       </form>
