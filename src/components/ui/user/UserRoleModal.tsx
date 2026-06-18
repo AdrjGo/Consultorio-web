@@ -42,18 +42,18 @@ function UserRoleModal({ modalSecurity, userId }: UserRoleModalProps) {
   const methods = useForm();
 
   useEffect(() => {
-    if (modalSecurity.isOpen && userId && userRoles) {
-      methods.reset({ roleIds: userRoles.map((r) => r.roleId) });
-    }
-  }, [modalSecurity.isOpen, userRoles, userId]);
+    if (!modalSecurity.isOpen || !userId) return;
 
-  useEffect(() => {
-    if (modalSecurity.isOpen && user) {
-      methods.reset({
-        state: user.state,
-      });
+    const values: Record<string, any> = {};
+
+    values.roleIds = userRoles?.map((r) => r.roleId) ?? [];
+
+    if (user) {
+      values.state = user.state;
     }
-  }, [user, modalSecurity.isOpen]);
+
+    methods.reset(values);
+  }, [modalSecurity.isOpen, userRoles, user, userId]);
 
   console.log(methods.watch());
 
