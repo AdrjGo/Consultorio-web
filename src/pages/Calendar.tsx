@@ -33,6 +33,7 @@ import { appointmentSchema, type AppointmentFormValues } from "@schemas";
 function Calendar({ tab }: { tab: string }) {
   const [isEditing, setIsEditing] = useState(false);
   const [appointmentId, setAppointmentId] = useState<string | null>(null);
+  const [formKey, setFormKey] = useState(0);
 
   const modal = useModal();
 
@@ -90,7 +91,6 @@ function Calendar({ tab }: { tab: string }) {
     register,
     handleSubmit,
     reset,
-    // watch,
     control,
   } = useForm<AppointmentFormValues>({
     resolver: zodResolver(appointmentSchema),
@@ -127,9 +127,7 @@ function Calendar({ tab }: { tab: string }) {
       startDate: startDate,
       endDate: endDate,
     };
-    console.log(payload);
     isEditing ? update(payload) : post(payload);
-    reset(defaultValues);
   };
 
   // Función para actualizar el rango de fechas
@@ -143,9 +141,8 @@ function Calendar({ tab }: { tab: string }) {
   const events =
     appointments?.map((appointment) => ({
       id: appointment.id,
-      title: `${appointment.patient.patientPerson.name} ${
-        appointment.patient.patientPerson.lastName
-      } - ${appointment.type.replaceAll("_", " ")}`,
+      title: `${appointment.patient.patientPerson.name} ${appointment.patient.patientPerson.lastName
+        } - ${appointment.type.replaceAll("_", " ")}`,
       start: appointment.startDate,
       end: appointment.endDate,
       color: getStatusColor(appointment.status),
@@ -154,15 +151,15 @@ function Calendar({ tab }: { tab: string }) {
   // Verificación de si el dispositivo es móvil
   const calendarHeader = isMobile
     ? {
-        left: "prev,next today",
-        center: "title",
-        right: "",
-      }
+      left: "prev,next today",
+      center: "title",
+      right: "",
+    }
     : {
-        left: "prev,next today",
-        center: "title",
-        right: "dayGridMonth,timeGridWeek,listWeek",
-      };
+      left: "prev,next today",
+      center: "title",
+      right: "dayGridMonth,timeGridWeek,listWeek",
+    };
   const initialView = isMobile ? "listWeek" : "dayGridMonth";
 
   // Función para manejar el evento de clic en el calendario
@@ -209,9 +206,9 @@ function Calendar({ tab }: { tab: string }) {
   const handleNewAppointment = useCallback(() => {
     setIsEditing(false);
     setAppointmentId(null);
-    // reset(defaultValues);
+    setFormKey((k) => k + 1);
     modal.open();
-  }, [reset]);
+  }, []);
 
   const closeModal = () => {
     setIsEditing(false);
@@ -280,7 +277,7 @@ function Calendar({ tab }: { tab: string }) {
       >
         {hasPermission(isEditing ? "Actualizar Cita" : "Crear Cita") ? (
           <AppointmentForm
-            key={appointmentId ?? "new"}
+            key={isEditing ? appointmentId : `new-${formKey}`}
             handleSubmit={handleSubmit}
             onSubmit={onSubmit}
             register={register}
