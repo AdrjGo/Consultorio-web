@@ -53,7 +53,7 @@ function TodayAppoinmentCard({ onClick }: Props) {
     update({ lifeStatus });
   };
 
-  const { deleteItem, isPending: isDeleting } = useDelete({
+  const { deleteItem, isDeleting } = useDelete({
     url: `Appointment/${appointmentId}`,
     successMessage: "Cita eliminada con éxito",
     setOpenModal: setOpenModal,

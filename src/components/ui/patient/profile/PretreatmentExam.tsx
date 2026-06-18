@@ -31,13 +31,13 @@ function PretreatmentExam() {
   const modalTreatmentProcess = useModal();
   const modalDeleteTreatmentProcess = useModal();
 
-  const { deleteItem, isPending: isDeleting } = useDelete({
+  const { deleteItem, isDeleting } = useDelete({
     url: `pretreatmentExam/${examId}`,
     setOpenModal: modalFormPretreatment.close,
     queryKeyToInvalidate: [["pretreatmentExam"]],
   });
 
-  const { deleteItem: deletePayment, isPending: isDeletingPayment } = useDelete({
+  const { deleteItem: deletePayment, isDeleting: isDeletingPayment } = useDelete({
     url: `treatmentProcess/${paymentId}`,
     setOpenModal: modalFormPretreatment.close,
     queryKeyToInvalidate: [["treatmentProcess"], ["pretreatmentExam"]],
