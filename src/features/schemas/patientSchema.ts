@@ -9,16 +9,16 @@ export const patientSchema = z.object({
   zone: z
     .string()
     .min(1, { message: "La zona es requerida" })
-    .max(10, { message: "La zona es muy larga" }),
+    .max(20, { message: "La zona es muy larga" }),
   city: z
     .string()
     .min(1, { message: "La ciudad es requerida" })
     .max(20, { message: "La ciudad es muy larga" }),
-  homePhone: z.string(),
+  homePhone: z.string().max(10, { message: "El teléfono es muy largo" }),
   occupation: z
     .string()
     .min(1, { message: "La ocupación es requerida" })
-    .max(15, { message: "La profesión es muy larga" }),
+    .max(30, { message: "La ocupación es muy larga" }),
   placeOccupation: z
     .string()
     .min(1, { message: "La ocupación es requerida" })

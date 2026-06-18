@@ -28,6 +28,7 @@ function FormContact({ register, control }: Props) {
       placeholder: "Ej: Centro, Sur, Norte, etc...",
       component: "input",
       register: "zone",
+      maxLength: 20,
     },
     {
       name: "city",
@@ -36,6 +37,7 @@ function FormContact({ register, control }: Props) {
       placeholder: "Cochabamba, La Paz, etc...",
       component: "input",
       register: "city",
+      maxLength: 20,
     },
     {
       name: "phone",
@@ -44,6 +46,7 @@ function FormContact({ register, control }: Props) {
       placeholder: "Ej: +591 123456789",
       component: "input",
       register: "person.phone",
+      maxLength: 10,
     },
     {
       name: "placeOccupation",
@@ -52,6 +55,7 @@ function FormContact({ register, control }: Props) {
       placeholder: "Lugar de trabajo/ocupación",
       component: "input",
       register: "placeOccupation",
+      maxLength: 50,
     },
     {
       name: "email",
@@ -60,6 +64,7 @@ function FormContact({ register, control }: Props) {
       placeholder: "correo@ejemplo.com",
       component: "input",
       register: "person.email",
+      maxLength: 50,
     },
     {
       name: "sender",
@@ -99,7 +104,7 @@ function FormContact({ register, control }: Props) {
                   placeholder={field.placeholder}
                   className="w-full"
                   {...register(field.register)}
-                  maxLength={20}
+                  maxLength={field.maxLength}
                   errors={error}
                 />
               ) : (

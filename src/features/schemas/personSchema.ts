@@ -19,7 +19,7 @@ export const personSchema = z.object({
 
   profession: z
     .string()
-    .max(15, { message: "La profesión es muy larga" })
+    .max(30, { message: "La profesión es muy larga" })
     .optional(),
 
   phone: z
@@ -35,5 +35,8 @@ export const personSchema = z.object({
     .min(1, { message: "El CI es requerido" })
     .max(9, { message: "El CI es muy largo" }),
 
-  email: z.email({ message: "El email es inválido" }),
+  email: z
+    .string()
+    .email({ message: "El email es inválido" })
+    .max(50, { message: "El email es muy largo" }),
 });
