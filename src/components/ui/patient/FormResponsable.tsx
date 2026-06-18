@@ -38,6 +38,7 @@ function FormResponsable({ register, field, control }: Props) {
       placeholder: "Nombre Completo",
       component: "input",
       register: `${field}.name`,
+      maxLength: 20,
     },
     {
       name: "lastName",
@@ -46,6 +47,7 @@ function FormResponsable({ register, field, control }: Props) {
       placeholder: "Apellidos",
       component: "input",
       register: `${field}.lastName`,
+      maxLength: 20,
     },
     {
       name: "ci",
@@ -54,6 +56,7 @@ function FormResponsable({ register, field, control }: Props) {
       placeholder: "12345678",
       component: "input",
       register: `${field}.ci`,
+      maxLength: 9,
     },
     {
       name: "birthDate",
@@ -80,6 +83,7 @@ function FormResponsable({ register, field, control }: Props) {
       placeholder: "Médico, Abogado, etc...",
       component: "input",
       register: `${field}.profession`,
+      maxLength: 30,
     },
     {
       name: "email",
@@ -88,6 +92,7 @@ function FormResponsable({ register, field, control }: Props) {
       placeholder: "correo@ejemplo.com",
       component: "input",
       register: `${field}.email`,
+      maxLength: 50,
     },
     {
       name: "phone",
@@ -96,6 +101,7 @@ function FormResponsable({ register, field, control }: Props) {
       placeholder: "Ej: +591 123456789",
       component: "input",
       register: `${field}.phone`,
+      maxLength: 10,
     },
   ];
 
@@ -112,16 +118,16 @@ function FormResponsable({ register, field, control }: Props) {
         return (
           <div key={field.name} className="col-span-2">
             {field.component === "input" ? (
-              <Input
-                forInput={field.name}
-                label={field.label}
-                type={field.type}
-                placeholder={field.placeholder}
-                className="w-full"
-                {...register(field.register)}
-                maxLength={20}
-                errors={error}
-              />
+                <Input
+                  forInput={field.name}
+                  label={field.label}
+                  type={field.type}
+                  placeholder={field.placeholder}
+                  className="w-full"
+                  {...register(field.register)}
+                  maxLength={field.maxLength}
+                  errors={error}
+                />
             ) : (
               <Select
                 forSelect={field.name}

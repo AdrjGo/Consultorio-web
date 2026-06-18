@@ -125,7 +125,7 @@ function CreatePretreatmentModal({
           forInput="observations"
           label="Observaciones"
           placeholder="Describe el estado genearl de la pieza"
-          maxLength={100}
+          maxLength={200}
           {...register("observations")}
           errors={errors.observations}
         />
@@ -133,7 +133,7 @@ function CreatePretreatmentModal({
           forInput="interconsultation"
           label="Interconsulta"
           placeholder="Especifica si se necesita consultar con otro especialista"
-          maxLength={200}
+          maxLength={1000}
           {...register("interconsultation")}
           errors={errors.interconsultation}
         />

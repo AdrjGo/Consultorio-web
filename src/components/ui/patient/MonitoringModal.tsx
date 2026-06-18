@@ -66,7 +66,7 @@ function MonitoringModal({ modal, closeModal }: MonitoringModalProps) {
             forInput="treatment"
             label="Tratamiento"
             placeholder="Tratamiento básico"
-            maxLength={30}
+            maxLength={50}
             {...register("treatment")}
             errors={errors.treatment}
           />

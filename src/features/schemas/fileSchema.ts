@@ -7,7 +7,7 @@ export const fileSchema = z.object({
   //   .string()
   //   .min(1, "La referencia externa no puede estar vacía")
   //   .optional(),
-  description: z.string().min(1, "Debe seleccionar un formato").max(35),
+  description: z.string().min(1, "Debe seleccionar un formato").max(200, "La descripción es muy larga"),
   file: z
     .any()
     .refine((files) => files?.length === 1, "Debe seleccionar una imagen")
