@@ -69,6 +69,7 @@ function usePost<T, R>({
 
   return {
     post: mutation.mutate,
+    error: mutation.error
   };
 }
 
